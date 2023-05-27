@@ -160,8 +160,7 @@ watch(
       </button>
       <div
         class="collapse navbar-collapse w-100 pt-3 pb-2 py-lg-0"
-        id="navigation"
-      >
+        id="navigation">
         <ul class="navbar-nav navbar-nav-hover ms-auto">
           <li class="nav-item dropdown dropdown-hover mx-2">
             <a
@@ -170,29 +169,24 @@ watch(
               :class="getTextColor()"
               id="dropdownMenuPages"
               data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
+              aria-expanded="false">
               <i
                 class="material-icons opacity-6 me-2 text-md"
                 :class="getTextColor()"
-                >dashboard</i
-              >
+                >dashboard</i>
               Пользователи
               <img
                 :src="getArrowColor()"
                 alt="down-arrow"
-                class="arrow ms-2 d-lg-block d-none"
-              />
+                class="arrow ms-2 d-lg-block d-none"/>
               <img
                 :src="getArrowColor()"
                 alt="down-arrow"
-                class="arrow ms-1 d-lg-none d-block ms-auto"
-              />
+                class="arrow ms-1 d-lg-none d-block ms-auto"/>
             </a>
             <div
               class="dropdown-menu dropdown-menu-animation ms-n3 dropdown-md p-3 border-radius-xl mt-0 mt-lg-3"
-              aria-labelledby="dropdownMenuPages"
-            >
+              aria-labelledby="dropdownMenuPages">
               <div class="row d-none d-lg-block">
                 <div class="col-12 px-4 py-2">
                   <div class="row">
@@ -221,8 +215,10 @@ watch(
                 >
                   <span>Все пользователи</span>
                 </RouterLink>
-              
               </div>
+
+
+
             </div>
           </li>
 
@@ -339,36 +335,28 @@ watch(
             </a>
             <div
               class="dropdown-menu dropdown-menu-end dropdown-menu-animation dropdown-md mt-0 mt-lg-3 p-3 border-radius-lg"
-              aria-labelledby="dropdownMenuDocs"
-            >
+              aria-labelledby="dropdownMenuDocs">
               <div class="d-none d-lg-block">
                 <ul class="list-group">
                   <li class="nav-item list-group-item border-0 p-0">
                     <a
                       class="dropdown-item py-2 ps-3 border-radius-md"
-                      href="/ViewMyProfile"
-                    >
+                      href="/ViewMyProfile">
 
                       <span class="text-sm"
-                        >Просмотр</span
-                      >
+                        >Просмотр</span>
                     </a>
                     <a
                       class="dropdown-item py-2 ps-3 border-radius-md"
-                      href="/EditMyProfile"
-                    >
+                      href="/EditMyProfile">
 
                       <span class="text-sm"
-                        >Редактирование</span
-                      >
-                    </a>
-
-                    
+                        >Редактирование</span>
+                    </a>                 
                   </li>
-
-
                 </ul>
               </div>
+
               <div class="row d-lg-none">
                 <div class="col-md-12 g-0">
                   <a
@@ -376,8 +364,7 @@ watch(
                     href="/ViewMyProfile"
                   >
                     <h6
-                      class="dropdown-header text-dark font-weight-bolder d-flex justify-content-cente align-items-center p-0"
-                    >
+                      class="dropdown-header text-dark font-weight-bolder d-flex justify-content-cente align-items-center p-0">
                       Мой профиль
                     </h6>
                     <span class="text-sm"
@@ -389,47 +376,40 @@ watch(
                     href="/ViewMyProfile"
                   >
                     <h6
-                      class="dropdown-header text-dark font-weight-bolder d-flex justify-content-cente align-items-center p-0"
-                    >
+                      class="dropdown-header text-dark font-weight-bolder d-flex justify-content-cente align-items-center p-0">
                       Мой профиль
                     </h6>
                     <span class="text-sm"
-                      >Редактирование</span
-                    >
+                      >Редактирование</span>
                   </a>
 
-                  <a
-                    class="dropdown-item py-2 ps-3 border-radius-md"
-                    href="/CreateProject"
-                  >
-                    <h6
-                      class="dropdown-header text-dark font-weight-bolder d-flex justify-content-cente align-items-center p-0"
-                    >
+                  <a class="dropdown-item py-2 ps-3 border-radius-md" href="/CreateProject" >
+                    <h6 class="dropdown-header text-dark font-weight-bolder d-flex justify-content-cente align-items-center p-0" >
                     Создать проект
                     </h6>
-                    <span class="text-sm"
-                      >Страница добавления проекта</span
-                    >
+                    <span class="text-sm" >Страница добавления проекта</span>
                   </a>
-
                 </div>
-                
               </div>
+
+
             </div>
           </li>
-          
         </ul>
+
+
+
+
         <ul class="navbar-nav d-lg-block d-none">
           <li class="nav-item">
-            <a
-              :href="action.route"
+            <a :href="action.route"
               class="btn btn-sm mb-0"
               :class="action.color"
               onclick="smoothToPricing('pricing-soft-ui')"
-              >{{ action.label }}</a
-            >
+              >{{ action.label }}</a>
           </li>
         </ul>
+
       </div>
     </div>
   </nav>

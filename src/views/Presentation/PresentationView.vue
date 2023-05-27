@@ -88,6 +88,7 @@ export default {
       loading="lazy"
     >
     <div class="container">
+      <div class="place-for-text">
         <div class="row">
           <div class="col-lg-7 text-center mx-auto position-relative">
 
@@ -115,6 +116,7 @@ export default {
          
         </div>
         </div>
+      </div>
 
             <div class="searchBar">
                 <input class="searchInput" type="text" v-model="searchQuery" @keyup.enter="search" placeholder="Поиск по проектам и людям" />
@@ -170,7 +172,9 @@ export default {
   padding: 1em;
   box-sizing: border-box;
 }
-
+.place-for-text{
+  padding-top: 10%;
+}
 .searchBar {
   display: flex;
   margin-top: 3%;
