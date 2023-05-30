@@ -154,7 +154,7 @@ export default {
                         <!-- Это должно быть видно только админам -->
                         <div v-if="isStaff">
                             <p>
-                            <a href="/admin">Перейти в панель администратора.</a>
+                            <a href="/admin/">Перейти в панель администратора.</a>
                             </p>
                           </div>
                         <button @click="logout">Выход</button>
