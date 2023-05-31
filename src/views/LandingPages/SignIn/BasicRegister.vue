@@ -18,13 +18,45 @@ const errorMessage = ref('');
 
 const isAuthenticated = computed(() => !!sessionStorage.getItem('access_token')); // Computed property to check if the user is authenticated
 
+const errorTranslations = {
+  "A user with that username already exists.": "Такой пользователь существует",
+  "A user with this email already exists!": "Пользователь с таким адресом электронной почты уже существует!",
+  "Enter a valid email address.": "Введите действительный адрес электронной почты.",
+  "This password is too short. It must contain at least 8 characters.": "Этот пароль слишком короткий. Он должен содержать не менее 8 символов.",
+  "The password is too similar to the username.": "Пароль слишком похож на имя пользователя.",
+  "This password is too common." : "Этот пароль слишком распространен.",
+  "This password is entirely numeric." : "Этот пароль полностью числовой.",
 
+};
+
+
+const getErrorMessage = (error) => {
+  if (error.response) {
+    // The request was made and the server responded with a status code
+    // that falls out of the range of 2xx
+    if (error.response.data.username) {
+      return errorTranslations[error.response.data.username[0]] || error.response.data.username[0];
+    } else if (error.response.data.email) {
+      return errorTranslations[error.response.data.email[0]] || error.response.data.email[0];
+    } else if (error.response.data.password) {
+      return errorTranslations[error.response.data.password[0]] || error.response.data.password[0];
+    } else {
+      return JSON.stringify(error.response.data);
+    }
+  } else if (error.request) {
+    // The request was made but no response was received
+    return "Ошибка связи с сервером. Пожалуйста, попробуйте снова";
+  } else {
+    // Something happened in setting up the request that triggered an error
+    return `Ошибка: ${error.message}`;
+  }
+}
 
 
 // New register function
 const register = async () => {
   if (!username.value || !password.value || !email.value) {
-    errorMessage.value = "Please fill in all fields.";
+    errorMessage.value = "Пожалуйста, заполните все поля.";
   } else {
     const url = 'http://somebodyhire.me/api/register/';
     const headers = {
@@ -33,27 +65,18 @@ const register = async () => {
     const body = {
       username: username.value,
       password: password.value,
-      email: email.value, // include email in the request body
+      email: email.value, 
       is_staff: false
     };
 
     try {
       const response = await axios.post(url, body, { headers });
-      errorMessage.value = `Registration successful. Welcome ${response.data.username}!`; // Display success message
+      errorMessage.value = `Регистрация прошла успешно! Добро пожаловать, ${response.data.username}!`; 
       sessionStorage.setItem('access_token', response.data.token); // Save the access token in sessionStorage
-    } catch (error) {
-      if (error.response) {
-        // The request was made and the server responded with a status code
-        // that falls out of the range of 2xx
-        errorMessage.value = `Request:\nPOST ${url}\nHeaders: ${JSON.stringify(headers)}\nBody: ${JSON.stringify(body)}\n\nResponse:\nStatus: ${error.response.status}\nHeaders: ${JSON.stringify(error.response.headers)}\nBody: ${JSON.stringify(error.response.data)}`;
-      } else if (error.request) {
-        // The request was made but no response was received
-        errorMessage.value = `Request:\nPOST ${url}\nHeaders: ${JSON.stringify(headers)}\nBody: ${JSON.stringify(body)}\n\nError: No response received from server. Please try again later.`;
-      } else {
-        // Something happened in setting up the request that triggered an error
-        errorMessage.value = `Request:\nPOST ${url}\nHeaders: ${JSON.stringify(headers)}\nBody: ${JSON.stringify(body)}\n\nError: ${error.message}`;
-      }
-    }
+    } 
+    catch (error) {
+    errorMessage.value = getErrorMessage(error);
+  }
   }
 };
 
