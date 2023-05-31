@@ -31,7 +31,7 @@ const tokenLocal = computed(() => localStorage.getItem('token'));
 
 const login = async () => {
   if (!username.value || !password.value) {
-    errorMessage.value = "Please fill in both fields.";
+    errorMessage.value = "Пожалуйста, введите имя пользователя и пароль";
   } else {
     const url = 'http://somebodyhire.me/api/token/';
     const headers = {
@@ -59,9 +59,9 @@ const login = async () => {
       location.reload(); // Refresh page
     } catch (error) {
       if (error.response) {
-        errorMessage.value = "Incorrect login or password."; // Simplified error message
+        errorMessage.value = "Неверный логин или пароль"; // 
       } else if (error.request) {
-        errorMessage.value = "No response received from server. Please try again later.";
+        errorMessage.value = "Нет ответа от сервера, пожалуйста попробуйте снова";
       } else {
         errorMessage.value = error.message;
       }
@@ -71,13 +71,13 @@ const login = async () => {
 
 const logout = () => { 
   sessionStorage.removeItem('access_token');
-  sessionStorage.removeItem('username'); // Also clear the username from sessionStorage
+  sessionStorage.removeItem('username'); 
   sessionStorage.removeItem('user_id');
   sessionStorage.setItem('is_staff', false);
   sessionStorage.removeItem('token');
   //и тут тоже не забываем продублировать
   localStorage.removeItem('access_token');
-  localStorage.removeItem('username'); // Also clear the username from sessionStorage
+  localStorage.removeItem('username'); 
   localStorage.removeItem('user_id');
   localStorage.setItem('is_staff', false);
   localStorage.removeItem('token');
@@ -102,10 +102,10 @@ export default {
   methods: {
     login() {
       if (!this.username || !this.password) {
-        this.errorMessage = "Please fill in both fields.";
+        this.errorMessage = "Пожалуйста, введите имя пользователя и пароль";
       } else {
         // Implement login logic here
-        this.errorMessage = `Can't login now, you are trying to sign in with login: ${this.username} and password: ${this.password}`;
+        this.errorMessage = `Ошибка при входе, пожалуйста проверьте имя пользователя и пароль`;
       }
     },
   },
