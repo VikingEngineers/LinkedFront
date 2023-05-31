@@ -108,7 +108,7 @@ export default {
 
 
 <template>
-  <DefaultNavbar transparent />
+  <DefaultNavbar/>
   <Header>
     <div
       class="page-header align-items-start min-vh-100"

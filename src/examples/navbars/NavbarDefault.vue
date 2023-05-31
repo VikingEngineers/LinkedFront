@@ -5,23 +5,12 @@ import { useWindowsWidth } from "../../assets/js/useWindowsWidth";
 
 // images
 import ArrDark from "@/assets/img/down-arrow-dark.svg";
-
 import DownArrWhite from "@/assets/img/down-arrow-white.svg";
 
-const isAuthenticated = computed(() => !!sessionStorage.getItem('access_token')); // Computed property to check if the user is authenticated
+const isAuthenticated = computed(() => !!localStorage.getItem('access_token')); // Заменено на локальную, осторожно
 
 const props = defineProps({
-  action: {
-    type: Object,
-    route: String,
-    color: String,
-    label: String,
-    default: () => ({
-      route: "/pages/landing-pages/basic",
-      color: "bg-gradient-success",
-      label: "Вход / Регистрация"
-    })
-  },
+  
   transparent: {
     type: Boolean,
     default: false
@@ -91,327 +80,168 @@ watch(
   }
 );
 </script>
+
 <template>
-  <nav
-    class="navbar navbar-expand-lg top-0"
-    :class="{
-      'z-index-3 w-100 shadow-none navbar-transparent position-absolute my-3':
-        props.transparent,
-      'my-3 blur border-radius-lg z-index-3 py-2 shadow py-2 start-0 end-0 mx-4 position-absolute mt-4':
-        props.sticky,
-      'navbar-light bg-white py-3': props.light,
-      ' navbar-dark bg-gradient-dark z-index-3 py-3': props.dark
-    }"
-  >
-    <div
-      :class="
-        props.transparent || props.light || props.dark
-          ? 'container'
-          : 'container-fluid px-0'
-      "
-    >
-      <RouterLink
-        class="navbar-brand d-none d-md-block"
-        :class="[
-          (props.transparent && textDark.value) || !props.transparent
-            ? 'text-dark font-weight-bolder ms-sm-3'
-            : 'text-white font-weight-bolder ms-sm-3'
-        ]"
-        :to="{ name: 'presentation' }"
-        rel="tooltip"
-        title="Designed and Coded by Creative Tim"
-        data-placement="bottom"
-      >
-        LinkedMin
-      </RouterLink>
-      <RouterLink
-        class="navbar-brand d-block d-md-none"
-        :class="
-          props.transparent || props.dark
-            ? 'text-white'
-            : 'font-weight-bolder ms-sm-3'
-        "
-        to="/"
-        rel="tooltip"
-        title="Designed and Coded by Creative Tim"
-        data-placement="bottom"
-      >
-      LinkedMin
-      </RouterLink>
-      <a
-        href="/pages/landing-pages/basic"
-        class="btn btn-sm bg-gradient-success mb-0 ms-auto d-lg-none d-block"
-        >Вход/Регистрация</a
-      >
-      <button
-        class="navbar-toggler shadow-none ms-2"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#navigation"
-        aria-controls="navigation"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span class="navbar-toggler-icon mt-2">
-          <span class="navbar-toggler-bar bar1"></span>
-          <span class="navbar-toggler-bar bar2"></span>
-          <span class="navbar-toggler-bar bar3"></span>
-        </span>
-      </button>
-      <div
-        class="collapse navbar-collapse w-100 pt-3 pb-2 py-lg-0"
-        id="navigation">
-        <ul class="navbar-nav navbar-nav-hover ms-auto">
-          <li class="nav-item dropdown dropdown-hover mx-2">
-            <a
-              role="button"
-              class="nav-link ps-2 d-flex cursor-pointer align-items-center"
-              :class="getTextColor()"
-              id="dropdownMenuPages"
-              data-bs-toggle="dropdown"
-              aria-expanded="false">
-              <i
-                class="material-icons opacity-6 me-2 text-md"
-                :class="getTextColor()"
-                >dashboard</i>
-              Пользователи
-              <img
-                :src="getArrowColor()"
-                alt="down-arrow"
-                class="arrow ms-2 d-lg-block d-none"/>
-              <img
-                :src="getArrowColor()"
-                alt="down-arrow"
-                class="arrow ms-1 d-lg-none d-block ms-auto"/>
-            </a>
-            <div
-              class="dropdown-menu dropdown-menu-animation ms-n3 dropdown-md p-3 border-radius-xl mt-0 mt-lg-3"
-              aria-labelledby="dropdownMenuPages">
-              <div class="row d-none d-lg-block">
-                <div class="col-12 px-4 py-2">
-                  <div class="row">
-                    <div class="position-relative">
-
-                      <RouterLink
-                        :to="{ name: 'profiles' }"
-                        class="dropdown-item border-radius-md"
-                      >
-                        <span>Все пользователи</span>
-                      </RouterLink>
-
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="d-lg-none">
-                <div
-                  class="dropdown-header text-dark font-weight-bolder d-flex align-items-center px-0"
-                >
-                 Все пользователи
-                </div>
-                <RouterLink
+  <nav>
+    <div class="nav-wrapper">
+      <div class="logo">
+        <router-link to="/">LinkedMin</router-link>
+      </div>
+      <div class="nav-links">
+        <div class="nav-item" @click="usersOpen = !usersOpen">
+          Пользователи
+          <div class="dropdown" v-if="usersOpen">
+            <RouterLink
                   :to="{ name: 'profiles' }"
                   class="dropdown-item border-radius-md"
                 >
                   <span>Все пользователи</span>
                 </RouterLink>
-              </div>
+            <p>
+            <a v-if="isAuthenticated" href="/profiles">Мои контакты</a>
+            </p>
+          </div>
+        </div>
 
-
-
-            </div>
-          </li>
-
-
-          <li class="nav-item dropdown dropdown-hover mx-2">
-            <a
-              role="button"
-              class="nav-link ps-2 d-flex cursor-pointer align-items-center"
-              :class="getTextColor()"
-              id="dropdownMenuPages"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              <i
-                class="material-icons opacity-6 me-2 text-md"
-                :class="getTextColor()"
-                >dashboard</i
-              >
-              Проекты
-              <img
-                :src="getArrowColor()"
-                alt="down-arrow"
-                class="arrow ms-2 d-lg-block d-none"
-              />
-              <img
-                :src="getArrowColor()"
-                alt="down-arrow"
-                class="arrow ms-1 d-lg-none d-block ms-auto"
-              />
-            </a>
-            <div
-              class="dropdown-menu dropdown-menu-animation ms-n3 dropdown-md p-3 border-radius-xl mt-0 mt-lg-3"
-              aria-labelledby="dropdownMenuPages"
-            >
-              <div class="row d-none d-lg-block">
-                <div class="col-12 px-4 py-2">
-                  <div class="row">
-                    <div class="position-relative">
- 
-                      <RouterLink
+        <div class="nav-item" @click="projectsOpen = !projectsOpen">
+          Проекты
+          <div class="dropdown" v-if="projectsOpen">
+           <RouterLink
                         :to="{ name: 'projects' }"
                         class="dropdown-item border-radius-md"
                       >
                         <span>Все проекты</span>
                       </RouterLink>
+          
+          <div v-if="isAuthenticated" class="position-relative">
 
-                    </div>
-
-                    <div v-if="isAuthenticated" class="position-relative">
-
-                      <RouterLink
+            <RouterLink
                         :to="{ name: 'myprojects' }"
                         class="dropdown-item border-radius-md"
-                      >
-                        <span>Мои проекты</span>
-                      </RouterLink>
+                                                >
+                          <span>Мои проекты</span>
+            </RouterLink>
 
-                      <RouterLink
+            <RouterLink
                         :to="{ name: 'createproject' }"
                         class="dropdown-item border-radius-md"
-                      >
+                          >
                         <span>Добавить проект</span>
-                      </RouterLink>
+              </RouterLink>
 
-                    </div>
+          </div>
+        </div>
+        </div>
 
-                  </div>
-                </div>
-              </div>
-              <div class="d-lg-none">
-                <div
-                  class="dropdown-header text-dark font-weight-bolder d-flex align-items-center px-0"
-                >
-                 Все проекты
-                </div>
+
+        <div v-if="isAuthenticated" class="nav-item" @click="myMenuOpen = !myMenuOpen">
+          Профиль
+          <div class="dropdown" v-if="myMenuOpen"> 
                 <RouterLink
-                  :to="{ name: 'projects' }"
+                  :to="{ name: 'viewmyprofile' }"
                   class="dropdown-item border-radius-md"
                 >
-                  <span>Все проекты</span>
+                Мой профиль
                 </RouterLink>
-              
-              </div>
-            </div>
-          </li>
 
-
-
-          <li v-if="isAuthenticated" class="nav-item dropdown dropdown-hover mx-2">
-            <a
-              role="button"
-              class="nav-link ps-2 d-flex cursor-pointer align-items-center"
-              :class="getTextColor()"
-              id="dropdownMenuDocs"
-              data-bs-toggle="dropdown"
-              aria-expanded="false">
-             <i
-                class="material-icons opacity-6 me-2 text-md"
-                :class="getTextColor()"
-                >article</i
-              >
-              
-              Мой Профиль
-              <img
-                :src="getArrowColor()"
-                alt="down-arrow"
-                class="arrow ms-2 d-lg-block d-none"
-              />
-              <img
-                :src="getArrowColor()"
-                alt="down-arrow"
-                class="arrow ms-1 d-lg-none d-block ms-auto"
-              />
-            </a>
-            <div
-              class="dropdown-menu dropdown-menu-end dropdown-menu-animation dropdown-md mt-0 mt-lg-3 p-3 border-radius-lg"
-              aria-labelledby="dropdownMenuDocs">
-              <div class="d-none d-lg-block">
-                <ul class="list-group">
-                  <li class="nav-item list-group-item border-0 p-0">
-                    <a
-                      class="dropdown-item py-2 ps-3 border-radius-md"
-                      href="/ViewMyProfile">
-
-                      <span class="text-sm"
-                        >Просмотр</span>
-                    </a>
-                    <a
-                      class="dropdown-item py-2 ps-3 border-radius-md"
-                      href="/EditMyProfile">
-
-                      <span class="text-sm"
-                        >Редактирование</span>
-                    </a>                 
-                  </li>
-                </ul>
-              </div>
-
-              <div class="row d-lg-none">
-                <div class="col-md-12 g-0">
-                  <a
-                    class="dropdown-item py-2 ps-3 border-radius-md"
-                    href="/ViewMyProfile"
+                <RouterLink
+                  :to="{ name: 'editmyprofile' }"
+                  class="dropdown-item border-radius-md"
                   >
-                    <h6
-                      class="dropdown-header text-dark font-weight-bolder d-flex justify-content-cente align-items-center p-0">
-                      Мой профиль
-                    </h6>
-                    <span class="text-sm"
-                      >Просмотр</span
-                    >
-                  </a>
-                  <a
-                    class="dropdown-item py-2 ps-3 border-radius-md"
-                    href="/ViewMyProfile"
-                  >
-                    <h6
-                      class="dropdown-header text-dark font-weight-bolder d-flex justify-content-cente align-items-center p-0">
-                      Мой профиль
-                    </h6>
-                    <span class="text-sm"
-                      >Редактирование</span>
-                  </a>
+                Редактировать мой профиль
+                </RouterLink>
 
-                  <a class="dropdown-item py-2 ps-3 border-radius-md" href="/CreateProject" >
-                    <h6 class="dropdown-header text-dark font-weight-bolder d-flex justify-content-cente align-items-center p-0" >
-                    Создать проект
-                    </h6>
-                    <span class="text-sm" >Страница добавления проекта</span>
-                  </a>
-                </div>
-              </div>
+        
+        
+        
+        </div>
+      </div>  
+
+        <div class="nav-item">
+
+          <div v-if="isAuthenticated">
+              <router-link to="/pages/landing-pages/basic">
+                  <button>Выход</button>
+              </router-link>
+
+          </div>
+          <div v-else>
+              <router-link to="/pages/landing-pages/basic">
+                    <button>Вход/регистрация</button>
+              </router-link>  
+          </div>
 
 
-            </div>
-          </li>
-        </ul>
-
-
-
-
-        <ul class="navbar-nav d-lg-block d-none">
-          <li class="nav-item">
-            <a :href="action.route"
-              class="btn btn-sm mb-0"
-              :class="action.color"
-              onclick="smoothToPricing('pricing-soft-ui')"
-              >{{ action.label }}</a>
-          </li>
-        </ul>
-
+          </div>
+          
+        
       </div>
     </div>
   </nav>
-  <!-- End Navbar -->
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      usersOpen: false,
+      projectsOpen: false,
+      myMenuOpen: false,
+    };
+  },
+};
+</script>
+
+
+<style scoped>
+.nav-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: #f5f5f5;
+}
+
+.logo {
+  font-size: 1.5rem;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+}
+
+.nav-item {
+  position: relative;
+}
+
+.dropdown {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #f5f5f5;
+  padding: 1rem;
+  border-radius: 5px;
+}
+
+.nav-item:hover .dropdown {
+  display: block;
+}
+
+@media (max-width: 600px) {
+  .nav-wrapper {
+    flex-direction: column;
+  }
+
+  .nav-links {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .dropdown {
+    position: relative;
+    top: auto;
+  }
+}
+</style>
