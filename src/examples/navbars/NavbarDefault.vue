@@ -82,11 +82,9 @@ watch(
 </script>
 
 <template>
-  <nav>
+<nav>
     <div class="nav-wrapper-new">
-      <div class="logo">
-        <router-link to="/">LinkedMin</router-link>
-      </div>
+        <router-link to="/" class="logo">LinkedMin</router-link>
       <div class="nav-links">
         <div class="nav-item" @click="usersOpen = !usersOpen">
           Пользователи
@@ -115,15 +113,13 @@ watch(
 
             <RouterLink
                         :to="{ name: 'myprojects' }"
-                        class="dropdown-item border-radius-md"
-                                                >
+                        class="dropdown-item border-radius-md">
                           <span>Мои проекты</span>
             </RouterLink>
 
             <RouterLink
                         :to="{ name: 'createproject' }"
-                        class="dropdown-item border-radius-md"
-                          >
+                        class="dropdown-item border-radius-md">
                         <span>Добавить проект</span>
               </RouterLink>
           </div>
