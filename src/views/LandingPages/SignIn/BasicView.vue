@@ -5,7 +5,7 @@ import axios from 'axios';
 import { computed } from "vue";
 
 // example components
-import DefaultNavbar from "@/examples/navbars/NavbarDefault.vue";
+import NavbarDefault from "@/examples/navbars/NavbarDefault.vue";
 import Header from "@/examples/Header.vue";
 
 // material-input
@@ -114,7 +114,13 @@ export default {
 
 
 <template>
-  <DefaultNavbar/>
+    <div class="container position-sticky z-index-sticky top-0">
+    <div class="row">
+      <div class="col-12">
+        <NavbarDefault :sticky="true" />
+      </div>
+    </div>
+  </div>
   <Header>
     <div
       class="page-header align-items-start min-vh-100"
