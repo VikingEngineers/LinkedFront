@@ -74,13 +74,13 @@ export default {
 
 
 <template>
-  <div class="container position-sticky z-index-sticky top-0">
+  <!-- <div class="container position-sticky z-index-sticky top-0">
     <div class="row">
       <div class="col-12">
         <NavbarDefault :sticky="true" />
       </div>
     </div>
-  </div>
+  </div> -->
   <Header>
     <div
       class="page-header min-vh-50"
@@ -88,6 +88,7 @@ export default {
       loading="lazy"
     >
     <div class="container">
+      <NavbarDefault :sticky="true" />
       <div class="place-for-text">
         <div class="row">
           <div class="col-lg-7 text-center mx-auto position-relative">
@@ -104,9 +105,9 @@ export default {
             </div>
 
               <div v-else>
-                <h1
+                <!-- <h1
                 class="text-white pt-3 mt-n5 me-2"
-                :style="{ display: 'inline-block ', fontFamily: 'PressStart2P, sans-serif'  }">LinkedMin</h1>
+                :style="{ display: 'inline-block ', fontFamily: 'PressStart2P, sans-serif'  }">LinkedMin</h1> -->
                 <p class="lead text-white px-5 mt-3" :style="{ fontWeight: '500',  fontFamily: 'PressStart2P, sans-serif' }">
                   Показывай себя и свои проекты.  
                    Находи вдохновение, коллег и новые знания.
@@ -120,7 +121,7 @@ export default {
 
             <div class="searchBar">
                 <input class="searchInput" type="text" v-model="searchQuery" @keyup.enter="search" placeholder="Поиск по проектам и людям" />
-                <button class="searchButton" type="submit" @click="search">Погнали!</button>
+                <button class="searchButton" type="submit" @click="search">GO!</button>
              </div>
 
   </div>
@@ -181,7 +182,12 @@ export default {
   justify-content: center;
   align-items: center;
 }
-
+@media (max-width: 1024px) {
+  .searchBar {
+    margin-top: 1%;
+    margin-bottom: 5%;
+  }
+}
 .searchInput {
   /* Makes the search input take up the maximum available width */
   flex-grow: 1;
