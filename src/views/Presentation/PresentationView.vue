@@ -230,6 +230,7 @@ export default {
 .searchButton:hover {
   /* Changes the background color of the button when hovering over it */
   background-color: #2e6431;
+  border: 2px solid #4EA852;
   color: rgb(228, 228, 228);
 }
 .result-header {

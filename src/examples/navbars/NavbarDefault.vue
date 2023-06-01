@@ -202,7 +202,7 @@ export default {
   justify-content: space-between;
   align-items: center;
   color:rgb(6, 83, 47);
-  font-weight: 900;
+  font-weight: 700;
   font-family:'Roboto';
   margin-left: 3%;
 }
@@ -226,10 +226,10 @@ export default {
 
 .dropdown {
   display: none;
-  position: absolute;
+  position: relative;
   top: 100%;
   left: 0;
-  background-color: #f5f5f5;
+  background-color: #ffffffa6;
   padding: 1rem;
   border-radius: 5px;
 }
@@ -247,10 +247,7 @@ export default {
   }
 
   .nav-links {
-    display: flex; /* Включаем режим Flexbox. */
-    flex-direction: row; /* Держим элементы в строке */
-    justify-content: space-between; /* Распределяем элементы внутри шапки */
-    flex-wrap: wrap; /* Разрешаем перенос элементов на новую строку */
+    flex-direction: row;
     gap: 1rem;
   }
 
