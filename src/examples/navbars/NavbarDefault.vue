@@ -201,7 +201,7 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  color:rgb(6, 83, 47);
+  color:#002B24;
   font-weight: 700;
   font-family:'Roboto';
   margin-left: 3%;
@@ -220,6 +220,7 @@ export default {
 }
 .btn:hover{
   border: 2px solid #4EA852;
+  background-color: #002B24;
   color: #4EA852;
   margin-top: 10px;
 }
@@ -250,7 +251,6 @@ export default {
     flex-direction: row;
     gap: 1rem;
   }
-
   .dropdown {
     position: relative;
     top: auto;

@@ -3,9 +3,38 @@
     src: url('../fonts/PressStart2P-Regular.ttf') format('truetype') ;
 }
 @font-face{
-    font-family: SpaceMono;
+    font-family: 'SpaceMono';
     src:url('./fonts/SpaceMono-Regular.ttf') format('truetype') ;
   }
-h1{
-    font-family: 'PressStart2P';
+@font-face{
+    font-family: 'SK_CYNIC';
+    src:url('./fonts/SK-Cynic.ttf') format('truetype') ;
+  }
+@font-face{
+    font-family: 'Marske';
+    src:url('./fonts/Marske.ttf') format('truetype') ;
+  }
+@font-face{
+    font-family: 'Bowler';
+    src:url('./fonts/Bowler.ttf') format('truetype') ;
+  }
+@font-face {
+    font-family: 'BrokenLed' ;
+    src: url('../fonts/BrokenLed.ttf') format('truetype') ;
 }
+@font-face{
+    font-family: 'Fixedsys';
+    src:url('./fonts/Fixedsys.ttf') format('truetype') ;
+  }
+@font-face{
+    font-family: 'Gerhaus';
+    src:url('./fonts/Gerhaus.ttf') format('truetype') ;
+  }
+@font-face{
+    font-family: 'Kanit';
+    src:url('./fonts/Kanit_Cyrillic.ttf') format('truetype') ;
+  }
+@font-face{
+    font-family: 'Radiotechnika';
+    src:url('./fonts/Radiotechnika.ttf') format('truetype') ;
+  }

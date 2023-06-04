@@ -1,6 +1,6 @@
 <script setup>
 import { onMounted, onUnmounted, computed, ref } from "vue";
-import vueMkHeader from "@/assets/img/space-background.jpg";
+import vueMkHeader from "@/assets/img/7.jpg";
 import axios from 'axios';
 
 //example components
@@ -108,7 +108,7 @@ export default {
                 <!-- <h1
                 class="text-white pt-3 mt-n5 me-2"
                 :style="{ display: 'inline-block ', fontFamily: 'PressStart2P, sans-serif'  }">LinkedMin</h1> -->
-                <p class="lead text-white px-5 mt-3" :style="{ fontWeight: '500',  fontFamily: 'PressStart2P, sans-serif' }">
+                <p class="lead text-white px-5 mt-3" :style="{ fontWeight: '900',  fontFamily: 'PressStart2P, sans-serif' }">
                   Показывай себя и свои проекты.  
                    Находи вдохновение, коллег и новые знания.
                 </p>
@@ -131,23 +131,43 @@ export default {
 </Header>
 <PresentationCounter />
 <div v-if="searchResultProjects.length > 0 || searchResultUsers.length > 0">
-    <h2 class="result-header">Найдено проектов: {{ searchResultProjects.length}} </h2>
+    <h2 class="result-header" :style="{ fontWeight: '500',  fontFamily: 'PressStart2P, sans-serif' }">Найдено {{ searchResultProjects.length}} проектов</h2>
     <div class="result-grid">
       <div class="result-card" v-for="project in searchResultProjects" :key="project.id">
-        <h3>{{ project.title }}</h3>
+        <h3 :style="{ fontWeight: '500',  fontFamily: 'Kanit' }">{{ project.title }}</h3>
         <img class="project-image" :src="project.featured_image" alt="Featured image">
-        <p>{{ project.description }}</p>
-        <a :href="`http://somebodyhire.me/project/${project.id}`">Страница проекта</a>
+        <!-- <p>{{ project.description }}</p>  -->
+        <div v-if="project.tags.length > 0 ">
+        <div class="tags-container">
+        <div class="tags" v-for="project in searchResultProjects" :key="project.tags">
+        <p>{{ project.tags }}</p>
+        </div>
       </div>
     </div>
-<h2 class="result-header">Найдено людей: {{ searchResultUsers.length}} </h2>
+        <div class="btn_link-container">
+        <a :href="`http://somebodyhire.me/project/${project.id}`" class="btn_link">Страница проекта</a>
+      </div>
+      </div>
+    </div>
+<h2 class="result-header" :style="{ fontWeight: '500',  fontFamily: 'PressStart2P, sans-serif' }">Найдено {{ searchResultUsers.length}} профилей</h2>
     <div class="result-grid">
       <div class="result-card" v-for="user in searchResultUsers" :key="user.id">
         <h3>{{ user.username }}</h3>
-        <img class="project-image" :src="user.profile_image" alt="Featured image">
-        <p>{{ user.email }}</p>
-        <a :href="`http://somebodyhire.me/profile/${user.id}`">Страница пользователя</a>
+        <img class="profile-image" :src="user.profile_image" alt="Featured image">
+        <p>{{ user.short_intro }}</p> <!-- краткое описание -->
+        <!--<div v-if="user.skill.length > 0 ">
+          <div class="tags-container">
+          <div class="tags" v-for="user in searchResultUsers" :key="user.skill">
+            <p>{{ user.skill }}</p>  скиллы пользователя 
+          </div>
+        </div>
+      </div>-->
+        
+        <div class="btn_link-container">
+        <a :href="`http://somebodyhire.me/profile/${user.id}`" class="btn_link">Страница пользователя</a>
+        <a :href="`http://somebodyhire.me/profile/${user.id}`" class="btn_link">Написать сообщение</a><!-- поменять ссылку на страницу с формой сообщения --> 
       </div>
+    </div>
     </div>
   </div>
   <div v-else>
@@ -166,12 +186,13 @@ export default {
   flex-wrap: wrap;
   justify-content: space-between;
 }
-.project-card {
-  flex-basis: calc(33.33% - 1em); /* 1em is for margin */
-  margin: 0.5em;
+.project-card-new {
+  /*flex-basis: calc(33.33% - 1em);  1em is for margin */
+  /*margin: 0.5em;
+  padding: 1em;*/
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-  padding: 1em;
   box-sizing: border-box;
+  border-color: #4EA852;
 }
 .place-for-text{
   padding-top: 10%;
@@ -179,6 +200,7 @@ export default {
 .searchBar {
   display: flex;
   margin-top: 3%;
+  padding-bottom: 10%;
   justify-content: center;
   align-items: center;
 }
@@ -186,6 +208,7 @@ export default {
   .searchBar {
     margin-top: 1%;
     margin-bottom: 5%;
+    padding-bottom: 5%;
   }
 }
 .searchInput {
@@ -203,7 +226,7 @@ export default {
   border: 2px solid #4EA852;
   border-radius: 5px;
   outline: none;
-  background: #FAFAFA;
+  background: #ffffffa6;
   color: #9E9C9C;
 }
 
@@ -229,19 +252,19 @@ export default {
 
 .searchButton:hover {
   /* Changes the background color of the button when hovering over it */
-  background-color: #2e6431;
+  background-color: #002B24;
   border: 2px solid #4EA852;
   color: rgb(228, 228, 228);
 }
 .result-header {
-  color: #fff;
-  background-color:#3d9132;
+  color: #002B24;
+  /*background-color:#002B24;*/
   padding: 10px;
-  text-align: center;
+  text-align:center;
   margin-top: 25px;
   margin-left: 10%;
   width: 80%;
-border-radius: 15px;
+  border-radius: 15px;
 }
 
 .result-grid {
@@ -253,19 +276,37 @@ border-radius: 15px;
 .result-card {
   display: flex;
   flex-direction: column;
-  background-color: #3d913248;
-  padding: 10px;
+  /*background-color: #3d913248;*/
+  padding: 5px;
   margin: 10px;
   border-radius: 10px;
+  border: 2px solid #4ea85280;
   width: calc(100% / 3 - 20px);
   box-sizing: border-box;
   box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
   align-items: center;
+  position:relative;
+  padding-bottom:10%;
 }
-
+.result-card {
+  display: flex;
+  flex-direction: column;
+  /*background-color: #3d913248;
+  padding: 5px;
+  margin: 10px;*/
+  border-radius: 10px;
+  border: 2px solid #4ea85280;
+  width: calc(100% / 3 - 20px);
+  box-sizing: border-box;
+  box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+  align-items: center;
+  position:relative;
+  padding-bottom:10%;
+}
 @media screen and (max-width: 992px) {
   .result-card {
     width: calc(100% / 2 - 20px);
+    padding-bottom:20%;
   }
   .searchButton{
     width: 20%;
@@ -275,6 +316,7 @@ border-radius: 15px;
 @media screen and (max-width: 600px) {
   .result-card {
     width: 100%;
+    padding-bottom:20%;
   }
   .searchButton{
     width: 20%;
@@ -282,9 +324,57 @@ border-radius: 15px;
 }
 
 .project-image {
-  width: 20%;
-  height: auto;
+  width: 180px;
+  height: 170px;
   margin-bottom: 20px;
 }
+.profile-image {
+  width: 100px;
+  height: 95px;
+  margin-bottom: 20px;
+  border-radius: 50%;
+  border: 2px solid #4ea852e0;
+  box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.7);
+}
 
+.btn_link {
+  /* Adds some padding inside the button */
+  padding: 10px;
+  /* Changes the font size */
+  font-size: 16px;
+  /* Changes the background color of the button */
+  background-color: #4EA852;
+  /* Changes the color of the text inside the button */
+  color: rgb(255, 255, 255);
+  /* Makes the border corners rounded */
+  border-radius: 5px;
+  /* Removes the default button border */
+  border: none;
+  /* Changes the cursor to a hand pointer when hovering over the button */
+  cursor: pointer;
+  width: 70%;
+  margin-top: 10px;
+  text-align: center;
+}
+.btn_link-container{
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  align-items: center;
+  position:absolute;
+  bottom:0;
+  margin-top: 5%;
+  margin-bottom: 10%;
+}
+.tags-container{
+  flex-direction: row;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.tags{
+  border: 2px solid #4EA852;
+  color: rgb(228, 228, 228);
+  margin: 2%;
+}
 </style>
