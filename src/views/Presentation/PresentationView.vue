@@ -99,7 +99,7 @@ export default {
                 :style="{ display: 'inline-block ', fontFamily: 'PressStart2P, sans-serif' }"
                 > 
                 Привет, {{ loggedUserName }}!</h2>
-                <p class="lead text-white px-5 mt-3" :style="{ fontWeight: '500',  fontFamily: 'PressStart2P, sans-serif' }">
+                <p class="lead text-white px-5 mt-3" :style="{ fontSize: '27px', fontWeight: '500',  fontFamily: 'PressStart2P, sans-serif' }">
                   В поисках чего-то интересного?
                   </p>
             </div>
@@ -108,7 +108,7 @@ export default {
                 <!-- <h1
                 class="text-white pt-3 mt-n5 me-2"
                 :style="{ display: 'inline-block ', fontFamily: 'PressStart2P, sans-serif'  }">LinkedMin</h1> -->
-                <p class="lead text-white px-5 mt-3" :style="{ fontWeight: '900',  fontFamily: 'PressStart2P, sans-serif' }">
+                <p class="lead text-white px-5 mt-3" :style="{ fontSize: '27px', fontWeight: '900',  fontFamily: 'PressStart2P, sans-serif' }">
                   Показывай себя и свои проекты.  
                    Находи вдохновение, коллег и новые знания.
                 </p>
@@ -120,8 +120,8 @@ export default {
       </div>
 
             <div class="searchBar">
-                <input class="searchInput" type="text" v-model="searchQuery" @keyup.enter="search" placeholder="Поиск по проектам и людям" />
-                <button class="searchButton" type="submit" @click="search">GO!</button>
+                <input :style="{ fontWeight: '900',  fontFamily: 'monospace' }" class="searchInput" type="text" v-model="searchQuery" @keyup.enter="search" placeholder="Поиск по проектам и людям" />
+                <button :style="{ fontWeight: '900',  fontFamily: 'monospace' }" class="searchButton" type="submit" @click="search">GO!</button>
              </div>
 
   </div>
@@ -131,10 +131,10 @@ export default {
 </Header>
 <PresentationCounter />
 <div v-if="searchResultProjects.length > 0 || searchResultUsers.length > 0">
-    <h2 class="result-header" :style="{ fontWeight: '500',  fontFamily: 'PressStart2P, sans-serif' }">Найдено {{ searchResultProjects.length}} проектов</h2>
-    <div class="result-grid">
-      <div class="result-card" v-for="project in searchResultProjects" :key="project.id">
-        <h3 :style="{ fontWeight: '500',  fontFamily: 'Kanit' }">{{ project.title }}</h3>
+    <h2 class="result-header" :style="{ fontWeight: '900',  fontFamily: 'monospace' }">Найдено {{ searchResultProjects.length}} проектов</h2>
+    <div class="result-grid" :style="{ fontWeight: '900',  fontFamily: 'monospace' }">
+      <div class="result-card-project" v-for="project in searchResultProjects" :key="project.id">
+        <h3 :style="{ fontWeight: '900',  fontFamily: 'monospace' }">{{ project.title }}</h3>
         <img class="project-image" :src="project.featured_image" alt="Featured image">
         <!-- <p>{{ project.description }}</p>  -->
         <div v-if="project.tags.length > 0 ">
@@ -149,10 +149,10 @@ export default {
       </div>
       </div>
     </div>
-<h2 class="result-header" :style="{ fontWeight: '500',  fontFamily: 'PressStart2P, sans-serif' }">Найдено {{ searchResultUsers.length}} профилей</h2>
-    <div class="result-grid">
-      <div class="result-card" v-for="user in searchResultUsers" :key="user.id">
-        <h3>{{ user.username }}</h3>
+<h2 class="result-header" :style="{ fontWeight: '900',  fontFamily: 'monospace' }">Найдено {{ searchResultUsers.length}} профилей</h2>
+    <div class="result-grid" :style="{ fontWeight: '900',  fontFamily: 'monospace' }">
+      <div class="result-card-profile" v-for="user in searchResultUsers" :key="user.id">
+        <h3 :style="{ fontWeight: '900',  fontFamily: 'monospace' }">{{ user.username }}</h3>
         <img class="profile-image" :src="user.profile_image" alt="Featured image">
         <p>{{ user.short_intro }}</p> <!-- краткое описание -->
         <!--<div v-if="user.skill.length > 0 ">
@@ -271,42 +271,54 @@ export default {
   display: flex;
   flex-wrap: wrap;
   justify-content: left;
+  padding-left:120px;
 }
 
-.result-card {
+.result-card-project {
   display: flex;
   flex-direction: column;
   /*background-color: #3d913248;*/
   padding: 5px;
-  margin: 10px;
+  margin: 10px 20px;
   border-radius: 10px;
   border: 2px solid #4ea85280;
-  width: calc(100% / 3 - 20px);
+  width: calc(90% / 3 - 20px);
   box-sizing: border-box;
   box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
   align-items: center;
   position:relative;
   padding-bottom:10%;
+  text-align: center;
 }
-.result-card {
+.result-card-profile {
   display: flex;
   flex-direction: column;
-  /*background-color: #3d913248;
+  /*background-color: #3d913248;*/
   padding: 5px;
-  margin: 10px;*/
+  margin: 10px 20px;
   border-radius: 10px;
   border: 2px solid #4ea85280;
-  width: calc(100% / 3 - 20px);
+  width: calc(90% / 4 - 20px);
   box-sizing: border-box;
   box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
   align-items: center;
   position:relative;
   padding-bottom:10%;
+  text-align: center;
 }
 @media screen and (max-width: 992px) {
-  .result-card {
+  .result-grid {
+    padding-right:80px;
+  }
+  .result-card-project {
     width: calc(100% / 2 - 20px);
     padding-bottom:20%;
+    margin: 10px 10px;
+  }
+  .result-card-profile {
+    width: calc(100% / 2 - 20px);
+    padding-bottom:20%;
+    margin: 10px 10px;
   }
   .searchButton{
     width: 20%;
@@ -314,9 +326,18 @@ export default {
 }
 
 @media screen and (max-width: 600px) {
-  .result-card {
-    width: 100%;
+  .result-grid {
+    padding-right:80px;
+  }
+  .result-card-project {
+    width: calc(100% / 2 - 20px);
     padding-bottom:20%;
+    margin: 10px 10px;
+  }
+  .result-card-profile {
+    width: calc(100% / 2 - 20px);
+    padding-bottom:20%;
+    margin: 10px 10px;
   }
   .searchButton{
     width: 20%;
@@ -324,9 +345,10 @@ export default {
 }
 
 .project-image {
-  width: 180px;
-  height: 170px;
+  width: 70%;
+  height: 70%;
   margin-bottom: 20px;
+  margin-top: 20px;
 }
 .profile-image {
   width: 100px;
@@ -364,8 +386,9 @@ export default {
   position:absolute;
   bottom:0;
   margin-top: 5%;
-  margin-bottom: 10%;
+  margin-bottom: 5%;
 }
+
 .tags-container{
   flex-direction: row;
   display: flex;

@@ -84,8 +84,8 @@ watch(
 <template>
 <nav>
     <div class="nav-wrapper-new">
-        <router-link to="/" class="logo">LinkedMin</router-link>
-      <div class="nav-links">
+        <router-link to="/" class="logo" :style="{ fontSize: '20px', fontWeight: '500',  fontFamily: 'PressStart2P, sans-serif' }">LinkedMin</router-link>
+      <div class="nav-links" :style="{ fontSize: '18px', fontWeight: '900',  fontFamily: 'monospace' }">
         <div class="nav-item" @click="usersOpen = !usersOpen">
           Пользователи
           <div class="dropdown" v-if="usersOpen">
@@ -154,7 +154,7 @@ watch(
           </div>
           <div v-else>
               <router-link to="/pages/landing-pages/basic">
-                    <button class="btn">Вход/регистрация</button>
+                    <button class="btn" :style="{ fontSize: '16px', fontWeight: '900',  fontFamily: 'monospace' }">Вход/регистрация</button>
               </router-link>  
           </div>
           </div>

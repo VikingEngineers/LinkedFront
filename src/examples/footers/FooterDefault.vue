@@ -106,7 +106,7 @@ defineProps({
         </div>
 
 
-        <div class="col-12">
+        <div class="col-12" :style="{ fontWeight: '900',  fontFamily: 'monospace' }">
           <div class="text-center">
             <p class="text-dark my-4 text-sm font-weight-normal">
               Екатерина Кузнецова, Ирина Комарова.
