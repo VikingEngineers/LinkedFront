@@ -131,7 +131,7 @@ export default {
 </Header>
 <PresentationCounter />
 <div v-if="searchResultProjects.length > 0 || searchResultUsers.length > 0">
-    <h2 class="result-header" :style="{ fontWeight: '900',  fontFamily: 'monospace' }">Найдено {{ searchResultProjects.length}} проектов</h2>
+    <h2 class="result-header" :style="{ fontWeight: '900',  fontFamily: 'monospace' }">Найдено проектов: {{ searchResultProjects.length}} </h2>
     <div class="result-grid" :style="{ fontWeight: '900',  fontFamily: 'monospace' }">
       <div class="result-card-project" v-for="project in searchResultProjects" :key="project.id">
         <h3 :style="{ fontWeight: '900',  fontFamily: 'monospace' }">{{ project.title }}</h3>
@@ -149,7 +149,7 @@ export default {
       </div>
       </div>
     </div>
-<h2 class="result-header" :style="{ fontWeight: '900',  fontFamily: 'monospace' }">Найдено {{ searchResultUsers.length}} профилей</h2>
+<h2 class="result-header" :style="{ fontWeight: '900',  fontFamily: 'monospace' }">Найдено профилей: {{ searchResultUsers.length}} </h2>
     <div class="result-grid" :style="{ fontWeight: '900',  fontFamily: 'monospace' }">
       <div class="result-card-profile" v-for="user in searchResultUsers" :key="user.id">
         <h3 :style="{ fontWeight: '900',  fontFamily: 'monospace' }">{{ user.username }}</h3>
@@ -227,7 +227,7 @@ export default {
   border-radius: 5px;
   outline: none;
   background: #ffffffa6;
-  color: #9E9C9C;
+  color: #002B24;
 }
 
 .searchButton {
