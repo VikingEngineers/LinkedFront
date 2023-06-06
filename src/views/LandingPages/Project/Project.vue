@@ -37,50 +37,56 @@ const getProject = async () => {
 
 <template>
   <NavbarDefault />
-    <div v-if="projectData" class="project-container">
-      <h1 class="subtitle">{{ projectData.title }}</h1>
+    <div v-if="projectData" class="project-container" :style="{fontWeight: '900',  fontFamily: 'monospace' }">
+      <h1 class="subtitle" :style="{ fontWeight: '500',  fontFamily: 'PressStart2P, sans-serif' }">{{ projectData.title }}</h1>
       <div v-if = "projectData.owner == userId" class="project-owner-note">
         <a :href="`/editproject/${projectData.id}`">Редактирование проекта</a>
       </div>
       <img class="project-image" :src="projectData.featured_image" alt="Featured image">
       <p class="project-description">{{ projectData.description }}</p>
-      <p v-if="projectData.demo_link" class="project-demo-link">Demo Link: <a target="_blank" :href="projectData.demo_link">{{ projectData.demo_link }}</a></p>
-      <p v-if="projectData.source_link" class="project-source-link">Source Link: <a target="_blank" :href="projectData.source_link">{{ projectData.source_link }}</a></p>
+      <a v-if="projectData.demo_link" class="project-link" target="_blank" :href="projectData.demo_link">Demo Link</a>
+      <a v-if="projectData.source_link" class="project-link" target="_blank" :href="projectData.source_link">Source Link</a>
       <!-- <p class="project-votes">Total Votes: {{ projectData.vote_total }}</p>
-      <p class="project-vote-ratio">Vote Ratio: {{ projectData.vote_ratio }}</p>
+      <p class="project-vote-ratio">Vote Ratio: {{ projectData.vote_ratio }}</p> -->
       <p class="project-created">Created On: {{ new Date(projectData.created).toLocaleDateString() }}</p>
-      <p class="project-tags">Tags: 
+      <p class="project-tags"> 
         <span v-for="(tag, index) in projectData.tags" :key="index" class="project-tag">
           {{ tag }}<span v-if="index < projectData.tags.length - 1">, </span>
         </span>
       </p>
-      <h3>Feedback</h3>
-      <div class="feedback">
+      <div v-if = "projectData.owner != userId" class="project-owner-note">
+      <h3 :style="{ fontWeight: '500',  fontFamily: 'PressStart2P, sans-serif' }">Feedback</h3>
+      <div class="feedback" :style="{fontWeight: '200',  fontFamily: 'monospace' }">
       <input name="username" readonly placeholder="Username"/>
       <select id="selectvalue">
         <option>Vote Up</option>
         <option>Vote Down</option>
         </select>
       <textarea name="comment" v-model="message" placeholder="Напишите комментарий"></textarea>
-      <button>Отправить</button>
-      </div> -->
+      <button>Оценить</button>
+    </div>
+      </div>
   </div>
 </template> 
 
 
 <style scoped>
 .project-container {
-  margin: 20px;
-  padding: 20px;
-  border: 1px solid #ddd;
+  margin: 20px 450px;
+  padding: 15px 5px;
+  /*border: 1px solid #ddd;
   border-radius: 5px;
-  background-color: #3d913257;
+  background-color: #3d913257;*/
   border-radius: 10px;
+  align-items: center;
+  text-align: center;
+  width: 50%;
 }
 .feedback {
-  margin: 10px 0;
+  margin: 10px 30px;
   padding: 10px 0;
-  flex-direction: column
+  flex-direction: column;
+  width: 100%;
 }
 input, textarea, select, option{
   border: 1px solid #3d913257;
@@ -116,15 +122,16 @@ input, textarea, select, option{
 }
 
 .project-image {
-  width: 20%;
+  width: 100%;
   height: auto;
   margin-bottom: 20px;
 }
 
-.project-demo-link, .project-source-link {
+.project-link{
   font-size: 16px;
   color: #337ab7;
   text-decoration: none;
+  margin: 5%;
 }
 
 .project-votes, .project-vote-ratio, .project-created, .project-owner-id {

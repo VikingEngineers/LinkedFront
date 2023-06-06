@@ -33,13 +33,16 @@ onMounted(() => {
 <NavbarDefault />
   <div>
     
-    <h2 class="result-header">Найдено людей: {{ searchResultUsers.length}} </h2>
-    <div class="result-grid">
+    <!-- <h2 class="result-header">Найдено людей: {{ searchResultUsers.length}} </h2> -->
+    <div class="result-grid" :style="{ fontWeight: '900',  fontFamily: 'monospace' }">
       <div class="result-card" v-for="user in searchResultUsers" :key="user.id">
-        <div class="profile-name"> <h3>{{ user.username }} with id {{ user.id }}</h3></div>
+        <h3 class="profile-name" >{{ user.username }}</h3>
+        <img class="profile-image" :src="user.profile_image" alt="Featured image">
         <p>{{ user.email }}</p>
-        <a :href="`/profile/${user.id}`">Открыть профиль</a>
-        <a :href="`/profile/${user.id}`">Отправить сообщение</a>
+        <div class="btn_link-container">
+        <a class="btn_link" :href="`/profile/${user.id}`">Открыть профиль</a>
+        <a class="btn_link" :href="`/profile/${user.id}`">Отправить сообщение</a>
+      </div>
       </div>
     </div>
   </div>
@@ -100,20 +103,24 @@ border-radius: 15px;
 .result-grid {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content:left;
 }
 
 .result-card {
   display: flex;
   flex-direction: column;
-  background-color: #3d913248;
-  padding: 10px;
-  margin: 10px;
+  /*background-color: #3d913248;*/
+  padding: 5px;
+  margin: 10px 20px;
   border-radius: 10px;
-  width: calc(100% / 3 - 20px);
+  border: 2px solid #4ea85280;
+  width: calc(90% / 4 - 20px);
   box-sizing: border-box;
   box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
   align-items: center;
+  position:relative;
+  padding-bottom:10%;
+  text-align: center;
 }
 .profile-name{
   padding-bottom: 15px;
@@ -137,10 +144,69 @@ a:hover{
 p{
   font-weight: 500;
 }
-
+.profile-image {
+  width: 100px;
+  height: 95px;
+  margin-bottom: 20px;
+  border-radius: 50%;
+  border: 2px solid #4ea852e0;
+  box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.7);
+}
+.btn_link {
+  /* Adds some padding inside the button */
+  padding: 10px;
+  /* Changes the font size */
+  font-size: 16px;
+  /* Changes the background color of the button */
+  background-color: #4EA852;
+  /* Changes the color of the text inside the button */
+  color: rgb(255, 255, 255);
+  /* Makes the border corners rounded */
+  border-radius: 5px;
+  /* Removes the default button border */
+  border: none;
+  /* Changes the cursor to a hand pointer when hovering over the button */
+  cursor: pointer;
+  width: 70%;
+  margin-top: 10px;
+  text-align: center;
+}
+.btn_link-container{
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  align-items: center;
+  position:absolute;
+  bottom:0;
+  margin-top: 5%;
+  margin-bottom: 5%;
+}
 @media screen and (max-width: 992px) {
-  .result-card {
+  .result-grid {
+    padding-right:80px;
+  }
+
+  .result-card-profile {
     width: calc(100% / 2 - 20px);
+    padding-bottom:20%;
+    margin: 10px 10px;
+  }
+  .searchButton{
+    width: 20%;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .result-grid {
+    padding-right:80px;
+  }
+  .result-card-profile {
+    width: calc(100% / 2 - 20px);
+    padding-bottom:20%;
+    margin: 10px 10px;
+  }
+  .searchButton{
+    width: 20%;
   }
 }
 

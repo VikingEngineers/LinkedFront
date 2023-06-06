@@ -33,7 +33,7 @@ export default {
 </script>
 
 <template>
-  <section class="pt-3 pb-4" id="count-stats">
+  <section class="pt-3 pb-4" id="count-stats" :style="{ fontWeight: '900',  fontFamily: 'monospace' }">
     <div class="container">
       <div class="row">
         <div class="col-lg-9 z-index-2 border-radius-xl mx-auto py-3">

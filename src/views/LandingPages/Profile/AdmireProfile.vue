@@ -41,39 +41,23 @@ onMounted(async() => {
 
 <template>
     <NavbarDefault />
-    <div class="profile-container">
-      <h2>{{ profileData.name }}</h2>
-        
-        
+    <div class="profile-container" :style="{fontWeight: '900',  fontFamily: 'monospace' }">
+      <h2 :style="{ fontSize: '27px', fontWeight: '900',  fontFamily: 'PressStart2P, sans-serif' }">{{ profileData.username }}</h2>
         <img :src="profileData.profile_image" alt="Profile Image">
-        <p>{{ profileData.email }}</p>
-        <p>Местоположение: {{ profileData.location }}</p>
-        <p>Краткое описание: {{ profileData.short_intro }}</p>
-        <p>Биография: {{ profileData.bio }}</p>
-        <p>
-        <a :href="`${profileData.social_github}`" target="_blank">Ссылка на GitHub</a>
-        </p>
-        <p>
-        <a :href="`${profileData.social_twitter}`" target="_blank">Ссылка на Twitter</a>
-        </p>
-        
-        <p>
-          <a :href="`${profileData.social_vk}`" target="_blank">Ссылка на VK</a>
-        </p>
-
-        <p> 
-          <a :href="`${profileData.social_youtube}`" target="_blank">Ссылка на YouTube</a>
-        </p>
-        
-       
-        <p>
-          <a :href="`${profileData.social_website}`" target="_blank">Ссылка на сайт</a>
-        </p>
-        <a :href="`/editmyprofile`">Редактирование профиля</a>
-        
-        
-
-      
+        <p :style="{ fontSize: '24px'}">{{ profileData.email }}</p>
+        <div class="social-link" :style="{ fontSize: '12px', fontWeight: '500',  fontFamily: 'PressStart2P, sans-serif' }">
+          <a :href="`${profileData.social_github}`" target="_blank" >GitHub</a>
+          <a :href="`${profileData.social_twitter}`" target="_blank" >Twitter</a>
+          <a :href="`${profileData.social_vk}`" target="_blank" >VK</a>
+          <a :href="`${profileData.social_youtube}`" target="_blank" >YouTube</a>
+          <a :href="`${profileData.social_website}`" target="_blank" >Мой сайт</a>
+        </div>
+        <div class="text-container">
+        <p :style="{ fontSize: '24px'}">Местоположение: {{ profileData.location }}</p>
+        <p :style="{ fontSize: '24px'}">Краткое описание: {{ profileData.short_intro }}</p>
+        <p :style="{ fontSize: '24px'}">Биография: {{ profileData.bio }}</p>
+        <a :href="`/editmyprofile`" class="btn_link">Редактировать профиль</a>
+      </div>
     </div>
   </template> 
 
@@ -87,18 +71,57 @@ onMounted(async() => {
   margin: 5% auto;
   background-color: #ffffff57;
   border-radius: 10px;
+  align-items: center;
+  text-align: center;
+}
+.text-container {
+  width: 90%;
+  margin-left: 9%;
+  background-color: #ffffff57;
+  border-radius: 10px;
+  text-align: left;
+  margin-bottom: 30px;
+}
+.social-link {
+  margin-left: 5%;
+  width: 100%;
+  flex-direction: row;
+  display: flex;
+  flex-wrap: wrap;
+  text-align: center;
+  }
+.social-link a{
+margin: 3% 4%;
+border-radius: 5px;
+border: 2px solid #4ea852e0;
+padding: 7px;
+}
+@media screen and (max-width: 992px) {
+  .profile-container {
+    width: 90%;
+  }
+  .text-container {
+    width: 70%;
+    margin: 5% 15%;
+  }
 }
 
+@media screen and (max-width: 600px) {
+  .profile-container {
+    width: 90%;
+  }
+  .text-container {
+    width: 70%;
+    margin: 5% 15%;
+  }
+}
 .profile-container img {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  object-fit: cover;
+  width: 250px;
+  height: 245px;
   margin-bottom: 20px;
-  justify-content: center;
-  align-content: center;
-  align-items: center;
-  display: flex;
+  border-radius: 50%;
+  border: 2px solid #4ea852e0;
+  box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.7);
 }
 
 h1,h2{
@@ -124,6 +147,24 @@ button:hover{
   background-color: #6ac55e;
   color: rgb(61, 61, 61);
 }
-
+.btn_link {
+  /* Adds some padding inside the button */
+  padding: 10px 20px;
+  /* Changes the font size */
+  font-size: 16px;
+  /* Changes the background color of the button */
+  background-color: #4EA852;
+  /* Changes the color of the text inside the button */
+  color: rgb(255, 255, 255);
+  /* Makes the border corners rounded */
+  border-radius: 5px;
+  /* Removes the default button border */
+  border: none;
+  /* Changes the cursor to a hand pointer when hovering over the button */
+  cursor: pointer;
+  width: 70%;
+  margin-top: 20px;
+  text-align: center;
+}
 
 </style>

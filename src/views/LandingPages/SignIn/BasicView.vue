@@ -203,7 +203,7 @@ export default {
                    <a
                      href="/forgot"
                      class="text-success text-gradient font-weight-bold"
-                     >Забыли пароль</a
+                     >Забыли пароль?</a
                    >
                  </p>
                       

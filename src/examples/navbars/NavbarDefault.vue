@@ -82,12 +82,10 @@ watch(
 </script>
 
 <template>
-  <nav>
-    <div class="nav-wrapper">
-      <div class="logo">
-        <router-link to="/">LinkedMin</router-link>
-      </div>
-      <div class="nav-links">
+<nav>
+    <div class="nav-wrapper-new">
+        <router-link to="/" class="logo" :style="{ fontSize: '20px', fontWeight: '500',  fontFamily: 'PressStart2P, sans-serif' }">LinkedMin</router-link>
+      <div class="nav-links" :style="{ fontSize: '18px', fontWeight: '900',  fontFamily: 'monospace' }">
         <div class="nav-item" @click="usersOpen = !usersOpen">
           Пользователи
           <div class="dropdown" v-if="usersOpen">
@@ -97,9 +95,7 @@ watch(
                 >
                   <span>Все пользователи</span>
                 </RouterLink>
-            <p>
-            <a v-if="isAuthenticated" href="/profiles">Мои контакты</a>
-            </p>
+            <a v-if="isAuthenticated" class="dropdown-item border-radius-md" href="/profiles">Мои контакты</a>
           </div>
         </div>
 
@@ -117,18 +113,15 @@ watch(
 
             <RouterLink
                         :to="{ name: 'myprojects' }"
-                        class="dropdown-item border-radius-md"
-                                                >
+                        class="dropdown-item border-radius-md">
                           <span>Мои проекты</span>
             </RouterLink>
 
             <RouterLink
                         :to="{ name: 'createproject' }"
-                        class="dropdown-item border-radius-md"
-                          >
+                        class="dropdown-item border-radius-md">
                         <span>Добавить проект</span>
               </RouterLink>
-
           </div>
         </div>
         </div>
@@ -149,32 +142,22 @@ watch(
                   class="dropdown-item border-radius-md"
                   >
                 Редактировать мой профиль
-                </RouterLink>
-
-        
-        
-        
+                </RouterLink>     
         </div>
       </div>  
 
         <div class="nav-item">
-
           <div v-if="isAuthenticated">
               <router-link to="/pages/landing-pages/basic">
-                  <button>Выход</button>
+                  <button class="btn">Выход</button>
               </router-link>
-
           </div>
           <div v-else>
               <router-link to="/pages/landing-pages/basic">
-                    <button>Вход/регистрация</button>
+                    <button class="btn" :style="{ fontSize: '16px', fontWeight: '900',  fontFamily: 'monospace' }">Вход/регистрация</button>
               </router-link>  
           </div>
-
-
           </div>
-          
-        
       </div>
     </div>
   </nav>
@@ -194,33 +177,60 @@ export default {
 
 
 <style scoped>
-.nav-wrapper {
+.nav-wrapper-new {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 2rem;
-  background-color: #f5f5f5;
+  margin-top: 1%;
+  padding: 0.5rem 2rem;
+  background-color: #ffffffa6;
+  /*border: 2px solid #4EA852;*/
+  border-radius: 5px;
+  width: 100%;
 }
 
 .logo {
-  font-size: 1.5rem;
+  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-weight: 900;
+  font-size: 200%;
+  color: #4EA852;
 }
 
 .nav-links {
+  gap: 4rem;
   display: flex;
-  gap: 2rem;
+  justify-content: space-between;
+  align-items: center;
+  color:#002B24;
+  font-weight: 700;
+  font-family:'Roboto';
+  margin-left: 3%;
 }
 
 .nav-item {
   position: relative;
+  cursor: pointer;
+}
+
+.btn{
+  border: 2px;
+  background-color: #4EA852;
+  color: aliceblue;
+  margin-top: 10px;
+}
+.btn:hover{
+  border: 2px solid #4EA852;
+  background-color: #002B24;
+  color: #4EA852;
+  margin-top: 10px;
 }
 
 .dropdown {
   display: none;
-  position: absolute;
+  position: relative;
   top: 100%;
   left: 0;
-  background-color: #f5f5f5;
+  background-color: #ffffffa6;
   padding: 1rem;
   border-radius: 5px;
 }
@@ -229,16 +239,18 @@ export default {
   display: block;
 }
 
-@media (max-width: 600px) {
-  .nav-wrapper {
-    flex-direction: column;
+@media (max-width: 1024px) {
+  .nav-wrapper-new {
+    display: flex; /* Включаем режим Flexbox. */
+    flex-direction: row; /* Держим элементы в строке */
+    justify-content: space-between; /* Распределяем элементы внутри шапки */
+    flex-wrap: wrap; /* Разрешаем перенос элементов на новую строку */
   }
 
   .nav-links {
-    flex-direction: column;
+    flex-direction: row;
     gap: 1rem;
   }
-
   .dropdown {
     position: relative;
     top: auto;
