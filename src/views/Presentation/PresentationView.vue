@@ -166,6 +166,12 @@ export default {
         <div class="btn_link-container">
         <a :href="`http://somebodyhire.me/profile/${user.id}`" class="btn_link">Страница пользователя</a>
         <a :href="`http://somebodyhire.me/profile/${user.id}`" class="btn_link">Написать сообщение</a><!-- поменять ссылку на страницу с формой сообщения --> 
+        <!-- <RouterLink :style="{fontSize: '20px'}"
+                  :to="{ name: 'send-message' }"
+                  class="dropdown-item border-radius-md"
+                  >
+                  Отправить сообщение
+                </RouterLink> -->
       </div>
     </div>
     </div>
@@ -351,10 +357,10 @@ export default {
   margin-top: 20px;
 }
 .profile-image {
-  width: 100px;
-  height: 95px;
+  width: auto;
+  height: 100px;
   margin-bottom: 20px;
-  border-radius: 50%;
+  border-radius: 5px;
   border: 2px solid #4ea852e0;
   box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.7);
 }
