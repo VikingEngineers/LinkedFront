@@ -6,42 +6,78 @@ import NavbarDefault from "../../../examples/navbars/NavbarDefault.vue";
 const isAuthenticated = computed(() => !!sessionStorage.getItem('access_token'));
 const userId = computed(() => sessionStorage.getItem('user_id'));
 const loggedUserName = computed(() => sessionStorage.getItem('username'));
+const token = computed(() => sessionStorage.getItem('access_token'));
 
-const profileData = ref([]);
-
-
-const getProfile = async () => {
-    const profileDataRecieved = await axios.get(`http://somebodyhire.me/api/profile/${userId.value}/`);
-    profileData.value = processProfileData(profileDataRecieved.data);
-};
-
-const processProfileData = (data) => {
-    return {
-        ...data,
-        name: data.name || '🤷 No Name Provided',
-        location: data.location || '🌍 No Location Provided',
-        short_intro: data.short_intro || '📝 No Short Intro Provided',
-        bio: data.bio || '📘 No Bio Provided',
-        profile_image: data.profile_image || '📷 No Image Provided',
-        social_github: data.social_github || '👨‍💻 No Github Provided',
-        social_twitter: data.social_twitter || '🐦 No Twitter Provided',
-        social_vk: data.social_vk || '🔵 No VK Provided',
-        social_youtube: data.social_youtube || '▶️ No YouTube Provided',
-        social_website: data.social_website || '🌐 No Website Provided',
-    };
-};
-
-onMounted(async() => {
-    await getProfile();
+const messageData = ref({
+    sender: "",
+    recipient: "",
+    name: "",
+    email: null,
+    subject: null,
+    body: 0,
 });
 
+const router = useRouter();
+
+const debugText = ref('');
+
+// Axios request and response interceptors
+axios.interceptors.request.use((request) => {
+  debugText.value += '\n\nRequest:\n' + JSON.stringify(request, null, 2);
+  return request;
+});
+
+axios.interceptors.response.use((response) => {
+  debugText.value += '\n\nResponse:\n' + JSON.stringify(response, null, 2);
+  return response;
+}, (error) => {
+  debugText.value += '\n\nResponse Error:\n' + JSON.stringify(error.toJSON(), null, 2);
+  return Promise.reject(error);
+});
+
+const sendMessage = async () => {
+    try {
+        const headers = { 'Authorization': `Bearer ${token.value}` };
+        const data = {
+            sender: messageData.value.sender,
+            recipient: messageData.value.recipient,
+            name: messageData.value.name,
+            email: messageData.value.email,
+            subject: messageData.value.subject,
+            body: messageData.value.body,
+            /* owner: userId.value */
+        };
+        const response = await axios.post('http://somebodyhire.me/api/messages/', data, { headers });
+        router.push('/send-message');
+    } catch (error) {
+        debugText.value = `Error: ${JSON.stringify(error, null, 2)}`;
+        console.error(error);
+    }
+};
+
+const cancelCreate = () => {
+    router.push('/send-message');
+};
 
 </script>
 
 
 <template>
     <NavbarDefault />
-    <div class="profile-container" :style="{fontWeight: '900',  fontFamily: 'monospace' }">
+    <div class="profile-container">
+      <h1>Create a Project for {{ loggedUserName }}</h1>
+        <textarea readonly v-model="debugText"></textarea>
+        <input type="text" v-model="messageData.sender" placeholder="Title">
+        <input type="text" v-model="messageData.recipient" placeholder="Description">
+        <textarea v-model="messageData.name" placeholder="Link to featured image"></textarea>
+        <textarea v-model="messageData.email" placeholder="Demo link"></textarea>
+        <textarea v-model="messageData.subject" placeholder="Source code link"></textarea>
+        <textarea v-model="messageData.body" placeholder="Source code link"></textarea>
+        <button @click="sendMessage" class="btn-submit">Submit</button>
+        <button @click="cancelCreate" class="btn-cancel">Cancel</button>
+    </div>
+
+<!--     <div class="profile-container" :style="{fontWeight: '900',  fontFamily: 'monospace' }">
       <h2 :style="{ fontSize: '27px', fontWeight: '900',  fontFamily: 'PressStart2P, sans-serif' }">{{ profileData.username }}</h2>
         <img :src="profileData.profile_image" alt="Profile Image">
         <p :style="{ fontSize: '24px'}">{{ profileData.email }}</p>
@@ -58,7 +94,7 @@ onMounted(async() => {
         <p :style="{ fontSize: '24px'}">Биография: {{ profileData.bio }}</p>
         <a :href="`/editmyprofile`" class="btn_link">Редактировать профиль</a>
       </div>
-    </div>
+    </div> -->
   </template> 
 
 

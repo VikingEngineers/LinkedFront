@@ -166,12 +166,12 @@ export default {
         <div class="btn_link-container">
         <a :href="`http://somebodyhire.me/profile/${user.id}`" class="btn_link">Страница пользователя</a>
         <a :href="`http://somebodyhire.me/profile/${user.id}`" class="btn_link">Написать сообщение</a><!-- поменять ссылку на страницу с формой сообщения --> 
-        <!-- <RouterLink :style="{fontSize: '20px'}"
+        <RouterLink :style="{fontSize: '20px'}"
                   :to="{ name: 'send-message' }"
                   class="dropdown-item border-radius-md"
                   >
                   Отправить сообщение
-                </RouterLink> -->
+                </RouterLink> 
       </div>
     </div>
     </div>
