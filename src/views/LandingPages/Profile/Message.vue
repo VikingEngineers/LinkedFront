@@ -7,32 +7,28 @@ const isAuthenticated = computed(() => !!sessionStorage.getItem('access_token'))
 const userId = computed(() => sessionStorage.getItem('user_id'));
 const loggedUserName = computed(() => sessionStorage.getItem('username'));
 
-const profileData = ref([]);
+const messageData = ref([]);
 
 
-const getProfile = async () => {
-    const profileDataRecieved = await axios.get(`http://somebodyhire.me/api/profile/${userId.value}/`);
-    profileData.value = processProfileData(profileDataRecieved.data);
+const getMessages = async () => {
+    const messageDataRecieved = await axios.get(`http://somebodyhire.me/api/messages/`);
+    messageData.value = processMessageData(messageDataRecieved.data);
 };
 
-const processProfileData = (data) => {
+const processMessageData = (data) => {
     return {
         ...data,
-        name: data.name || '🤷 No Name Provided',
-        location: data.location || '🌍 No Location Provided',
-        short_intro: data.short_intro || '📝 No Short Intro Provided',
-        bio: data.bio || '📘 No Bio Provided',
-        profile_image: data.profile_image || '📷 No Image Provided',
-        social_github: data.social_github || '👨‍💻 No Github Provided',
-        social_twitter: data.social_twitter || '🐦 No Twitter Provided',
-        social_vk: data.social_vk || '🔵 No VK Provided',
-        social_youtube: data.social_youtube || '▶️ No YouTube Provided',
-        social_website: data.social_website || '🌐 No Website Provided',
+        sender:data.sender,
+        name:data.name || '🤷 No Name Provided',
+        email:data.email || '📘 No Email Provided',
+        subject:data.subject || '📘 No Subject Provided', 
+        body:data.body || '📘 No Body Email Provided',
+        created:data.created,
     };
 };
 
 onMounted(async() => {
-    await getProfile();
+    await getMessages();
 });
 
 
@@ -42,29 +38,90 @@ onMounted(async() => {
 <template>
     <NavbarDefault />
     <div class="profile-container" :style="{fontWeight: '900',  fontFamily: 'monospace' }">
-      <h2 :style="{ fontSize: '27px', fontWeight: '900',  fontFamily: 'PressStart2P, sans-serif' }">{{ profileData.username }}</h2>
-        <img :src="profileData.profile_image" alt="Profile Image">
-        <p :style="{ fontSize: '24px'}">{{ profileData.email }}</p>
-        <div class="social-link" :style="{ fontSize: '12px', fontWeight: '500',  fontFamily: 'PressStart2P, sans-serif' }">
-          <a :href="`${profileData.social_github}`" target="_blank" >GitHub</a>
-          <a :href="`${profileData.social_twitter}`" target="_blank" >Twitter</a>
-          <a :href="`${profileData.social_vk}`" target="_blank" >VK</a>
-          <a :href="`${profileData.social_youtube}`" target="_blank" >YouTube</a>
-          <a :href="`${profileData.social_website}`" target="_blank" >Мой сайт</a>
+      <h2 :style="{ fontSize: '27px', fontWeight: '900',  fontFamily: 'PressStart2P, sans-serif' }">Мои сообщения</h2>
+        <p :style="{ fontSize: '24px'}">{{ messageData.email }}</p>
+        <div class="one_inbox" :style="{ fontSize: '12px', fontWeight: '500',  fontFamily: 'PressStart2P, sans-serif' }">
+          <a class="spantext2" :href="`${messageData.sender}`" target="_blank" >Sender {{ messageData.sender }}</a>
+          <a class="spantext2" :href="`${messageData.name}`" target="_blank" >Name {{ messageData.name }}</a>
+          <a class="spantext2" :href="`${messageData.email}`" target="_blank" >Email {{ messageData.email }}</a>
+          <a class="spantext2" :href="`${messageData.subject}`" target="_blank" >Subject{{ messageData.subject }}</a>
+          <a class="spantext2" :href="`${messageData.body}`" target="_blank" >Body{{ messageData.body}}</a>
+          <a class="spantext2" :href="`${messageData.created}`" target="_blank" >Created{{ messageData.created }}</a>
         </div>
-        <div class="text-container">
+
+        <!-- <div class='container_content'>
+            <div class="inbox">
+              <h3 class="send">New Messages</h3>
+              {/*<h4 class="spantext1">Who?</h4>
+              <h4 class="spantext1" >What?</h4>
+        <h4 class="spantext1">When?</h4>*/}
+              <div class="one_inbox">
+              <a class="spantext2" href="{% url 'message' message.id %}">message.name</a>
+              <a class="spantext2" href="{% url 'message' message.id %}">message.subject</a>
+              <a class="spantext2" href="{% url 'message' message.id %}">message.created</a>
+                </div>
+            </div>
+            </div> -->
+ <!--        <div class="text-container">
         <p :style="{ fontSize: '24px'}">Местоположение: {{ profileData.location }}</p>
         <p :style="{ fontSize: '24px'}">Краткое описание: {{ profileData.short_intro }}</p>
         <p :style="{ fontSize: '24px'}">Биография: {{ profileData.bio }}</p>
         <a :href="`/editmyprofile`" class="btn_link">Редактировать профиль</a>
-      </div>
+      </div> -->
     </div>
   </template> 
 
 
 
 <style scoped>
-.profile-container {
+/*.inbox{
+    text-align: center;
+    padding-top: 5%; 
+    margin-top: 5%;
+    margin-left: 18%;
+      width: 1200px;
+      height: 700px;
+      background: #616161; 
+      border-radius: 10px;
+      box-shadow: 5px 20px 50px #000;
+    justify-content:space-between;
+  }
+  .inboxtext{
+    text-decoration: none;
+    font-size: larger;
+    color: #282828;  
+    border-width: 5%;
+    border-color: #66FCF1;
+    border-style:solid;
+  }
+  .spantext1{
+    width: 30%;
+  
+    display:inline-block;
+    text-decoration: none;
+    font-size: larger;
+    color:#999999;
+  }*/
+  .spantext2{
+    width: 30%;
+  
+    display:inline-block;
+    text-decoration: none;
+    font-size: larger;
+    color:#1b191957;
+  }
+  .one_inbox {
+    border-radius: 5px;
+    border:2px solid #272424;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+    margin-left: 10%;
+    margin-right: 10%;
+    box-sizing: border-box;
+  }
+  
+  .profile-container {
   width: 50%;
   padding: 20px;
   box-shadow: 0px 0px 10px 0px rgba(6, 104, 14, 0.281);
