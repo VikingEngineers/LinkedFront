@@ -3,20 +3,26 @@ import axios from 'axios';
 import { onMounted, ref, computed } from "vue";
 import { useRouter } from 'vue-router';
 import { useRoute } from 'vue-router';
+
 import NavbarDefault from "../../../examples/navbars/NavbarDefault.vue";
 
-const isAuthenticated = computed(() => !!sessionStorage.getItem('access_token'));
+/* const isAuthenticated = computed(() => !!sessionStorage.getItem('access_token'));
 const userId = computed(() => sessionStorage.getItem('user_id'));
 const loggedUserName = computed(() => sessionStorage.getItem('username'));
-const token = computed(() => sessionStorage.getItem('access_token'));
+const token = computed(() => sessionStorage.getItem('access_token')); */
+
+const isAuthenticated = computed(() => !!localStorage.getItem('access_token'));
+const userId = computed(() => localStorage.getItem('user_id'));
+const loggedUserName = computed(() => localStorage.getItem('username'));
+const token = computed(() => localStorage.getItem('token'));
 
 const messageData = ref({
-    sender: "",
+    sender: userId.value, 
     recipient: "",
     name: "",
-    email: null,
-    subject: null,
-    body: 0,
+    email: "",
+    subject: "",
+    body: "",
 });
 
 const router = useRouter();
@@ -41,7 +47,7 @@ const sendMessage = async () => {
     try {
         const headers = { 'Authorization': `Bearer ${token.value}` };
         const data = {
-            sender: messageData.value.sender,
+            sender: userId.value,
             recipient: messageData.value.recipient,
             name: messageData.value.name,
             email: messageData.value.email,
@@ -49,8 +55,8 @@ const sendMessage = async () => {
             body: messageData.value.body,
             /* owner: userId.value */
         };
-        const response = await axios.post('http://somebodyhire.me/api/messages/', data, { headers });
-        router.push('/send-message');
+        const response = await axios.post('http://somebodyhire.me/api/messages/create/', data, { headers });
+        router.push('/messages');
     } catch (error) {
         debugText.value = `Error: ${JSON.stringify(error, null, 2)}`;
         console.error(error);
@@ -66,17 +72,17 @@ const cancelCreate = () => {
 
 <template>
     <NavbarDefault />
-    <div class="profile-container">
-      <h1>Create a Project for {{ loggedUserName }}</h1>
+    <div class="profile-container" :style="{ fontWeight: '900',  fontFamily: 'monospace' }">
+      <h1>Здесь можно написать сообщение</h1>
         <textarea readonly v-model="debugText"></textarea>
-        <input type="text" v-model="messageData.sender" placeholder="Title">
-        <input type="text" v-model="messageData.recipient" placeholder="Description">
-        <textarea v-model="messageData.name" placeholder="Link to featured image"></textarea>
-        <textarea v-model="messageData.email" placeholder="Demo link"></textarea>
-        <textarea v-model="messageData.subject" placeholder="Source code link"></textarea>
-        <textarea v-model="messageData.body" placeholder="Source code link"></textarea>
-        <button @click="sendMessage" class="btn-submit">Submit</button>
-        <button @click="cancelCreate" class="btn-cancel">Cancel</button>
+       <!--  <input type="text" v-model="messageData.sender" placeholder="Title"> -->
+        <input type="text" v-model="messageData.recipient" placeholder="Кому отправить сообщение?">
+        <!-- <textarea v-model="messageData.name" placeholder="Link to featured image"></textarea> -->
+        <!-- <textarea v-model="messageData.email" placeholder="В"></textarea> -->
+        <input v-model="messageData.subject" placeholder="Введите тему сообщения">
+        <textarea v-model="messageData.body" placeholder="Напишите текст сообщения"></textarea>
+        <button @click="sendMessage" class="btn-submit">SUBMIT</button>
+        <button @click="cancelCreate" class="btn-cancel">CANCEL</button>
     </div>
 
 <!--     <div class="profile-container" :style="{fontWeight: '900',  fontFamily: 'monospace' }">
@@ -111,6 +117,18 @@ const cancelCreate = () => {
   border-radius: 10px;
   align-items: center;
   text-align: center;
+  flex-direction: column;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.profile-container input, .profile-container textarea {
+  width: 100%; /* Make inputs and textareas take up the full width of the container */
+  padding: 10px; /* Add some padding */
+  margin-bottom: 15px; /* Add some margin */
+  box-sizing: border-box; /* Ensure padding doesn't affect final dimensions */
+  border: 1px solid #2ca33c; /* Add a border */
+  border-radius: 5px; /* Add rounded corners */
 }
 .text-container {
   width: 90%;
@@ -167,11 +185,9 @@ h1,h2{
   color:rgb(70, 104, 105);
   font-weight: 800;
   text-align: center;
+  margin-bottom: 3%;
 }
-p{
-  font-family: 'SpaceMono' monospace;
-  font-weight: 500;
-}
+
 button{
   background-color: #3d9132;
   border-radius: 10px;
