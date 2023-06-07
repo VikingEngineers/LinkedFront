@@ -15,6 +15,7 @@ import EditProject from "../views/LandingPages/Project/EditProject.vue";
 import MyProjects from "../views/LandingPages/Project/MyProjects.vue";
 import Message from "../views/LandingPages/Profile/Message.vue";
 import FormMessage from "../views/LandingPages/Profile/FormMessage.vue";
+import MessageTo from "../views/LandingPages/Profile/MessageTo.vue";
 
 
 const router = createRouter({
@@ -113,6 +114,12 @@ const router = createRouter({
       name: "send-message",
       component: FormMessage,
     }, 
+    {
+      path: "/message-to/:id",
+      name: "message-to",
+      component: MessageTo,
+    },
+    
 
 
   ],
