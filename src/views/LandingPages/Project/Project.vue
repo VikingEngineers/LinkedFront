@@ -8,15 +8,18 @@ import NavbarDefault from '../../../examples/navbars/NavbarDefault.vue';
 const projectId = ref(null);
 const route = useRoute();
 const projectData = ref([]);
+const ProjectReviews = ref([]);
 
-const isAuthenticated = computed(() => !!sessionStorage.getItem('access_token'));
-const userId = computed(() => sessionStorage.getItem('user_id'));
-const loggedUserName = computed(() => sessionStorage.getItem('username'));
-const token = computed(() => sessionStorage.getItem('access_token'));
+// Всё заменено на localStorage
+const isAuthenticated = computed(() => !!localStorage.getItem('access_token'));
+const userId = computed(() => localStorage.getItem('user_id'));
+const loggedUserName = computed(() => localStorage.getItem('username'));
+const token = computed(() => localStorage.getItem('access_token'));
 
 onMounted(async() => {
     projectId.value = route.params.id;
     await getProject();
+    await GetProjectReviews();
 });
 
 
@@ -29,6 +32,16 @@ const getProject = async () => {
     }
 };
 
+const GetProjectReviews = async () => {
+
+    try {
+        const ProjectReviewsRecieved = await axios.get(`http://somebodyhire.me/api/projects/${projectId.value}/reviews/`);
+        ProjectReviews.value = ProjectReviewsRecieved.data;
+    } catch (error) {
+        console.error('There was an error fetching the project reviews', error);
+}
+
+}
 
 
 
@@ -53,11 +66,18 @@ const getProject = async () => {
         <span v-for="(tag, index) in projectData.tags" :key="index" class="project-tag">
           {{ tag }}<span v-if="index < projectData.tags.length - 1">, </span>
         </span>
+        </p>
+
+      <p v-for = "(review, index) in ProjectReviews" :key="index" class="project-review">
+        <p>От пользователя {{ review.owner }}  : </p>
+
+        {{ review.body }}
       </p>
+
       <div v-if = "projectData.owner != userId" class="project-owner-note">
       <h3 :style="{ fontWeight: '500',  fontFamily: 'PressStart2P, sans-serif' }">Feedback</h3>
       <div class="feedback" :style="{fontWeight: '200',  fontFamily: 'monospace' }">
-      <input name="username" readonly placeholder="Username"/>
+      <input name="username" readonly placeholder="Ваше имя" :value="loggedUserName" />
       <select id="selectvalue">
         <option>Vote Up</option>
         <option>Vote Down</option>

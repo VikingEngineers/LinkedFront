@@ -16,7 +16,7 @@ const password = ref('');
 const email = ref(''); // Add email
 const errorMessage = ref('');
 
-const isAuthenticated = computed(() => !!sessionStorage.getItem('access_token')); // Computed property to check if the user is authenticated
+const isAuthenticated = computed(() => !!localStorage.getItem('access_token')); // Заменено на localStorage
 
 const errorTranslations = {
   "A user with that username already exists.": "Такой пользователь существует",
@@ -100,7 +100,7 @@ export default {
       this.username = username.value;
       this.password = password.value;
       this.email = email.value;
-      register(); // Call the register function
+      register();
     },
   },
 };
