@@ -142,7 +142,13 @@ watch(
                   class="dropdown-item border-radius-md"
                   >
                 Редактировать мой профиль
-                </RouterLink>     
+                </RouterLink> 
+                <RouterLink
+                  :to="{ name: 'my-messages' }"
+                  class="dropdown-item border-radius-md"
+                  >
+                Мои сообщения
+                </RouterLink>    
         </div>
       </div>  
 

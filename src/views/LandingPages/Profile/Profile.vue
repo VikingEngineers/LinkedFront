@@ -57,7 +57,13 @@ const processProfileData = (data) => {
       <p :style="{fontSize: '18px'}">VK: {{ profileData.social_vk }}</p>
       <p :style="{fontSize: '18px'}">YouTube: {{ profileData.social_youtube }}</p>
       <p :style="{fontSize: '18px'}">Мой сайт: {{ profileData.social_website }}</p>
-      <button :style="{fontSize: '20px'}">Отправить сообщение</button>
+      <button >Отправить сообщение</button>
+      <RouterLink :style="{fontSize: '20px'}"
+                  :to="{ name: 'send-message' }"
+                  class="dropdown-item border-radius-md"
+                  >
+                  Отправить сообщение
+                </RouterLink>
   </div>
 </template> 
 
