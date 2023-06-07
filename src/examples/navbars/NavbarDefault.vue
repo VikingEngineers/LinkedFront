@@ -144,7 +144,7 @@ watch(
                 Редактировать мой профиль
                 </RouterLink> 
                 <RouterLink
-                  :to="{ name: 'my-messages' }"
+                  :to="{ name: 'messages' }"
                   class="dropdown-item border-radius-md"
                   >
                 Мои сообщения

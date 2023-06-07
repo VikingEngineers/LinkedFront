@@ -38,7 +38,13 @@ onMounted(async() => {
 <template>
     <NavbarDefault />
     <div class="profile-container" :style="{fontWeight: '900',  fontFamily: 'monospace' }">
-      <h2 :style="{ fontSize: '27px', fontWeight: '900',  fontFamily: 'PressStart2P, sans-serif' }">Мои сообщения</h2>
+      <h2 :style="{ fontSize: '27px', fontWeight: '900',  fontFamily: 'PressStart2P, sans-serif', marginBottom:'5%' }">Мои сообщения</h2>
+      <RouterLink :style="{fontSize: '20px'}"
+                  :to="{ name: 'send-message' }"
+                  class="btn_link"
+                  >
+                  Написать сообщение
+                </RouterLink> 
         <p :style="{ fontSize: '24px'}">{{ messageData.email }}</p>
         <div class="one_inbox" :style="{ fontSize: '12px', fontWeight: '500',  fontFamily: 'PressStart2P, sans-serif' }">
           <a class="spantext2" :href="`${messageData.sender}`" target="_blank" >Sender {{ messageData.sender }}</a>
@@ -102,6 +108,24 @@ onMounted(async() => {
     font-size: larger;
     color:#999999;
   }*/
+  .btn_link {
+    /* Adds some padding inside the button */
+    padding: 10px;
+    /* Changes the font size */
+    font-size: 16px;
+    /* Changes the background color of the button */
+    background-color: #4EA852;
+    /* Changes the color of the text inside the button */
+    color: rgb(255, 255, 255);
+    /* Makes the border corners rounded */
+    border-radius: 5px;
+    /* Removes the default button border */
+    border: none;
+    /* Changes the cursor to a hand pointer when hovering over the button */
+    cursor: pointer;
+    width: 70%;
+    text-align: center;
+  }
   .spantext2{
     width: 30%;
   
@@ -115,6 +139,7 @@ onMounted(async() => {
     border:2px solid #272424;
     padding-top: 15px;
     padding-bottom: 15px;
+    margin-top: 25px;
     margin-bottom: 15px;
     margin-left: 10%;
     margin-right: 10%;
@@ -123,6 +148,7 @@ onMounted(async() => {
   
   .profile-container {
   width: 50%;
+  height: 700px;
   padding: 20px;
   box-shadow: 0px 0px 10px 0px rgba(6, 104, 14, 0.281);
   margin: 5% auto;

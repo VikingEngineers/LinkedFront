@@ -170,7 +170,7 @@ export default {
                   :to="{ name: 'send-message' }"
                   class="dropdown-item border-radius-md"
                   >
-                  Отправить сообщение
+                  Написать сообщение
                 </RouterLink> 
       </div>
     </div>
