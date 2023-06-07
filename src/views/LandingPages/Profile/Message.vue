@@ -3,30 +3,25 @@ import axios from 'axios';
 import { onMounted, ref, computed } from "vue";
 import NavbarDefault from "../../../examples/navbars/NavbarDefault.vue";
 
-const isAuthenticated = computed(() => !!localStorage.getItem('token'));
-const userId = computed(() => localStorage.getItem('user_id'));
-const loggedUserName = computed(() => localStorage.getItem('username'));
 const token = computed(() => localStorage.getItem('token'));
 
 const messageData = ref([]);
-
-const searchQuery = ref('');
 const debugText = ref('');
 const searchResultUsers = ref([]);
 
-// Axios request and response interceptors
-axios.interceptors.request.use((request) => {
-  //debugText.value += '\n\nRequest:\n' + JSON.stringify(request, null, 2);
-  return request;
-});
+// // Axios request and response interceptors
+// axios.interceptors.request.use((request) => {
+//   //debugText.value += '\n\nRequest:\n' + JSON.stringify(request, null, 2);
+//   return request;
+// });
 
-axios.interceptors.response.use((response) => {
-  // debugText.value += '\n\nResponse:\n' + JSON.stringify(response, null, 2);
-  return response;
-}, (error) => {
-  // debugText.value += '\n\nResponse Error:\n' + JSON.stringify(error.toJSON(), null, 2);
-  return Promise.reject(error);
-});
+// axios.interceptors.response.use((response) => {
+//   // debugText.value += '\n\nResponse:\n' + JSON.stringify(response, null, 2);
+//   return response;
+// }, (error) => {
+//   // debugText.value += '\n\nResponse Error:\n' + JSON.stringify(error.toJSON(), null, 2);
+//   return Promise.reject(error);
+// });
 
 
 
