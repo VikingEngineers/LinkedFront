@@ -28,12 +28,12 @@ const search = async () => {
   }
 };
 
-//Это блок для работы с хранилищем сессии
-const isAuthenticated = computed(() => !!sessionStorage.getItem('access_token')); 
-const userId = computed(() => sessionStorage.getItem('user_id'));
-const loggedUserName = computed(() => sessionStorage.getItem('username'));
-const isStaff = computed(() => sessionStorage.getItem('is_staff'));
-const token = computed(() => sessionStorage.getItem('token'));
+//Это блок для работы с хранилищем сессии - мы перешли на локальнуое хранилище
+// const isAuthenticated = computed(() => !!sessionStorage.getItem('access_token')); 
+// const userId = computed(() => sessionStorage.getItem('user_id'));
+// const loggedUserName = computed(() => sessionStorage.getItem('username'));
+// const isStaff = computed(() => sessionStorage.getItem('is_staff'));
+// const token = computed(() => sessionStorage.getItem('token'));
 
 //Тут мы попробуем использовать local storage потому что оно должно работать между вкладками
 const isAuthenticatedLocal = computed(() => !!localStorage.getItem('access_token')); 
@@ -93,12 +93,12 @@ export default {
         <div class="row">
           <div class="col-lg-7 text-center mx-auto position-relative">
 
-            <div v-if="isAuthenticated">
+            <div v-if="isAuthenticatedLocal">
                 <h2
                 class="text-white pt-3 mt-n5 me-2"
                 :style="{ display: 'inline-block ', fontFamily: 'PressStart2P, sans-serif' }"
                 > 
-                Привет, {{ loggedUserName }}!</h2>
+                Привет, {{ loggedUserNameLocal }}!</h2>
                 <p class="lead text-white px-5 mt-3" :style="{ fontSize: '27px', fontWeight: '500',  fontFamily: 'PressStart2P, sans-serif' }">
                   В поисках чего-то интересного?
                   </p>
@@ -145,7 +145,7 @@ export default {
       </div>
     </div>
         <div class="btn_link-container">
-        <a :href="`http://somebodyhire.me/project/${project.id}`" class="btn_link">Страница проекта</a>
+        <a :href="`project/${project.id}`" class="btn_link">Страница проекта</a>
       </div>
       </div>
     </div>
@@ -164,8 +164,15 @@ export default {
       </div>-->
         
         <div class="btn_link-container">
-        <a :href="`http://somebodyhire.me/profile/${user.id}`" class="btn_link">Страница пользователя</a>
-        <a :href="`http://somebodyhire.me/profile/${user.id}`" class="btn_link">Написать сообщение</a><!-- поменять ссылку на страницу с формой сообщения --> 
+
+        <a :href="`/profile/${user.id}`" class="btn_link">Страница пользователя</a>
+        <a :href="`/profile/${user.id}`" class="btn_link">Написать сообщение</a><!-- поменять ссылку на страницу с формой сообщения --> 
+        <RouterLink :style="{fontSize: '20px'}"
+                  :to="{ name: 'send-message' }"
+                  class="dropdown-item border-radius-md"
+                  >
+                  Написать сообщение
+                </RouterLink> 
       </div>
     </div>
     </div>
@@ -351,10 +358,10 @@ export default {
   margin-top: 20px;
 }
 .profile-image {
-  width: 100px;
-  height: 95px;
+  width: auto;
+  height: 100px;
   margin-bottom: 20px;
-  border-radius: 50%;
+  border-radius: 5px;
   border: 2px solid #4ea852e0;
   box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.7);
 }

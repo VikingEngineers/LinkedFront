@@ -13,6 +13,8 @@ import EditMyProfile from "../views/LandingPages/Profile/EditProfile.vue";
 import CreateProject from "../views/LandingPages/Project/AddProject.vue";
 import EditProject from "../views/LandingPages/Project/EditProject.vue";
 import MyProjects from "../views/LandingPages/Project/MyProjects.vue";
+import Message from "../views/LandingPages/Profile/Message.vue";
+import FormMessage from "../views/LandingPages/Profile/FormMessage.vue";
 
 
 const router = createRouter({
@@ -101,6 +103,16 @@ const router = createRouter({
       name: "signin-basic",
       component: SignInBasicView,
     },
+    {
+      path: "/messages",
+      name: "messages",
+      component: Message,
+    },
+    {
+      path: "/send-message",
+      name: "send-message",
+      component: FormMessage,
+    }, 
 
 
   ],

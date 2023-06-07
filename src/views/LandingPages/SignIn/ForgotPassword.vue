@@ -9,7 +9,7 @@ import NavbarDefault from "@/examples/navbars/NavbarDefault.vue";
 import Header from "@/examples/Header.vue";
 
 
-const isAuthenticated = computed(() => !!sessionStorage.getItem('access_token')); // Computed property to check if the user is authenticated
+const isAuthenticated = computed(() => !!localStorage.getItem('access_token')); // Computed property to check if the user is authenticated
 
 </script>
 
@@ -30,7 +30,7 @@ const isAuthenticated = computed(() => !!sessionStorage.getItem('access_token'))
         <h1>Забыли пароль?</h1>
     </div>
     <div v-if="isAuthenticated">
-        <p>Как же ты зашёл тогда?</p>
+        <p>Как же вы зашли тогда?</p>
     </div>
     <div v-else>
         <p>Очень жаль</p>
