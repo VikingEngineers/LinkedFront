@@ -166,7 +166,7 @@ export default {
         <div class="btn_link-container">
 
         <a :href="`/profile/${user.id}`" class="btn_link">Страница пользователя</a>
-        <a :href="`/profile/${user.id}`" class="btn_link">Написать сообщение</a><!-- поменять ссылку на страницу с формой сообщения --> 
+        <a :href="`/message-to/${user.id}`" class="btn_link">Написать сообщение</a>
         <RouterLink :style="{fontSize: '20px'}"
                   :to="{ name: 'send-message' }"
                   class="dropdown-item border-radius-md"
