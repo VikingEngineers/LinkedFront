@@ -145,7 +145,7 @@ export default {
       </div>
     </div>
         <div class="btn_link-container">
-        <a :href="`project/${project.id}`" class="btn_link">Страница проекта</a>
+        <a :href="`project/${project.id}`" class="btn_link">Посмотреть</a>
       </div>
       </div>
     </div>
@@ -165,13 +165,13 @@ export default {
         
         <div class="btn_link-container">
 
-        <a :href="`/profile/${user.id}`" class="btn_link">Страница пользователя</a>
-        <a :href="`/profile/${user.id}`" class="btn_link">Написать сообщение</a><!-- поменять ссылку на страницу с формой сообщения --> 
-        <RouterLink :style="{fontSize: '20px'}"
+        <a :href="`/profile/${user.id}`" class="btn_link">Открыть</a>
+        <!-- <a :href="`/profile/${user.id}`" class="btn_link">Написать сообщение</a>поменять ссылку на страницу с формой сообщения --> 
+        <RouterLink 
                   :to="{ name: 'send-message' }"
-                  class="dropdown-item border-radius-md"
+                  class="btn_link"
                   >
-                  Написать сообщение
+                  Написать
                 </RouterLink> 
       </div>
     </div>

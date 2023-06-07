@@ -148,9 +148,9 @@ onMounted(async() => {
 }
 
 .profile-container img {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
+  width: 50%;
+  height: auto;
+  border-radius: 5px;
   object-fit: cover;
   margin-bottom: 20px;
 }
