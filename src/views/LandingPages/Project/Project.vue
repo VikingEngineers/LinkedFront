@@ -10,16 +10,23 @@ const route = useRoute();
 const projectData = ref([]);
 const ProjectReviews = ref([]);
 
+const searchQuery = ref('');
+const searchResultUsers = ref([]);
+
 // Всё заменено на localStorage
 const isAuthenticated = computed(() => !!localStorage.getItem('access_token'));
 const userId = computed(() => localStorage.getItem('user_id'));
 const loggedUserName = computed(() => localStorage.getItem('username'));
 const token = computed(() => localStorage.getItem('access_token'));
 
+const debugText = ref('Debug Text');  
+
+
 onMounted(async() => {
     projectId.value = route.params.id;
     await getProject();
     await GetProjectReviews();
+    await search();
 });
 
 
@@ -42,6 +49,21 @@ const GetProjectReviews = async () => {
 }
 
 }
+
+const search = async () => {
+    try {
+        const usersResponse = await axios.get(`http://somebodyhire.me/api/search/profiles/?search_query=${searchQuery.value}`);
+        searchResultUsers.value = usersResponse.data;
+        debugText.value = JSON.stringify(usersResponse.data); 
+    } catch (error) {
+        console.error('There was an error fetching the search results', error); 
+    }
+  };
+
+  const findUsername = (id) => {
+    const user = searchResultUsers.value.find((user) => user.id === id);
+    return user.name;
+  };
 
 
 
@@ -69,7 +91,7 @@ const GetProjectReviews = async () => {
         </p>
 
       <p v-for = "(review, index) in ProjectReviews" :key="index" class="project-review">
-        <p>От пользователя {{ review.owner }}  : </p>
+        <p>От пользователя {{ findUsername(review.owner) }}  : </p>
 
         {{ review.body }}
       </p>
