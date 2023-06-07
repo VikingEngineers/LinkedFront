@@ -7,7 +7,7 @@ import { useWindowsWidth } from "../../assets/js/useWindowsWidth";
 import ArrDark from "@/assets/img/down-arrow-dark.svg";
 import DownArrWhite from "@/assets/img/down-arrow-white.svg";
 
-const isAuthenticated = computed(() => !!localStorage.getItem('access_token')); // Заменено на локальную, осторожно
+const isAuthenticated = computed(() => !!localStorage.getItem('token')); // Заменено на локальную, осторожно
 
 const props = defineProps({
   

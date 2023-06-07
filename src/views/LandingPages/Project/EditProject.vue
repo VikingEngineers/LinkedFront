@@ -5,10 +5,10 @@ import NavbarDefault from "../../../examples/navbars/NavbarDefault.vue";
 import { useRouter } from "vue-router";
 import { useRoute } from 'vue-router';
 
-const isAuthenticated = computed(() => !!sessionStorage.getItem('access_token'));
-const userId = computed(() => sessionStorage.getItem('user_id'));
-const loggedUserName = computed(() => sessionStorage.getItem('username'));
-const token = computed(() => sessionStorage.getItem('access_token'));
+const isAuthenticated = computed(() => !!localStorage.getItem('access_token'));
+const userId = computed(() => localStorage.getItem('user_id'));
+const loggedUserName = computed(() => localStorage.getItem('username'));
+const token = computed(() => localStorage.getItem('access_token'));
 
 const projectData = ref([]);
 const router = useRouter();
@@ -67,6 +67,7 @@ const updateProject = async () => {
         formData.append('description', projectData.value.description);
         formData.append('demo_link', projectData.value.demo_link);
         formData.append('source_link', projectData.value.source_link);
+        formData.append('likes', projectData.value.likes);                  
 
         // if (projectData.value.featured_image) {
         //     formData.append('featured_image', projectData.value.featured_image);
@@ -149,6 +150,7 @@ onMounted(async() => {
         <input type="text" v-model="projectData.description" placeholder="Description">
         <textarea v-model="projectData.demo_link" placeholder="Demo link"></textarea>
         <textarea v-model="projectData.source_link" placeholder="Source code link"></textarea>
+        <input type="number" v-model="projectData.likes" placeholder="Likes">
         <!-- <textarea v-model="projectData.tags" placeholder="Tags"></textarea> -->
 
         <div>

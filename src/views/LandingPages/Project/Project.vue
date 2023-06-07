@@ -9,6 +9,9 @@ const projectId = ref(null);
 const route = useRoute();
 const projectData = ref([]);
 const ProjectReviews = ref([]);
+const commentData = ref({
+    body: "",
+});
 
 const searchQuery = ref('');
 const searchResultUsers = ref([]);
@@ -54,7 +57,7 @@ const search = async () => {
     try {
         const usersResponse = await axios.get(`http://somebodyhire.me/api/search/profiles/?search_query=${searchQuery.value}`);
         searchResultUsers.value = usersResponse.data;
-        debugText.value = JSON.stringify(usersResponse.data); 
+        // debugText.value = JSON.stringify(usersResponse.data); 
     } catch (error) {
         console.error('There was an error fetching the search results', error); 
     }
@@ -64,6 +67,25 @@ const search = async () => {
     const user = searchResultUsers.value.find((user) => user.id === id);
     return user.name;
   };
+
+  const postComment = async () => {
+    try {
+        const headers = { 'Authorization': `Bearer ${token.value}` };
+        const data = {
+          body: commentData.value.body,
+        }
+        debugText.value = JSON.stringify(data);
+        const response = await axios.post(`http://somebodyhire.me/api/projects/${projectId.value}/reviews/create/`, data, { headers });
+        ProjectReviews.value.push(response.data);
+        debugText.value = JSON.stringify(response.data);
+
+    } catch (error) {
+        console.error('There was an error posting the comment', error);
+        debugText.value = JSON.stringify(error);
+    }
+  };
+
+
 
 
 
@@ -81,9 +103,18 @@ const search = async () => {
       <p class="project-description">{{ projectData.description }}</p>
       <a v-if="projectData.demo_link" class="project-link" target="_blank" :href="projectData.demo_link">Demo Link</a>
       <a v-if="projectData.source_link" class="project-link" target="_blank" :href="projectData.source_link">Source Link</a>
-      <!-- <p class="project-votes">Total Votes: {{ projectData.vote_total }}</p>
-      <p class="project-vote-ratio">Vote Ratio: {{ projectData.vote_ratio }}</p> -->
+
+
+      <p  class="project-votes">Понравилось {{ projectData.likes }} пользователей</p>
       <p class="project-created">Created On: {{ new Date(projectData.created).toLocaleDateString() }}</p>
+
+        <button v-if = "projectData.owner != userId"  class="button_like">
+          Нравится
+        </button>
+
+        <button v-if = "projectData.owner != userId"  class="button_dislike">
+          Не нравится
+        </button>
       <p class="project-tags"> 
         <span v-for="(tag, index) in projectData.tags" :key="index" class="project-tag">
           {{ tag }}<span v-if="index < projectData.tags.length - 1">, </span>
@@ -98,14 +129,13 @@ const search = async () => {
 
       <div v-if = "projectData.owner != userId" class="project-owner-note">
       <h3 :style="{ fontWeight: '500',  fontFamily: 'PressStart2P, sans-serif' }">Feedback</h3>
+      <!-- <p>
+        {{ debugText  }}
+      </p> -->
       <div class="feedback" :style="{fontWeight: '200',  fontFamily: 'monospace' }">
       <input name="username" readonly placeholder="Ваше имя" :value="loggedUserName" />
-      <select id="selectvalue">
-        <option>Vote Up</option>
-        <option>Vote Down</option>
-        </select>
-      <textarea name="comment" v-model="message" placeholder="Напишите комментарий"></textarea>
-      <button>Оценить</button>
+      <textarea name="comment" v-model="commentData.body" placeholder="Напишите комментарий"></textarea>
+      <button class="button" @click="postComment">Отправить</button>
     </div>
       </div>
   </div>
@@ -200,7 +230,9 @@ h1,h2{
 p{
   font-family: 'SpaceMono' monospace;
 }
-button{
+
+button
+{
   background-color: #3d9132;
   border-radius: 10px;
   text-align: center;
@@ -209,10 +241,37 @@ button{
   width: 60%;
   margin-bottom: 10px;
   padding: 5px;
+  display: inline-block;
 }
+
+
 button:hover{
   background-color: #6ac55e;
   color: rgb(61, 61, 61);
+}
+
+.button_like{
+  background-color: #3d9132;
+  border-radius: 10px;
+  text-align: center;
+  color: rgb(255, 255, 255);
+  font-weight: 500;
+  width: 60%;
+  margin-bottom: 10px;
+  padding: 5px;
+  display: inline-block;
+}
+
+.button_dislike{
+  background-color: #913d32;
+  border-radius: 10px;
+  text-align: center;
+  color: rgb(255, 255, 255);
+  font-weight: 500;
+  width: 60%;
+  margin-bottom: 10px;
+  padding: 5px;
+  display: inline-block;
 }
 </style>
   
