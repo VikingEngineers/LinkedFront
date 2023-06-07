@@ -1,6 +1,8 @@
 <script setup>
 import axios from 'axios';
 import { onMounted, ref, computed } from "vue";
+import { useRouter } from 'vue-router';
+import { useRoute } from 'vue-router';
 import NavbarDefault from "../../../examples/navbars/NavbarDefault.vue";
 
 const isAuthenticated = computed(() => !!sessionStorage.getItem('access_token'));
