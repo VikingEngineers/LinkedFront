@@ -93,6 +93,7 @@ onMounted(() => {
     <NavbarDefault />
     <div class="profile-container" :style="{ fontWeight: '900',  fontFamily: 'monospace' }">
       <!-- <h2>Сообщение {{ findUsername(recipientId) }} от {{ userId }}</h2> -->
+      <h3>Сообщение {{ recipientId }} от {{ userId }} </h3>
       <!-- <p>{{ findUsername(1) }} </p> -->
         <textarea readonly v-model="debugText"></textarea>
        <!--  <input type="text" v-model="messageData.sender" placeholder="Title"> -->
