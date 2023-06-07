@@ -108,7 +108,7 @@ const router = createRouter({
       name: "messages",
       component: Message,
     },
-     {
+    {
       path: "/send-message",
       name: "send-message",
       component: FormMessage,

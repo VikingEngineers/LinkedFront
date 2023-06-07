@@ -15,11 +15,11 @@ const loggedUserName = computed(() => localStorage.getItem('username'));
 const token = computed(() => localStorage.getItem('token'));
 
 const messageData = ref({
-    /* sender: "", */
+    sender: userId.value, 
     recipient: "",
-    /* name: "",
-    email: null, */
-    subject: null,
+    name: "",
+    email: "",
+    subject: "",
     body: "",
 });
 
@@ -45,7 +45,7 @@ const sendMessage = async () => {
     try {
         const headers = { 'Authorization': `Bearer ${token.value}` };
         const data = {
-            sender: messageData.value.sender,
+            sender: userId.value,
             recipient: messageData.value.recipient,
             name: messageData.value.name,
             email: messageData.value.email,
@@ -54,7 +54,7 @@ const sendMessage = async () => {
             /* owner: userId.value */
         };
         const response = await axios.post('http://somebodyhire.me/api/messages/create/', data, { headers });
-        router.push(`/send-message/${response.data.id}`);
+        router.push('/messages');
     } catch (error) {
         debugText.value = `Error: ${JSON.stringify(error, null, 2)}`;
         console.error(error);
@@ -71,7 +71,7 @@ const cancelCreate = () => {
 <template>
     <NavbarDefault />
     <div class="profile-container" :style="{ fontWeight: '900',  fontFamily: 'monospace' }">
-      <h1>Форма для сообщения</h1>
+      <h1>Здесь можно написать сообщение</h1>
         <textarea readonly v-model="debugText"></textarea>
        <!--  <input type="text" v-model="messageData.sender" placeholder="Title"> -->
         <input type="text" v-model="messageData.recipient" placeholder="Кому отправить сообщение?">
@@ -183,6 +183,7 @@ h1,h2{
   color:rgb(70, 104, 105);
   font-weight: 800;
   text-align: center;
+  margin-bottom: 3%;
 }
 
 button{

@@ -3,16 +3,42 @@ import axios from 'axios';
 import { onMounted, ref, computed } from "vue";
 import NavbarDefault from "../../../examples/navbars/NavbarDefault.vue";
 
-const isAuthenticated = computed(() => !!sessionStorage.getItem('access_token'));
-const userId = computed(() => sessionStorage.getItem('user_id'));
-const loggedUserName = computed(() => sessionStorage.getItem('username'));
+const isAuthenticated = computed(() => !!localStorage.getItem('access_token'));
+const userId = computed(() => localStorage.getItem('user_id'));
+const loggedUserName = computed(() => localStorage.getItem('username'));
 
 const messageData = ref([]);
 
+const debugText = ref('');
+
+// Axios request and response interceptors
+axios.interceptors.request.use((request) => {
+  debugText.value += '\n\nRequest:\n' + JSON.stringify(request, null, 2);
+  return request;
+});
+
+axios.interceptors.response.use((response) => {
+  debugText.value += '\n\nResponse:\n' + JSON.stringify(response, null, 2);
+  return response;
+}, (error) => {
+  debugText.value += '\n\nResponse Error:\n' + JSON.stringify(error.toJSON(), null, 2);
+  return Promise.reject(error);
+});
+
+/* const search = async () => {
+    try {
+        const usersResponse = await axios.get(http://somebodyhire.me/api/search/profiles/?search_query=${searchQuery.value});
+        searchResultUsers.value = usersResponse.data;
+        // debugText.value = JSON.stringify(usersResponse.data); 
+    } catch (error) {
+        console.error('There was an error fetching the search results', error); 
+    }
+  }; */
 
 const getMessages = async () => {
-    const messageDataRecieved = await axios.get(`http://somebodyhire.me/api/messages/`);
+    const messageDataRecieved = await axios.get('http://somebodyhire.me/api/messages/');
     messageData.value = processMessageData(messageDataRecieved.data);
+    debugText.value = JSON.stringify(messageData.data);
 };
 
 const processMessageData = (data) => {
@@ -37,6 +63,7 @@ onMounted(async() => {
 
 <template>
     <NavbarDefault />
+    <p >{{ debugText }}</p>
     <div class="profile-container" :style="{fontWeight: '900',  fontFamily: 'monospace' }">
       <h2 :style="{ fontSize: '27px', fontWeight: '900',  fontFamily: 'PressStart2P, sans-serif', marginBottom:'5%' }">Мои сообщения</h2>
       <RouterLink :style="{fontSize: '20px'}"
@@ -46,10 +73,12 @@ onMounted(async() => {
                   Написать сообщение
                 </RouterLink> 
         <p :style="{ fontSize: '24px'}">{{ messageData.email }}</p>
+        
         <div class="one_inbox" :style="{ fontSize: '12px', fontWeight: '500',  fontFamily: 'PressStart2P, sans-serif' }">
+          
           <a class="spantext2" :href="`${messageData.sender}`" target="_blank" >Sender {{ messageData.sender }}</a>
-          <a class="spantext2" :href="`${messageData.name}`" target="_blank" >Name {{ messageData.name }}</a>
-          <a class="spantext2" :href="`${messageData.email}`" target="_blank" >Email {{ messageData.email }}</a>
+          <!-- <a class="spantext2" :href="`${messageData.name}`" target="_blank" >Name {{ messageData.name }}</a>
+          <a class="spantext2" :href="`${messageData.email}`" target="_blank" >Email {{ messageData.email }}</a> -->
           <a class="spantext2" :href="`${messageData.subject}`" target="_blank" >Subject{{ messageData.subject }}</a>
           <a class="spantext2" :href="`${messageData.body}`" target="_blank" >Body{{ messageData.body}}</a>
           <a class="spantext2" :href="`${messageData.created}`" target="_blank" >Created{{ messageData.created }}</a>
