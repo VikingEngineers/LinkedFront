@@ -15,12 +15,12 @@ const username = ref('');
 const password = ref('');
 const errorMessage = ref('');
 
-//Это блок для работы с хранилищем сессии
-const isAuthenticated = computed(() => !!sessionStorage.getItem('access_token')); 
-const userId = computed(() => sessionStorage.getItem('user_id'));
-const loggedUserName = computed(() => sessionStorage.getItem('username'));
-const isStaff = computed(() => sessionStorage.getItem('is_staff'));
-const token = computed(() => sessionStorage.getItem('token'));
+//Это блок для работы с хранилищем сессии - больше не используем на этой странице
+// const isAuthenticated = computed(() => !!sessionStorage.getItem('access_token')); 
+// const userId = computed(() => sessionStorage.getItem('user_id'));
+// const loggedUserName = computed(() => sessionStorage.getItem('username'));
+// const isStaff = computed(() => sessionStorage.getItem('is_staff'));
+// const token = computed(() => sessionStorage.getItem('token'));
 
 //Тут мы попробуем использовать local storage потому что оно должно работать между вкладками
 const isAuthenticatedLocal = computed(() => !!localStorage.getItem('access_token')); 
@@ -151,14 +151,13 @@ export default {
               <div class="card-body">
                 <form role="form" class="text-start">
                   <div>
-                    <div v-if="isAuthenticated">
-                        <!-- This will only be displayed if the user is authenticated -->
-                        <p>Вы вошли в аккаунт {{ loggedUserName }}</p>
+                    <div v-if="isAuthenticatedLocal">
+                        <p>Вы вошли в аккаунт {{ loggedUserNameLocal }}</p>
                         <p>
                           <a href="/ViewMyProfile">Перейти в профиль.</a>
                         </p>
                         <!-- Это должно быть видно только админам -->
-                        <div v-if="isStaff">
+                        <div v-if="isStaffLocal">
                             <p>
                             <a href="/admin/">Перейти в панель администратора.</a>
                             </p>
