@@ -3,58 +3,68 @@ import axios from 'axios';
 import { onMounted, ref, computed } from "vue";
 import NavbarDefault from "../../../examples/navbars/NavbarDefault.vue";
 
-const isAuthenticated = computed(() => !!localStorage.getItem('access_token'));
+const isAuthenticated = computed(() => !!localStorage.getItem('token'));
 const userId = computed(() => localStorage.getItem('user_id'));
 const loggedUserName = computed(() => localStorage.getItem('username'));
+const token = computed(() => localStorage.getItem('token'));
 
 const messageData = ref([]);
 
+const searchQuery = ref('');
 const debugText = ref('');
+const searchResultUsers = ref([]);
 
 // Axios request and response interceptors
 axios.interceptors.request.use((request) => {
-  debugText.value += '\n\nRequest:\n' + JSON.stringify(request, null, 2);
+  //debugText.value += '\n\nRequest:\n' + JSON.stringify(request, null, 2);
   return request;
 });
 
 axios.interceptors.response.use((response) => {
-  debugText.value += '\n\nResponse:\n' + JSON.stringify(response, null, 2);
+  // debugText.value += '\n\nResponse:\n' + JSON.stringify(response, null, 2);
   return response;
 }, (error) => {
-  debugText.value += '\n\nResponse Error:\n' + JSON.stringify(error.toJSON(), null, 2);
+  // debugText.value += '\n\nResponse Error:\n' + JSON.stringify(error.toJSON(), null, 2);
   return Promise.reject(error);
 });
 
-/* const search = async () => {
+
+
+const getMessages = async () => {
+    try { 
+      const tokenValue = token.value;
+    const headers = { 
+      'Authorization': `Bearer ${tokenValue}`,
+    };
+
+      const messagesResponse = await axios.get(`http://somebodyhire.me/api/messages/`, { headers });
+      messageData.value = messagesResponse.data;
+      // debugText.value = JSON.stringify(messagesResponse.data);
+    } catch (error) {
+      console.error('There was an error fetching the messages', error);
+    }
+  };
+
+  const search = async () => {
     try {
-        const usersResponse = await axios.get(http://somebodyhire.me/api/search/profiles/?search_query=${searchQuery.value});
+        const usersResponse = await axios.get(`http://somebodyhire.me/api/profiles/`);
         searchResultUsers.value = usersResponse.data;
-        // debugText.value = JSON.stringify(usersResponse.data); 
+        // debugText.value = JSON.stringify(searchResultUsers.value); 
     } catch (error) {
         console.error('There was an error fetching the search results', error); 
     }
-  }; */
+  };
 
-const getMessages = async () => {
-    const messageDataRecieved = await axios.get('http://somebodyhire.me/api/messages/');
-    messageData.value = processMessageData(messageDataRecieved.data);
-    debugText.value = JSON.stringify(messageData.data);
-};
+  const findUsername = (id) => {
+    const user = searchResultUsers.value.find((user) => user.id === id);
+    return user.name;
+  };
 
-const processMessageData = (data) => {
-    return {
-        ...data,
-        sender:data.sender,
-        name:data.name || '🤷 No Name Provided',
-        email:data.email || '📘 No Email Provided',
-        subject:data.subject || '📘 No Subject Provided', 
-        body:data.body || '📘 No Body Email Provided',
-        created:data.created,
-    };
-};
 
 onMounted(async() => {
+    await search();
     await getMessages();
+
 });
 
 
@@ -73,18 +83,28 @@ onMounted(async() => {
                   Написать сообщение
                 </RouterLink> 
         <p :style="{ fontSize: '24px'}">{{ messageData.email }}</p>
+
+        <div v-for = "message in messageData" :key="message.id" class="one_inbox" :style="{ fontSize: '12px', fontWeight: '500',  fontFamily: 'PressStart2P, sans-serif' }">
+          
+          <p :style="{ fontSize: '12px'}">От: {{ findUsername(message.sender) }}</p>
+          <p :style="{ fontSize: '12px'}">Кому: {{ findUsername(message.recipient) }} </p>
+          <p :style="{ fontSize: '12px'}">Тема: {{ message.subject }}</p>
+          <p :style="{ fontSize: '12px'}">Сообщение: {{ message.body }}</p>
+        </div>
+
+
         
-        <div class="one_inbox" :style="{ fontSize: '12px', fontWeight: '500',  fontFamily: 'PressStart2P, sans-serif' }">
+        <!-- <div class="one_inbox" :style="{ fontSize: '12px', fontWeight: '500',  fontFamily: 'PressStart2P, sans-serif' }">
           
           <a class="spantext2" :href="`${messageData.sender}`" target="_blank" >Sender {{ messageData.sender }}</a>
-          <!-- <a class="spantext2" :href="`${messageData.name}`" target="_blank" >Name {{ messageData.name }}</a>
-          <a class="spantext2" :href="`${messageData.email}`" target="_blank" >Email {{ messageData.email }}</a> -->
+           <a class="spantext2" :href="`${messageData.name}`" target="_blank" >Name {{ messageData.name }}</a>
+          <a class="spantext2" :href="`${messageData.email}`" target="_blank" >Email {{ messageData.email }}</a> 
           <a class="spantext2" :href="`${messageData.subject}`" target="_blank" >Subject{{ messageData.subject }}</a>
           <a class="spantext2" :href="`${messageData.body}`" target="_blank" >Body{{ messageData.body}}</a>
           <a class="spantext2" :href="`${messageData.created}`" target="_blank" >Created{{ messageData.created }}</a>
         </div>
 
-        <!-- <div class='container_content'>
+        <div class='container_content'>
             <div class="inbox">
               <h3 class="send">New Messages</h3>
               {/*<h4 class="spantext1">Who?</h4>
