@@ -74,17 +74,17 @@ const search = async () => {
   };
 
 const findUsername = (id) => {
-    const user = searchResultUsers.value.find((user) => user.id === id);
-    return user.name;
-  };
+    const user = searchResultUsers.value.find((user) => user.id == id);
+    return user ? user.username : '';
+};
 
 const cancelCreate = () => {
     router.push('/send-message');
 };
 
-onMounted(() => {
+onMounted(async() => {
     recipientId.value = route.params.id;
-    search();
+    await search();
 });
 </script>
 
@@ -92,10 +92,7 @@ onMounted(() => {
 <template>
     <NavbarDefault />
     <div class="profile-container" :style="{ fontWeight: '900',  fontFamily: 'monospace' }">
-      <!-- <h2>Сообщение {{ findUsername(recipientId) }} от {{ userId }}</h2> -->
-      <h3>Сообщение {{ recipientId }} от {{ userId }} </h3>
-      <!-- <p>{{ findUsername(1) }} </p> -->
-        <textarea readonly v-model="debugText"></textarea>
+      <h3>Сообщение {{ findUsername(recipientId ) }} от {{ findUsername(userId) }} </h3>
        <!--  <input type="text" v-model="messageData.sender" placeholder="Title"> -->
         <!-- <input type="text" v-model="messageData.recipient" placeholder="Кому отправить сообщение?"> -->
         <!-- <textarea v-model="messageData.name" placeholder="Link to featured image"></textarea> -->
