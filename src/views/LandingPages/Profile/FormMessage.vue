@@ -6,11 +6,6 @@ import { useRoute } from 'vue-router';
 
 import NavbarDefault from "../../../examples/navbars/NavbarDefault.vue";
 
-/* const isAuthenticated = computed(() => !!sessionStorage.getItem('access_token'));
-const userId = computed(() => sessionStorage.getItem('user_id'));
-const loggedUserName = computed(() => sessionStorage.getItem('username'));
-const token = computed(() => sessionStorage.getItem('access_token')); */
-
 const isAuthenticated = computed(() => !!localStorage.getItem('access_token'));
 const userId = computed(() => localStorage.getItem('user_id'));
 const loggedUserName = computed(() => localStorage.getItem('username'));
@@ -103,6 +98,7 @@ const cancelCreate = () => {
         <a :href="`/editmyprofile`" class="btn_link">Редактировать профиль</a>
       </div>
     </div> -->
+    <DefaultFooter />
   </template> 
 
 

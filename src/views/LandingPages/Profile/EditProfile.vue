@@ -4,10 +4,10 @@ import { onMounted, ref, computed } from "vue";
 import NavbarDefault from "../../../examples/navbars/NavbarDefault.vue";
 import { useRouter } from "vue-router";
 
-const isAuthenticated = computed(() => !!sessionStorage.getItem('access_token'));
-const userId = computed(() => sessionStorage.getItem('user_id'));
-const loggedUserName = computed(() => sessionStorage.getItem('username'));
-const token = computed(() => sessionStorage.getItem('access_token'));
+const isAuthenticated = computed(() => !!localStorage.getItem('access_token'));
+const userId = computed(() => localStorage.getItem('user_id'));
+const loggedUserName = computed(() => localStorage.getItem('username'));
+const token = computed(() => localStorage.getItem('token'));
 
 const profileData = ref([]);
 const router = useRouter();
@@ -77,15 +77,23 @@ const updateProfile = async () => {
     // Create a new FormData object
     const formData = new FormData();
 
-    // Append the profile data
-    Object.entries(profileData.value).forEach(([key, value]) => {
-      formData.append(key, value);
-    });
+    formData.append('name', profileData.value.name);
+    formData.append('email', profileData.value.email);
+    formData.append('username', profileData.value.username);
+    formData.append('location', profileData.value.location);
+    formData.append('short_intro', profileData.value.short_intro);
+    formData.append('bio', profileData.value.bio);
+    formData.append('social_github', profileData.value.social_github);
+    formData.append('social_twitter', profileData.value.social_twitter);
+    formData.append('social_vk', profileData.value.social_vk);
+    formData.append('social_youtube', profileData.value.social_youtube);
+    formData.append('social_website', profileData.value.social_website);
 
-   
     if (selectedImage.value) {
       formData.append('profile_image', selectedImage.value);
     };
+
+
 
 
     await axios.patch(`http://somebodyhire.me/api/profile/${userId.value}/`, formData, { headers });
@@ -110,8 +118,8 @@ onMounted(async() => {
     <div class="profile-container">
         <h1>User Profile: {{ loggedUserName }}</h1>
         <!-- 
-          Это поле, в которое выводится весь обмен, происходящий между клиентом и сервером. Нужно для отладки.
-          <textarea readonly v-model="debugText"></textarea> -->
+          Это поле, в которое выводится весь обмен, происходящий между клиентом и сервером. Нужно для отладки.-->
+          <textarea readonly v-model="debugText"></textarea> 
 
         <!-- Событие происходит в момент загрузки файла. В этот момент в переменную selectedImage записывается файл, который был выбран. -->
         <img class="project-image" :src="profileData.profile_image" alt="Profile image">
@@ -133,6 +141,7 @@ onMounted(async() => {
         <button @click="cancelUpdate" class="btn-cancel">Отменить</button>
         </div>
     </div>
+    <DefaultFooter />
 </template>
 
 
@@ -148,9 +157,9 @@ onMounted(async() => {
 }
 
 .profile-container img {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
+  width: 50%;
+  height: auto;
+  border-radius: 5px;
   object-fit: cover;
   margin-bottom: 20px;
 }

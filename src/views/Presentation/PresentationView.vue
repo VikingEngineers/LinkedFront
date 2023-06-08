@@ -28,12 +28,7 @@ const search = async () => {
   }
 };
 
-//Это блок для работы с хранилищем сессии - мы перешли на локальнуое хранилище
-// const isAuthenticated = computed(() => !!sessionStorage.getItem('access_token')); 
-// const userId = computed(() => sessionStorage.getItem('user_id'));
-// const loggedUserName = computed(() => sessionStorage.getItem('username'));
-// const isStaff = computed(() => sessionStorage.getItem('is_staff'));
-// const token = computed(() => sessionStorage.getItem('token'));
+
 
 //Тут мы попробуем использовать local storage потому что оно должно работать между вкладками
 const isAuthenticatedLocal = computed(() => !!localStorage.getItem('access_token')); 
@@ -145,7 +140,7 @@ export default {
       </div>
     </div>
         <div class="btn_link-container">
-        <a :href="`project/${project.id}`" class="btn_link">Страница проекта</a>
+        <a :href="`project/${project.id}`" class="btn_link">Посмотреть</a>
       </div>
       </div>
     </div>
@@ -165,14 +160,14 @@ export default {
         
         <div class="btn_link-container">
 
-        <a :href="`/profile/${user.id}`" class="btn_link">Страница пользователя</a>
-        <a :href="`/message-to/${user.id}`" class="btn_link">Написать сообщение</a>
-        <RouterLink :style="{fontSize: '20px'}"
-                  :to="{ name: 'send-message' }"
-                  class="dropdown-item border-radius-md"
+        <a :href="`/profile/${user.id}`" class="btn_link">Открыть</a>
+        <a :href="`/message-to/${user.id}`" class="btn_link">Написать</a>
+        <!-- <RouterLink :style="{fontSize: '16px'}"
+                  :to="{ name: 'message-to' }"
+                  class="btn_link"
                   >
-                  Написать сообщение
-                </RouterLink> 
+                  Написать
+                </RouterLink>  -->
       </div>
     </div>
     </div>

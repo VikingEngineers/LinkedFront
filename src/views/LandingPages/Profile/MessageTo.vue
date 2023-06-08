@@ -74,17 +74,17 @@ const search = async () => {
   };
 
 const findUsername = (id) => {
-    const user = searchResultUsers.value.find((user) => user.id === id);
-    return user.name;
-  };
+    const user = searchResultUsers.value.find((user) => user.id == id);
+    return user ? user.username : '';
+};
 
 const cancelCreate = () => {
     router.push('/send-message');
 };
 
-onMounted(() => {
+onMounted(async() => {
     recipientId.value = route.params.id;
-    search();
+    await search();
 });
 </script>
 
@@ -92,38 +92,13 @@ onMounted(() => {
 <template>
     <NavbarDefault />
     <div class="profile-container" :style="{ fontWeight: '900',  fontFamily: 'monospace' }">
-      <!-- <h2>Сообщение {{ findUsername(recipientId) }} от {{ userId }}</h2> -->
-      <h3>Сообщение {{ recipientId }} от {{ userId }} </h3>
-      <!-- <p>{{ findUsername(1) }} </p> -->
-        <textarea readonly v-model="debugText"></textarea>
-       <!--  <input type="text" v-model="messageData.sender" placeholder="Title"> -->
-        <!-- <input type="text" v-model="messageData.recipient" placeholder="Кому отправить сообщение?"> -->
-        <!-- <textarea v-model="messageData.name" placeholder="Link to featured image"></textarea> -->
-        <!-- <textarea v-model="messageData.email" placeholder="В"></textarea> -->
+      <h3>Сообщение {{ findUsername(recipientId ) }} от {{ findUsername(userId) }} </h3>
         <input v-model="messageData.subject" placeholder="Введите тему сообщения">
         <textarea v-model="messageData.body" placeholder="Напишите текст сообщения"></textarea>
         <button @click="sendMessage" class="btn-submit">SUBMIT</button>
         <button @click="cancelCreate" class="btn-cancel">CANCEL</button>
     </div>
-
-<!--     <div class="profile-container" :style="{fontWeight: '900',  fontFamily: 'monospace' }">
-      <h2 :style="{ fontSize: '27px', fontWeight: '900',  fontFamily: 'PressStart2P, sans-serif' }">{{ profileData.username }}</h2>
-        <img :src="profileData.profile_image" alt="Profile Image">
-        <p :style="{ fontSize: '24px'}">{{ profileData.email }}</p>
-        <div class="social-link" :style="{ fontSize: '12px', fontWeight: '500',  fontFamily: 'PressStart2P, sans-serif' }">
-          <a :href="`${profileData.social_github}`" target="_blank" >GitHub</a>
-          <a :href="`${profileData.social_twitter}`" target="_blank" >Twitter</a>
-          <a :href="`${profileData.social_vk}`" target="_blank" >VK</a>
-          <a :href="`${profileData.social_youtube}`" target="_blank" >YouTube</a>
-          <a :href="`${profileData.social_website}`" target="_blank" >Мой сайт</a>
-        </div>
-        <div class="text-container">
-        <p :style="{ fontSize: '24px'}">Местоположение: {{ profileData.location }}</p>
-        <p :style="{ fontSize: '24px'}">Краткое описание: {{ profileData.short_intro }}</p>
-        <p :style="{ fontSize: '24px'}">Биография: {{ profileData.bio }}</p>
-        <a :href="`/editmyprofile`" class="btn_link">Редактировать профиль</a>
-      </div>
-    </div> -->
+    <DefaultFooter />
   </template> 
 
 

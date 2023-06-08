@@ -31,23 +31,22 @@ onMounted(() => {
 
 <template>
 <NavbarDefault />
-  <div>
-    
+
     <!-- <h2 class="result-header">Найдено людей: {{ searchResultUsers.length}} </h2> -->
     <div class="result-grid" :style="{ fontWeight: '900',  fontFamily: 'monospace' }">
       <div class="result-card" v-for="user in searchResultUsers" :key="user.id">
-        <h3 class="profile-name" >{{ user.username }}</h3>
+        <h3 :style="{ fontWeight: '900',  fontFamily: 'monospace' }" class="profile-name" >{{ user.username }}</h3>
         <img class="profile-image" :src="user.profile_image" alt="Featured image">
         <p>{{ user.email }}</p>
         <div class="btn_link-container">
-        <a class="btn_link" :href="`/profile/${user.id}`">Открыть профиль</a>
-        <a class="btn_link" :href="`/profile/${user.id}`">Отправить сообщение</a>
+        <a class="btn_link" :href="`/profile/${user.id}`">Открыть</a>
+        <a class="btn_link" :href="`/profile/${user.id}`">Написать</a>
       </div>
       </div>
     </div>
-  </div>
 
 
+    <DefaultFooter />
   </template>
 
 <style scoped>
@@ -104,6 +103,7 @@ border-radius: 15px;
   display: flex;
   flex-wrap: wrap;
   justify-content:left;
+  padding-left: 5%;
 }
 
 .result-card {
@@ -122,6 +122,35 @@ border-radius: 15px;
   padding-bottom:10%;
   text-align: center;
 }
+
+@media screen and (max-width: 992px) {
+  .result-grid {
+    padding-right:80px;
+  }
+  .result-card {
+    width: calc(100% / 2 - 20px);
+    padding-bottom:20%;
+    margin: 10px 10px;
+  }
+  .searchButton{
+    width: 20%;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .result-grid {
+    padding-right:80px;
+  }
+  .result-card {
+    width: calc(100% / 2 - 20px);
+    padding-bottom:20%;
+    margin: 10px 10px;
+  }
+  .searchButton{
+    width: 20%;
+  }
+}
+
 .profile-name{
   padding-bottom: 15px;
 }
@@ -145,10 +174,10 @@ p{
   font-weight: 500;
 }
 .profile-image {
-  width: 100px;
-  height: 95px;
+  width: auto;
+  height: 100px;
   margin-bottom: 20px;
-  border-radius: 50%;
+  border-radius: 5px;
   border: 2px solid #4ea852e0;
   box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.7);
 }
@@ -181,34 +210,7 @@ p{
   margin-top: 5%;
   margin-bottom: 5%;
 }
-@media screen and (max-width: 992px) {
-  .result-grid {
-    padding-right:80px;
-  }
 
-  .result-card-profile {
-    width: calc(100% / 2 - 20px);
-    padding-bottom:20%;
-    margin: 10px 10px;
-  }
-  .searchButton{
-    width: 20%;
-  }
-}
-
-@media screen and (max-width: 600px) {
-  .result-grid {
-    padding-right:80px;
-  }
-  .result-card-profile {
-    width: calc(100% / 2 - 20px);
-    padding-bottom:20%;
-    margin: 10px 10px;
-  }
-  .searchButton{
-    width: 20%;
-  }
-}
 
 @media screen and (max-width: 600px) {
   .result-card {

@@ -7,11 +7,9 @@ import NavbarDefault from '../../../examples/navbars/NavbarDefault.vue';
 const profileId = ref(null);
 const route = useRoute();
 const profileData = ref([]);
+const skillsData = ref([]);
 
-onMounted(async() => {
-    profileId.value = route.params.id;
-    await getProfile();
-});
+/* const projectsData = ref([]); */
 
 
 const getProfile = async () => {
@@ -19,6 +17,25 @@ const getProfile = async () => {
     profileData.value = processProfileData(profileDataRecieved.data);
 
 };
+
+const getSkills = async () => {
+    const skillsDataRecieved = await axios.get(`http://somebodyhire.me/api/profile/${profileId.value}/skills/`);
+    skillsData.value = skillsDataRecieved.data;
+};
+
+
+/* const fetchProjects = async () => {
+    const projectDataRecieved = await axios.get(`http://somebodyhire.me/api/search/projects/${profileId.value}`);
+    projectsData.value = processProjectsData(projectDataRecieved.data); 
+
+    const projectsResponse = await axios.get(`http://somebodyhire.me/api/search/projects/?search_query=${searchQuery.value}`);
+    searchResultProjects.value = projectsResponse.data;
+};
+
+const filteredProjects = computed(() => {
+  return searchResultProjects.value.filter(project => project.owner == profileId.value);
+});
+ */
 const processProfileData = (data) => {
     return {
         ...data,
@@ -33,8 +50,21 @@ const processProfileData = (data) => {
         social_youtube: data.social_youtube || '▶️ No YouTube Provided',
         social_website: data.social_website || '🌐 No Website Provided',
     };
-};
+  }
 
+/* const processProjectsData = (data) => {
+    return {
+        ...data,
+        title: data.name || '🤷 No Name Provided',
+    };
+}; */
+
+onMounted(async() => {
+    profileId.value = route.params.id;
+    await getProfile();
+    await getSkills();
+    /* await fetchProjects(); */
+});
 
 </script>
 
@@ -42,55 +72,105 @@ const processProfileData = (data) => {
 <template>
   <NavbarDefault />
   <div class="profile-container" :style="{fontWeight: '900',  fontFamily: 'monospace' }">
-    <div class="centr-container">
-    <h1 :style="{ fontSize: '27px', fontWeight: '900',  fontFamily: 'PressStart2P, sans-serif' }">Профиль пользователя {{ profileData.username }}</h1>
+    <div class="profile-container1">
       <img :src="profileData.profile_image" alt="Profile Image">
-      <p :style="{fontSize: '18px'}">{{ profileData.email }}</p>
-    </div>
-      <P :style="{fontSize: '18px'}">Имя: {{ profileData.name }}</P>
-      <p :style="{fontSize: '18px'}">Местоположение: {{ profileData.location }}</p>
-      <p :style="{fontSize: '18px'}">Краткое описание: {{ profileData.short_intro }}</p>
-      <p :style="{fontSize: '18px'}">Биография: {{ profileData.bio }}</p>
-      <!--<p>Ссылка на изображение: {{ profileData.profile_image }}</p>-->
-      <p :style="{fontSize: '18px'}">GitHub: {{ profileData.social_github }}</p>
-      <p :style="{fontSize: '18px'}">Twitter: {{ profileData.social_twitter }}</p>
-      <p :style="{fontSize: '18px'}">VK: {{ profileData.social_vk }}</p>
-      <p :style="{fontSize: '18px'}">YouTube: {{ profileData.social_youtube }}</p>
-      <p :style="{fontSize: '18px'}">Мой сайт: {{ profileData.social_website }}</p>
-      <button >Отправить сообщение</button>
-      <RouterLink :style="{fontSize: '20px'}"
+      <p :style="{fontSize: '18px', marginLeft:'5%'}">{{ profileData.email }}</p>
+      <!-- <button >Отправить сообщение</button> -->
+      <div class="social-link" :style="{ fontSize: '12px', fontWeight: '500',  fontFamily: 'PressStart2P, sans-serif' }">
+        <a :href="`${profileData.social_github}`" target="_blank" >GitHub</a>
+        <a :href="`${profileData.social_twitter}`" target="_blank" >Twitter</a>
+        <a :href="`${profileData.social_vk}`" target="_blank" >VK</a>
+        <a :href="`${profileData.social_youtube}`" target="_blank" >YouTube</a>
+        <a :href="`${profileData.social_website}`" target="_blank" >Мой сайт</a>
+        <!-- <RouterLink :style="{fontSize: '10px'}"
                   :to="{ name: 'send-message' }"
-                  class="dropdown-item border-radius-md"
+                  class="btn_link"
                   >
                   Отправить сообщение
-                </RouterLink>
+                </RouterLink> -->
+        <router-link :style="{fontSize: '10px'}"
+                  :to="{ name: 'message-to', params: { id: route.params.id } }"
+                  class="btn_link"
+                  >
+                  Отправить сообщение
+                  </router-link>
+      </div>
+      
+    </div>
+
+      <div class="profile-container2">
+      <h1 :style="{ fontSize: '27px', fontWeight: '900',  fontFamily: 'PressStart2P, sans-serif' }">Профиль пользователя {{ profileData.username }}</h1>
+      <P :style="{fontSize: '20px'}">Имя: {{ profileData.name }}</P>
+      <p :style="{fontSize: '20px'}">Местоположение: {{ profileData.location }}</p>
+      <p :style="{fontSize: '20px'}">Краткое описание: {{ profileData.short_intro }}</p>
+      <p :style="{fontSize: '20px'}">Биография: {{ profileData.bio }}</p>
+      <p :style="{fontSize: '20px'}">Навыки:</p>
+      <p v-for = "skill in skillsData" :key="skill.id" :style="{fontSize: '16px'}">{{ skill.name }} ({{ skill.description }})</p>
+
+      
+      </div>
   </div>
+  <DefaultFooter />
 </template> 
 
 <style scoped>
 .profile-container {
-width: 50%;
+width: 90%;
+margin: 50px;
+/*padding: 15px 25px;
 margin: 5% 25%;
 padding: 20px 50px;
 box-shadow: 0px 0px 10px 0px rgba(6, 104, 14, 0.281);
 background-color: #ffffff57;
-border-radius: 10px;
+border-radius: 10px;*/
 }
+
+.profile-container1 {
+  width: 45%;
+float: left;
+flex-direction: column;
+text-align: center;
+  }
+.profile-container2 {
+    width: 55%;
+float: right;
+flex-direction: column;
+    }
+
+.social-link {
+  margin-left: 25%;
+  margin-bottom: 5%;
+  width: 50%;
+  flex-direction: column;
+  display: flex;
+  flex-wrap: wrap;
+  text-align: center;
+  }
+.social-link a{
+  margin: 3% ;
+  border-radius: 5px;
+  border: 2px solid #4ea852e0;
+  width: 20vw;
+  padding: 1%;
+  }
+    
 .profile-container p{
  margin-left: 10%;
   }
-.centr-container{
+/*.centr-container{
   text-align: center;
 }
 .centr-container p{
   margin-left: -0.5%;
   margin-bottom: 5%;
   font-weight: 700;
-}
+}*/
 .profile-container img {
-width: 150px;
-height: 150px;
-border-radius: 50%;
+width: auto;
+height: 20vw;
+border-radius: 5px;
+border: 2px solid #4ea852e0;
+box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.7);
 /*object-fit: cover;*/
 margin-bottom: 20px;
 }
@@ -100,6 +180,7 @@ h1,h2{
   color:rgb(70, 104, 105);
   font-weight: 800;
   text-align: center;
+  margin-bottom: 5%;
 }
 
 button{
@@ -133,5 +214,25 @@ button{
 button:hover{
   background-color: #6ac55e;
   color: rgb(61, 61, 61);
+}
+.btn_link {
+  /* Adds some padding inside the button */
+  padding: 10px;
+  /* Changes the font size */
+  font-size: 16px;
+  /* Changes the background color of the button */
+  background-color: #4EA852;
+  /* Changes the color of the text inside the button */
+  color: rgb(255, 255, 255);
+  /* Makes the border corners rounded */
+  border-radius: 5px;
+  /* Removes the default button border */
+  border: none;
+  /* Changes the cursor to a hand pointer when hovering over the button */
+  cursor: pointer;
+  width: 30vw;
+  margin-top: 10px;
+  margin-left: 30px;
+  text-align: center;
 }
 </style>

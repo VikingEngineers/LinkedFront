@@ -8,8 +8,8 @@ const searchQuery = ref('');
 const searchResultProjects = ref([]);
 const searchResultUsers = ref([]);
 
-const userId = computed(() => sessionStorage.getItem('user_id'));
-const username = computed(() => sessionStorage.getItem('username'));
+const userId = computed(() => localStorage.getItem('user_id'));
+const username = computed(() => localStorage.getItem('username'));
 
 const search = async () => {
   try {
@@ -37,58 +37,25 @@ onMounted(() => {
 <template>
   <NavbarDefault />
   <div>
-    <h2 class="result-header">Найдено проектов: {{ filteredProjects.length }} </h2>
-    <div class="result-grid">
+<!--     <h2 class="result-header">Найдено проектов: {{ filteredProjects.length }} </h2> -->
+    <div class="result-grid" :style="{ fontWeight: '900',  fontFamily: 'monospace' }">
       <div class="result-card" v-for="project in filteredProjects" :key="project.id">
-        <div class="project-title"> <h3>{{ project.title }}</h3></div>
+        <div class="project-title"> <h3 :style="{ fontWeight: '900',  fontFamily: 'monospace' }">{{ project.title }}</h3></div>
         <img class="project-image" :src="project.featured_image" alt="Featured image">
         <p>{{ project.description }}</p>
-        <a :href="`/project/${project.id}`">Страница проекта</a>
+        <div class="btn_link-container">
+          <a :href="`project/${project.id}`" class="btn_link">Посмотреть</a>
+        </div>
+        <!-- <a :href="`/project/${project.id}`">Страница проекта</a> -->
       </div>
     </div>
   </div>
+  <DefaultFooter />
 </template>
 
   
   <style scoped>
-  .searchBar {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
   
-  .searchInput {
-    /* Makes the search input take up the maximum available width */
-    flex-grow: 1;
-    /* Adds some padding inside the input field */
-    padding: 10px;
-    /* Adds some margin to the right side of the input field */
-    margin-right: 10px;
-    /* Increased the font size a bit */
-    font-size: 16px;
-  }
-  
-  .searchButton {
-    /* Adds some padding inside the button */
-    padding: 10px 20px;
-    /* Changes the font size */
-    font-size: 16px;
-    /* Changes the background color of the button */
-    background-color: #3d9132;
-    /* Changes the color of the text inside the button */
-    color: white;
-    /* Makes the border corners rounded */
-    border-radius: 4px;
-    /* Removes the default button border */
-    border: none;
-    /* Changes the cursor to a hand pointer when hovering over the button */
-    cursor: pointer;
-  }
-  
-  .searchButton:hover {
-    /* Changes the background color of the button when hovering over it */
-    background-color: #25581e;
-  }
   .result-header {
     color: #fff;
     background-color:#3d9132;
@@ -104,19 +71,52 @@ onMounted(() => {
     display: flex;
     flex-wrap: wrap;
     justify-content: left;
+    padding-left: 5%;
   }
   
   .result-card {
     display: flex;
-    flex-direction: column;
-    background-color: #3d913248;
-    padding: 10px;
-    margin: 10px;
-    border-radius: 10px;
-    width: calc(100% / 3 - 20px);
-    box-sizing: border-box;
-    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
-    align-items: center;
+  flex-direction: column;
+  /*background-color: #3d913248;*/
+  padding: 5px;
+  margin: 10px 20px;
+  border-radius: 10px;
+  border: 2px solid #4ea85280;
+  width: calc(90% / 3 - 20px);
+  box-sizing: border-box;
+  box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+  align-items: center;
+  position:relative;
+  padding-bottom:10%;
+  text-align: center;
+  }
+
+  @media screen and (max-width: 992px) {
+    .result-grid {
+      padding-right:80px;
+    }
+    .result-card {
+      width: calc(100% / 2 - 20px);
+      padding-bottom:20%;
+      margin: 10px 10px;
+    }
+    .searchButton{
+      width: 20%;
+    }
+  }
+  
+  @media screen and (max-width: 600px) {
+    .result-grid {
+      padding-right:80px;
+    }
+    .result-card {
+      width: calc(100% / 2 - 20px);
+      padding-bottom:20%;
+      margin: 10px 10px;
+    }
+    .searchButton{
+      width: 20%;
+    }
   }
   .project-title{
     padding-bottom: 25px;
@@ -152,6 +152,35 @@ onMounted(() => {
     .result-card {
       width: 100%;
     }
+  }
+  .btn_link {
+    /* Adds some padding inside the button */
+    padding: 10px;
+    /* Changes the font size */
+    font-size: 16px;
+    /* Changes the background color of the button */
+    background-color: #4EA852;
+    /* Changes the color of the text inside the button */
+    color: rgb(255, 255, 255);
+    /* Makes the border corners rounded */
+    border-radius: 5px;
+    /* Removes the default button border */
+    border: none;
+    /* Changes the cursor to a hand pointer when hovering over the button */
+    cursor: pointer;
+    width: 70%;
+    margin-top: 10px;
+    text-align: center;
+  }
+  .btn_link-container{
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    align-items: center;
+    position:absolute;
+    bottom:0;
+    margin-top: 5%;
+    margin-bottom: 5%;
   }
   
   .project-image {

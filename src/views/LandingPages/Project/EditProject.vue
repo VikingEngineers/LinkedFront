@@ -150,8 +150,8 @@ onMounted(async() => {
         <input type="text" v-model="projectData.description" placeholder="Description">
         <textarea v-model="projectData.demo_link" placeholder="Demo link"></textarea>
         <textarea v-model="projectData.source_link" placeholder="Source code link"></textarea>
-        <input type="number" v-model="projectData.likes" placeholder="Likes">
-        <!-- <textarea v-model="projectData.tags" placeholder="Tags"></textarea> -->
+        <!-- <input type="number" v-model="projectData.likes" placeholder="Likes"> -->
+        <textarea v-model="projectData.tags" placeholder="Tags"></textarea>
 
         <div>
         <button @click="updateProject" class="btn-submit">Сохранить</button>
@@ -162,6 +162,7 @@ onMounted(async() => {
 
         </div>
     </div>
+    <DefaultFooter />
 </template>
 
 
@@ -177,9 +178,9 @@ onMounted(async() => {
 }
 
 .profile-container img {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
+  width: auto;
+  height: 30vw;
+  border-radius: 5px;
   object-fit: cover;
   margin-bottom: 20px;
 }
