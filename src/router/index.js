@@ -16,6 +16,7 @@ import MyProjects from "../views/LandingPages/Project/MyProjects.vue";
 import Message from "../views/LandingPages/Profile/Message.vue";
 import FormMessage from "../views/LandingPages/Profile/FormMessage.vue";
 import MessageTo from "../views/LandingPages/Profile/MessageTo.vue";
+import MessageTo from "../viewsPresentation/404.vue";
 
 
 const router = createRouter({
@@ -119,7 +120,11 @@ const router = createRouter({
       name: "message-to",
       component: MessageTo,
     },
-    
+    {
+      path: "/404",
+      name: "pageError",
+      component: 404,
+    },
 
 
   ],
