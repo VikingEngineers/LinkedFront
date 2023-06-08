@@ -124,12 +124,13 @@ const search = async () => {
                 <input name="username" readonly placeholder="Ваше имя" :value="loggedUserName" />
                 <textarea name="comment" v-model="commentData.body" placeholder="Напишите комментарий"></textarea>
                 <button class="btn-link" @click="postComment">Отправить</button>
-                <h3 :style="{ fontWeight: '500',  fontFamily: 'PressStart2P, sans-serif' }">Feedback</h3>
+                
+              </div>
+            </div>
+            <h3 :style="{ fontWeight: '500',  fontFamily: 'PressStart2P, sans-serif' }">Feedback</h3>
                 <p v-for = "(review, index) in ProjectReviews" :key="index" >
                   <p class="project-review">{{ findUsername(review.owner) }}  :  {{ review.body }}</p>
                 </p>
-              </div>
-            </div>
           </div>
         
 
