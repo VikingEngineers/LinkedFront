@@ -193,6 +193,8 @@ export default {
   /*border: 2px solid #4EA852;*/
   border-radius: 5px;
   width: 100%;
+  outline: none;
+
 }
 
 .logo {
@@ -215,7 +217,49 @@ export default {
 
 .nav-item {
   position: relative;
+  display: inline-block;
   cursor: pointer;
+}
+
+.dropdown {
+  /*display: block;;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #ffffffa6;
+  padding: 1rem;
+  border-radius: 5px;*/
+  display: none;
+position: absolute;
+background-color: #4EA852da;
+min-width: 160px;
+box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+padding: 12px 16px;
+z-index: 1;
+border-radius: 5px;
+}
+
+.nav-item:hover .dropdown {
+  display: block;
+}
+
+@media (max-width: 1024px) {
+  .nav-wrapper-new {
+  display: flex;
+   justify-content: space-between;
+   padding: 0 15px;
+   top:70px;
+   left:0;
+   width: 100%;
+  }
+  .nav-links {
+    flex-direction: row;
+    gap: 1rem;
+  }
+  .dropdown {
+    position: absolute;
+    top: auto;
+  }
 }
 
 .btn{
@@ -231,35 +275,5 @@ export default {
   margin-top: 10px;
 }
 
-.dropdown {
-  display: none;
-  position: relative;
-  top: 100%;
-  left: 0;
-  background-color: #ffffffa6;
-  padding: 1rem;
-  border-radius: 5px;
-}
 
-.nav-item:hover .dropdown {
-  display: block;
-}
-
-@media (max-width: 1024px) {
-  .nav-wrapper-new {
-    display: flex; /* Включаем режим Flexbox. */
-    flex-direction: row; /* Держим элементы в строке */
-    justify-content: space-between; /* Распределяем элементы внутри шапки */
-    flex-wrap: wrap; /* Разрешаем перенос элементов на новую строку */
-  }
-
-  .nav-links {
-    flex-direction: row;
-    gap: 1rem;
-  }
-  .dropdown {
-    position: relative;
-    top: auto;
-  }
-}
 </style>

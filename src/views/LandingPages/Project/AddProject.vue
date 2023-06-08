@@ -21,6 +21,7 @@ const projectData = ref({
 });
 
 const router = useRouter();
+const selectedImage = ref(null);
 
 const debugText = ref('');
 
@@ -61,21 +62,25 @@ const createProject = async () => {
 const cancelCreate = () => {
     router.push('/projects');
 };
-
+const onFileChange = (event) => {
+    selectedImage.value = event.target.files[0];
+    debugText.value = `Selected image: ${selectedImage.value.name}`;
+};
 </script>
 
 <template>
     <NavbarDefault />
     <div class="profile-container">
-      <h1>Create a Project for {{ loggedUserName }}</h1>
-        <textarea readonly v-model="debugText"></textarea>
-        <input type="text" v-model="projectData.title" placeholder="Title">
-        <input type="text" v-model="projectData.description" placeholder="Description">
-        <textarea v-model="projectData.featured_image" placeholder="Link to featured image"></textarea>
-        <textarea v-model="projectData.demo_link" placeholder="Demo link"></textarea>
-        <textarea v-model="projectData.source_link" placeholder="Source code link"></textarea>
-        <button @click="createProject" class="btn-submit">Submit</button>
-        <button @click="cancelCreate" class="btn-cancel">Cancel</button>
+      <h1>Создание проекта для {{ loggedUserName }}</h1>
+        <!-- <textarea readonly v-model="debugText"></textarea> -->
+        <input type="text" v-model="projectData.title" placeholder="Добавьте название проекта">
+        <input type="text" v-model="projectData.description" placeholder="Добавьте описание проекта">
+        <input v-model="projectData.featured_image" placeholder="Link to featured image">
+        <input type="file" accept="image/*" @change="onFileChange" placeholder="Link to featured image">
+        <textarea v-model="projectData.demo_link" placeholder="Ссылка на демонстрацию проекта"></textarea>
+        <textarea v-model="projectData.source_link" placeholder="Ссылка на исходный код"></textarea>
+        <button @click="createProject" class="btn-submit">Подтвердить</button>
+        <button @click="cancelCreate" class="btn-cancel">Отменить</button>
     </div>
 </template>
 

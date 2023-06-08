@@ -85,85 +85,89 @@ const search = async () => {
     }
   };
 
-
-
-
-
 </script>
 
 
 <template>
   <NavbarDefault />
-    <div v-if="projectData" class="project-container" :style="{fontWeight: '900',  fontFamily: 'monospace' }">
-      <h1 class="subtitle" :style="{ fontWeight: '500',  fontFamily: 'PressStart2P, sans-serif' }">{{ projectData.title }}</h1>
-      <div v-if = "projectData.owner == userId" class="project-owner-note">
-        <a :href="`/editproject/${projectData.id}`">Редактирование проекта</a>
+    <div class="project-container" :style="{fontWeight: '900',  fontFamily: 'monospace' }">
+      <div class="project-container1" v-if="projectData" >
+        <p class="project-tags"> 
+          <span v-for="(tag, index) in projectData.tags" :key="index" class="project-tag">
+            {{ tag }}<span v-if="index < projectData.tags.length - 1">, </span>
+          </span>
+          </p>
+        <a v-if="projectData.demo_link" class="project-link" target="_blank" :href="projectData.demo_link">Demo Live</a>
+        <a v-if="projectData.source_link" class="project-link" target="_blank" :href="projectData.source_link">Source Code</a>
+        <p  class="project-votes">Количество лайкнувших:{{ projectData.likes }} </p>
+        <div v-if = "projectData.owner == userId" class="project-owner-note">
+          <a class="btn_link" :href="`/editproject/${projectData.id}`">Редактирование проекта</a>
+        </div>
+      <div class="btn_link-container">
+        <button v-if = "projectData.owner != userId"  class="button_like" > Нравится </button>
+        <button v-if = "projectData.owner != userId"  class="button_dislike"> Не нравится </button>
       </div>
-      <img class="project-image" :src="projectData.featured_image" alt="Featured image">
-      <p class="project-description">{{ projectData.description }}</p>
-      <a v-if="projectData.demo_link" class="project-link" target="_blank" :href="projectData.demo_link">Demo Link</a>
-      <a v-if="projectData.source_link" class="project-link" target="_blank" :href="projectData.source_link">Source Link</a>
+      
+      </div>
+        <div class="project-container2" v-if="projectData" >
+          <h1 class="subtitle" :style="{ fontWeight: '500',  fontFamily: 'PressStart2P, sans-serif' }">{{ projectData.title }}</h1>
+          <img class="project-image" :src="projectData.featured_image" alt="Featured image">
+          <p class="project-created">Created On: {{ new Date(projectData.created).toLocaleDateString() }}</p>
+          
+            <p class="project-description">{{ projectData.description }}</p>
+            <div v-if = "projectData.owner != userId" class="project-owner-note">
+                
+                <!-- <p>
+                  {{ debugText  }}
+                </p> -->
+                <div class="feedback" :style="{fontWeight: '200',  fontFamily: 'monospace' }">
+                <input name="username" readonly placeholder="Ваше имя" :value="loggedUserName" />
+                <textarea name="comment" v-model="commentData.body" placeholder="Напишите комментарий"></textarea>
+                <button class="btn-link" @click="postComment">Отправить</button>
+                <h3 :style="{ fontWeight: '500',  fontFamily: 'PressStart2P, sans-serif' }">Feedback</h3>
+                <p v-for = "(review, index) in ProjectReviews" :key="index" >
+                  <p class="project-review">{{ findUsername(review.owner) }}  :  {{ review.body }}</p>
+                </p>
+              </div>
+            </div>
+          </div>
+        
 
-
-      <p  class="project-votes">Понравилось {{ projectData.likes }} пользователей</p>
-      <p class="project-created">Created On: {{ new Date(projectData.created).toLocaleDateString() }}</p>
-
-        <button v-if = "projectData.owner != userId"  class="button_like">
-          Нравится
-        </button>
-
-        <button v-if = "projectData.owner != userId"  class="button_dislike">
-          Не нравится
-        </button>
-      <p class="project-tags"> 
-        <span v-for="(tag, index) in projectData.tags" :key="index" class="project-tag">
-          {{ tag }}<span v-if="index < projectData.tags.length - 1">, </span>
-        </span>
-        </p>
-
-      <p v-for = "(review, index) in ProjectReviews" :key="index" class="project-review">
-        <p>От пользователя {{ findUsername(review.owner) }}  : </p>
-
-        {{ review.body }}
-      </p>
-
-      <div v-if = "projectData.owner != userId" class="project-owner-note">
-      <h3 :style="{ fontWeight: '500',  fontFamily: 'PressStart2P, sans-serif' }">Feedback</h3>
-      <!-- <p>
-        {{ debugText  }}
-      </p> -->
-      <div class="feedback" :style="{fontWeight: '200',  fontFamily: 'monospace' }">
-      <input name="username" readonly placeholder="Ваше имя" :value="loggedUserName" />
-      <textarea name="comment" v-model="commentData.body" placeholder="Напишите комментарий"></textarea>
-      <button class="button" @click="postComment">Отправить</button>
     </div>
-      </div>
-  </div>
+  
 </template> 
 
 
 <style scoped>
 .project-container {
-  margin: 20px 450px;
-  padding: 15px 5px;
+  margin: 20px 50px;
+  padding: 15px 25px;
   /*border: 1px solid #ddd;
   border-radius: 5px;
-  background-color: #3d913257;*/
+  background-color: #3d913257;
   border-radius: 10px;
   align-items: center;
-  text-align: center;
-  width: 50%;
+  text-align: center;*/
+  width: 90%;
+}
+.project-container1 {
+  width: 30%;
+float: left;
+
+}
+.project-container2 {
+  width: 70%;
+float: right;
 }
 .feedback {
-  margin: 10px 30px;
+  margin: 10px 0px;
   padding: 10px 0;
   flex-direction: column;
   width: 100%;
 }
-input, textarea, select, option{
+input, textarea{
   border: 1px solid #3d913257;
   border-radius: 5px;
-  border-radius: 10px;
   width: 60%;
   margin-bottom: 1%;
   padding: 1%;
@@ -181,6 +185,15 @@ input, textarea, select, option{
   color: #555;
 }
 
+.project-review {
+  font-size: 20px;
+  color: #555;
+  border-radius: 5px;
+  border: 1px solid #4EA852;
+  width: 60%;
+  padding-left: 1%;
+}
+
 .project-owner-note {
   font-size: 16px;
   color: #777;
@@ -191,24 +204,26 @@ input, textarea, select, option{
   font-size: 16px;
   color: #333;
   margin-bottom: 20px;
+  width: 60%;
 }
 
 .project-image {
-  width: 100%;
+  width: 40%;
   height: auto;
   margin-bottom: 20px;
 }
 
 .project-link{
-  font-size: 16px;
-  color: #337ab7;
+  font-size: 20px;
+  color:rgb(70, 104, 105);
   text-decoration: none;
-  margin: 5%;
+  padding-right: 5%;
 }
 
 .project-votes, .project-vote-ratio, .project-created, .project-owner-id {
-  font-size: 14px;
+  font-size: 18px;
   color: #777;
+  margin-top: 2%;
 }
 
 .project-tags {
@@ -242,36 +257,87 @@ button
   margin-bottom: 10px;
   padding: 5px;
   display: inline-block;
+  border: none;
 }
 
 
 button:hover{
-  background-color: #6ac55e;
+  background-color: rgb(206, 206, 206);
   color: rgb(61, 61, 61);
 }
-
+.btn_link {
+  /* Adds some padding inside the button */
+  padding: 10px;
+  /* Changes the font size */
+  font-size: 16px;
+  /* Changes the background color of the button */
+  background-color: #4EA852;
+  /* Changes the color of the text inside the button */
+  color: rgb(255, 255, 255);
+  /* Makes the border corners rounded */
+  border-radius: 5px;
+  /* Removes the default button border */
+  border: none;
+  /* Changes the cursor to a hand pointer when hovering over the button */
+  cursor: pointer;
+  width: 70%;
+  margin-top: 10px;
+  text-align: center;
+}
 .button_like{
-  background-color: #3d9132;
-  border-radius: 10px;
+  background-color: #4EA852;
   text-align: center;
   color: rgb(255, 255, 255);
   font-weight: 500;
-  width: 60%;
+  width: 51%;
   margin-bottom: 10px;
-  padding: 5px;
   display: inline-block;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: none;
+  /* Changes the cursor to a hand pointer when hovering over the button */
+  cursor: pointer;
+  margin-top: 10px;
+  text-align: center;
 }
 
 .button_dislike{
   background-color: #913d32;
-  border-radius: 10px;
   text-align: center;
   color: rgb(255, 255, 255);
   font-weight: 500;
-  width: 60%;
+  width: 51%;
   margin-bottom: 10px;
-  padding: 5px;
   display: inline-block;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: none;
+  /* Changes the cursor to a hand pointer when hovering over the button */
+  cursor: pointer;
+  margin-top: 5px;
+  text-align: center;
+}
+
+.btn_link {
+  /* Adds some padding inside the button */
+  padding: 10px;
+  /* Changes the font size */
+  font-size: 16px;
+  /* Changes the background color of the button */
+  background-color: #4EA852;
+  /* Changes the color of the text inside the button */
+  color: rgb(255, 255, 255);
+  /* Makes the border corners rounded */
+  border-radius: 5px;
+  /* Removes the default button border */
+  border: none;
+  /* Changes the cursor to a hand pointer when hovering over the button */
+  cursor: pointer;
+  width: 70%;
+  margin-top: 10px;
+  text-align: center;
 }
 </style>
   
