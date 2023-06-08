@@ -62,22 +62,48 @@ const cancelCreate = () => {
     router.push('/send-message');
 };
 
+
+const searchQuery = ref('');
+const searchResultProjects = ref([]);
+const searchResultUsers = ref([]);
+
+const search = async () => {
+  try {
+    const projectsResponse = await axios.get(`http://somebodyhire.me/api/search/projects/?search_query=${searchQuery.value}`);
+    searchResultProjects.value = projectsResponse.data;
+
+    const usersResponse = await axios.get(`http://somebodyhire.me/api/search/profiles/?search_query=${searchQuery.value}`);
+    searchResultUsers.value = usersResponse.data;
+  } catch (error) {
+    console.error('There was an error fetching the search results', error);
+  }
+};
+
+
+onMounted(() => {
+  search();
+});
 </script>
 
 
 <template>
     <NavbarDefault />
     <div class="profile-container" :style="{ fontWeight: '900',  fontFamily: 'monospace' }">
-      <h1>Здесь можно написать сообщение</h1>
+      <h1 :style="{ fontWeight: '900',  fontFamily: 'PressStart2P, sans-serif' }">Здесь можно отправить сообщение</h1>
         <textarea readonly v-model="debugText"></textarea>
        <!--  <input type="text" v-model="messageData.sender" placeholder="Title"> -->
-        <input type="text" v-model="messageData.recipient" placeholder="Кому отправить сообщение?">
+        <!-- <input type="text" v-model="messageData.recipient" placeholder="Кому отправить сообщение?"> -->
         <!-- <textarea v-model="messageData.name" placeholder="Link to featured image"></textarea> -->
         <!-- <textarea v-model="messageData.email" placeholder="В"></textarea> -->
+        <select>
+          <option v-for="user in searchResultUsers" :key="user.id" >{{ user.username }}</option>
+        </select>
         <input v-model="messageData.subject" placeholder="Введите тему сообщения">
         <textarea v-model="messageData.body" placeholder="Напишите текст сообщения"></textarea>
-        <button @click="sendMessage" class="btn-submit">SUBMIT</button>
-        <button @click="cancelCreate" class="btn-cancel">CANCEL</button>
+      <div class="btn-container">
+        <button @click="sendMessage" class="btn-link">ОТПРАВИТЬ</button>
+        <button @click="cancelCreate" class="btn-link">ОТМЕНИТЬ</button>
+      </div>
     </div>
 
 <!--     <div class="profile-container" :style="{fontWeight: '900',  fontFamily: 'monospace' }">
@@ -117,8 +143,7 @@ const cancelCreate = () => {
   display: flex;
   flex-wrap: wrap;
 }
-
-.profile-container input, .profile-container textarea {
+.profile-container input, .profile-container textarea, .profile-container select, .profile-container option {
   width: 100%; /* Make inputs and textareas take up the full width of the container */
   padding: 10px; /* Add some padding */
   margin-bottom: 15px; /* Add some margin */
@@ -126,46 +151,19 @@ const cancelCreate = () => {
   border: 1px solid #2ca33c; /* Add a border */
   border-radius: 5px; /* Add rounded corners */
 }
-.text-container {
-  width: 90%;
-  margin-left: 9%;
-  background-color: #ffffff57;
-  border-radius: 10px;
-  text-align: left;
-  margin-bottom: 30px;
-}
-.social-link {
-  margin-left: 5%;
-  width: 100%;
-  flex-direction: row;
-  display: flex;
-  flex-wrap: wrap;
-  text-align: center;
-  }
-.social-link a{
-margin: 3% 4%;
-border-radius: 5px;
-border: 2px solid #4ea852e0;
-padding: 7px;
-}
+
 @media screen and (max-width: 992px) {
   .profile-container {
     width: 90%;
   }
-  .text-container {
-    width: 70%;
-    margin: 5% 15%;
-  }
+
 }
 
 @media screen and (max-width: 600px) {
   .profile-container {
     width: 90%;
   }
-  .text-container {
-    width: 70%;
-    margin: 5% 15%;
-  }
+
 }
 .profile-container img {
   width: 250px;
@@ -177,44 +175,32 @@ padding: 7px;
 }
 
 h1,h2{
-  /*font-family: 'PressStart2P';*/
   color:rgb(70, 104, 105);
-  font-weight: 800;
   text-align: center;
   margin-bottom: 3%;
+  font-size: 26px;
 }
-
+.btn-container{
+  flex-direction: row;
+  width: 100%;
+}
 button{
-  background-color: #3d9132;
-  border-radius: 10px;
+  background-color: #4CAF50;
+  border-radius: 5px;
+  border: #4CAF50;
   text-align: center;
   color: rgb(255, 255, 255);
   font-weight: 500;
-  width: 50%;
+  width: 15%;
   margin-bottom: 10px;
+  margin-right: 10px;
+  padding: 1%;
 }
 button:hover{
-  background-color: #6ac55e;
-  color: rgb(61, 61, 61);
+  background-color: #4caf4f5d;
+  border: #4CAF50;
+  color: rgb(27, 27, 27);
 }
-.btn_link {
-  /* Adds some padding inside the button */
-  padding: 10px 20px;
-  /* Changes the font size */
-  font-size: 16px;
-  /* Changes the background color of the button */
-  background-color: #4EA852;
-  /* Changes the color of the text inside the button */
-  color: rgb(255, 255, 255);
-  /* Makes the border corners rounded */
-  border-radius: 5px;
-  /* Removes the default button border */
-  border: none;
-  /* Changes the cursor to a hand pointer when hovering over the button */
-  cursor: pointer;
-  width: 70%;
-  margin-top: 20px;
-  text-align: center;
-}
+
 
 </style>

@@ -92,11 +92,13 @@ onMounted(async() => {
 <template>
     <NavbarDefault />
     <div class="profile-container" :style="{ fontWeight: '900',  fontFamily: 'monospace' }">
-      <h3>Сообщение {{ findUsername(recipientId ) }} от {{ findUsername(userId) }} </h3>
+      <h3 :style="{ fontWeight: '800',  fontFamily: 'PressStart2P, sans-serif' }">Сообщение {{ findUsername(recipientId ) }} от {{ findUsername(userId) }} </h3>
         <input v-model="messageData.subject" placeholder="Введите тему сообщения">
         <textarea v-model="messageData.body" placeholder="Напишите текст сообщения"></textarea>
-        <button @click="sendMessage" class="btn-submit">SUBMIT</button>
-        <button @click="cancelCreate" class="btn-cancel">CANCEL</button>
+        <div class="btn-container">
+        <button @click="sendMessage" class="btn-submit">ОТПРАВИТЬ</button>
+        <button @click="cancelCreate" class="btn-cancel">ОТМЕНИТЬ</button>
+      </div>
     </div>
     <DefaultFooter />
   </template> 
@@ -126,28 +128,7 @@ onMounted(async() => {
   border: 1px solid #2ca33c; /* Add a border */
   border-radius: 5px; /* Add rounded corners */
 }
-.text-container {
-  width: 90%;
-  margin-left: 9%;
-  background-color: #ffffff57;
-  border-radius: 10px;
-  text-align: left;
-  margin-bottom: 30px;
-}
-.social-link {
-  margin-left: 5%;
-  width: 100%;
-  flex-direction: row;
-  display: flex;
-  flex-wrap: wrap;
-  text-align: center;
-  }
-.social-link a{
-margin: 3% 4%;
-border-radius: 5px;
-border: 2px solid #4ea852e0;
-padding: 7px;
-}
+
 @media screen and (max-width: 992px) {
   .profile-container {
     width: 90%;
@@ -184,37 +165,26 @@ h1,h2{
   margin-bottom: 3%;
 }
 
+.btn-container{
+  flex-direction: row;
+  width: 100%;
+}
 button{
-  background-color: #3d9132;
-  border-radius: 10px;
+  background-color: #4CAF50;
+  border-radius: 5px;
+  border: #4CAF50;
   text-align: center;
   color: rgb(255, 255, 255);
   font-weight: 500;
-  width: 50%;
+  width: 15%;
   margin-bottom: 10px;
+  margin-right: 10px;
+  padding: 1%;
 }
 button:hover{
-  background-color: #6ac55e;
-  color: rgb(61, 61, 61);
-}
-.btn_link {
-  /* Adds some padding inside the button */
-  padding: 10px 20px;
-  /* Changes the font size */
-  font-size: 16px;
-  /* Changes the background color of the button */
-  background-color: #4EA852;
-  /* Changes the color of the text inside the button */
-  color: rgb(255, 255, 255);
-  /* Makes the border corners rounded */
-  border-radius: 5px;
-  /* Removes the default button border */
-  border: none;
-  /* Changes the cursor to a hand pointer when hovering over the button */
-  cursor: pointer;
-  width: 70%;
-  margin-top: 20px;
-  text-align: center;
+  background-color: #4caf4f5d;
+  border: #4CAF50;
+  color: rgb(27, 27, 27);
 }
 
 </style>

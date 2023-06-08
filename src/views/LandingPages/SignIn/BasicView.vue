@@ -181,7 +181,7 @@ export default {
                     <div class="text-center">
                       <button
                         type="button"
-                        class="btn bg-gradient-dark w-100 my-4 mb-2"
+                        
                         @click="login"
                                       >
                           Войти
@@ -236,5 +236,20 @@ input {
   border: 1px solid #4CAF50; /* Add a border */
   border-radius: 5px; /* Add rounded corners */
 }
-
+button{
+  background-color: #4CAF50;
+  border-radius: 5px;
+  border: #4CAF50;
+  text-align: center;
+  color: rgb(255, 255, 255);
+  font-weight: 500;
+  width: 50%;
+  margin-bottom: 10px;
+  padding: 3%;
+}
+button:hover{
+  background-color: #4caf4f5d;
+  border: #4CAF50;
+  color: rgb(27, 27, 27);
+}
 </style>
