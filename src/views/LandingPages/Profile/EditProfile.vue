@@ -4,10 +4,10 @@ import { onMounted, ref, computed } from "vue";
 import NavbarDefault from "../../../examples/navbars/NavbarDefault.vue";
 import { useRouter } from "vue-router";
 
-const isAuthenticated = computed(() => !!sessionStorage.getItem('access_token'));
-const userId = computed(() => sessionStorage.getItem('user_id'));
-const loggedUserName = computed(() => sessionStorage.getItem('username'));
-const token = computed(() => sessionStorage.getItem('access_token'));
+const isAuthenticated = computed(() => !!localStorage.getItem('access_token'));
+const userId = computed(() => localStorage.getItem('user_id'));
+const loggedUserName = computed(() => localStorage.getItem('username'));
+const token = computed(() => localStorage.getItem('token'));
 
 const profileData = ref([]);
 const router = useRouter();

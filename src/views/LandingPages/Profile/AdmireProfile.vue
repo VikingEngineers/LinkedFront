@@ -3,9 +3,9 @@ import axios from 'axios';
 import { onMounted, ref, computed } from "vue";
 import NavbarDefault from "../../../examples/navbars/NavbarDefault.vue";
 
-const isAuthenticated = computed(() => !!sessionStorage.getItem('access_token'));
-const userId = computed(() => sessionStorage.getItem('user_id'));
-const loggedUserName = computed(() => sessionStorage.getItem('username'));
+const isAuthenticated = computed(() => !!localStorage.getItem('access_token'));
+const userId = computed(() => localStorage.getItem('user_id'));
+const loggedUserName = computed(() => localStorage.getItem('username'));
 
 const profileData = ref([]);
 

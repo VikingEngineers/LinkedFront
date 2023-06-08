@@ -72,7 +72,8 @@ const register = async () => {
     try {
       const response = await axios.post(url, body, { headers });
       errorMessage.value = `Регистрация прошла успешно! Добро пожаловать, ${response.data.username}!`; 
-      sessionStorage.setItem('access_token', response.data.token); // Save the access token in sessionStorage
+      localStorage.setItem('token', response.data.token); 
+      router.push({ name: 'Presentation' }); // Redirect to the home page
     } 
     catch (error) {
     errorMessage.value = getErrorMessage(error);
