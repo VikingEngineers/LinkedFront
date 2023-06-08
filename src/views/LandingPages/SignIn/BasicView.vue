@@ -226,3 +226,15 @@ export default {
     </div>
   </Header>
 </template>
+<style scoped>
+
+input {
+  width: 100%; /* Make inputs and textareas take up the full width of the container */
+  padding: 10px; /* Add some padding */
+  margin-bottom: 15px; /* Add some margin */
+  box-sizing: border-box; /* Ensure padding doesn't affect final dimensions */
+  border: 1px solid #4CAF50; /* Add a border */
+  border-radius: 5px; /* Add rounded corners */
+}
+
+</style>
