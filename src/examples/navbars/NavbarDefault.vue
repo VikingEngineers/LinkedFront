@@ -245,17 +245,19 @@ border-radius: 5px;
 
 @media (max-width: 1024px) {
   .nav-wrapper-new {
-    display: flex; /* Включаем режим Flexbox. */
-    flex-direction: row; /* Держим элементы в строке */
-    justify-content: space-between; /* Распределяем элементы внутри шапки */
-    flex-wrap: wrap; /* Разрешаем перенос элементов на новую строку */
+  display: flex;
+   justify-content: space-between;
+   padding: 0 15px;
+   top:70px;
+   left:0;
+   width: 100%;
   }
   .nav-links {
     flex-direction: row;
     gap: 1rem;
   }
   .dropdown {
-    position: relative;
+    position: absolute;
     top: auto;
   }
 }
