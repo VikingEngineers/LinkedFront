@@ -71,7 +71,7 @@ onMounted(async() => {
     <p >{{ debugText }}</p>
     <div class="profile-container" :style="{fontWeight: '900',  fontFamily: 'monospace' }">
       <h2 :style="{ fontSize: '27px', fontWeight: '900',  fontFamily: 'PressStart2P, sans-serif', marginBottom:'5%' }">Мои сообщения</h2>
-      <RouterLink :style="{fontSize: '20px'}"
+      <RouterLink :style="{fontFamily: 'PressStart2P, sans-serif', fontSize: '14px'}"
                   :to="{ name: 'send-message' }"
                   class="btn_link"
                   >
@@ -119,6 +119,7 @@ onMounted(async() => {
         <a :href="`/editmyprofile`" class="btn_link">Редактировать профиль</a>
       </div> -->
     </div>
+    <DefaultFooter />
   </template> 
 
 
@@ -191,8 +192,8 @@ onMounted(async() => {
   }
   
   .profile-container {
-  width: 50%;
-  height: 700px;
+  width: 80%;
+  height: auto;
   padding: 20px;
   box-shadow: 0px 0px 10px 0px rgba(6, 104, 14, 0.281);
   margin: 5% auto;

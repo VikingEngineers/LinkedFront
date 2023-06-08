@@ -135,7 +135,7 @@ const search = async () => {
         
 
     </div>
-  
+    <DefaultFooter />
 </template> 
 
 

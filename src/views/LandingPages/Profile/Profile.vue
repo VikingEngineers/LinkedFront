@@ -8,10 +8,7 @@ const profileId = ref(null);
 const route = useRoute();
 const profileData = ref([]);
 
-onMounted(async() => {
-    profileId.value = route.params.id;
-    await getProfile();
-});
+/* const projectsData = ref([]); */
 
 
 const getProfile = async () => {
@@ -19,6 +16,19 @@ const getProfile = async () => {
     profileData.value = processProfileData(profileDataRecieved.data);
 
 };
+
+/* const fetchProjects = async () => {
+    const projectDataRecieved = await axios.get(`http://somebodyhire.me/api/search/projects/${profileId.value}`);
+    projectsData.value = processProjectsData(projectDataRecieved.data); 
+
+    const projectsResponse = await axios.get(`http://somebodyhire.me/api/search/projects/?search_query=${searchQuery.value}`);
+    searchResultProjects.value = projectsResponse.data;
+};
+
+const filteredProjects = computed(() => {
+  return searchResultProjects.value.filter(project => project.owner == profileId.value);
+});
+ */
 const processProfileData = (data) => {
     return {
         ...data,
@@ -33,8 +43,20 @@ const processProfileData = (data) => {
         social_youtube: data.social_youtube || '▶️ No YouTube Provided',
         social_website: data.social_website || '🌐 No Website Provided',
     };
-};
+  }
 
+/* const processProjectsData = (data) => {
+    return {
+        ...data,
+        title: data.name || '🤷 No Name Provided',
+    };
+}; */
+
+onMounted(async() => {
+    profileId.value = route.params.id;
+    await getProfile();
+    /* await fetchProjects(); */
+});
 
 </script>
 
@@ -75,9 +97,14 @@ const processProfileData = (data) => {
       <p :style="{fontSize: '20px'}">YouTube: {{ profileData.social_youtube }}</p>
       <p :style="{fontSize: '20px'}">Мой сайт: {{ profileData.social_website }}</p>-->
 
-      
+      <!-- <ul>
+        <li v-for="project in filteredProjects" :key="project.id">
+          {{ project.name }}
+        </li>
+      </ul> -->
       </div>
   </div>
+  <DefaultFooter />
 </template> 
 
 <style scoped>

@@ -52,7 +52,7 @@ onMounted(() => {
     
   </div>
 
-
+  <DefaultFooter />
   </template>
 
 <style scoped>
