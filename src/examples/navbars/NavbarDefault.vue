@@ -3,6 +3,7 @@ import { RouterLink } from "vue-router";
 import { ref, watch, computed } from "vue";
 import { useWindowsWidth } from "../../assets/js/useWindowsWidth";
 
+
 // images
 import ArrDark from "@/assets/img/down-arrow-dark.svg";
 import DownArrWhite from "@/assets/img/down-arrow-white.svg";
@@ -79,6 +80,22 @@ watch(
     }
   }
 );
+
+const logout = () => { 
+  sessionStorage.removeItem('access_token');
+  sessionStorage.removeItem('username'); 
+  sessionStorage.removeItem('user_id');
+  sessionStorage.setItem('is_staff', false);
+  sessionStorage.removeItem('token');
+  localStorage.removeItem('access_token');
+  localStorage.removeItem('username'); 
+  localStorage.removeItem('user_id');
+  localStorage.setItem('is_staff', false);
+  localStorage.removeItem('token');
+  
+  location.reload(); 
+};
+
 </script>
 
 <template>
@@ -154,9 +171,9 @@ watch(
 
         <div class="nav-item">
           <div v-if="isAuthenticated">
-              <router-link to="/pages/landing-pages/basic">
-                  <button class="btn">Выход</button>
-              </router-link>
+              
+                  <button @click="logout" class="btn" :style="{ fontSize: '16px', fontWeight: '900',  fontFamily: 'monospace' }">Выход</button>
+            
           </div>
           <div v-else>
               <router-link to="/pages/landing-pages/basic">

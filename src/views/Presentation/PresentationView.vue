@@ -28,12 +28,7 @@ const search = async () => {
   }
 };
 
-//Это блок для работы с хранилищем сессии - мы перешли на локальнуое хранилище
-// const isAuthenticated = computed(() => !!sessionStorage.getItem('access_token')); 
-// const userId = computed(() => sessionStorage.getItem('user_id'));
-// const loggedUserName = computed(() => sessionStorage.getItem('username'));
-// const isStaff = computed(() => sessionStorage.getItem('is_staff'));
-// const token = computed(() => sessionStorage.getItem('token'));
+
 
 //Тут мы попробуем использовать local storage потому что оно должно работать между вкладками
 const isAuthenticatedLocal = computed(() => !!localStorage.getItem('access_token')); 

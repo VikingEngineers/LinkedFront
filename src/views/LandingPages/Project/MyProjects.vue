@@ -8,8 +8,8 @@ const searchQuery = ref('');
 const searchResultProjects = ref([]);
 const searchResultUsers = ref([]);
 
-const userId = computed(() => sessionStorage.getItem('user_id'));
-const username = computed(() => sessionStorage.getItem('username'));
+const userId = computed(() => localStorage.getItem('user_id'));
+const username = computed(() => localStorage.getItem('username'));
 
 const search = async () => {
   try {

@@ -2,21 +2,29 @@
 import axios from 'axios';
 import { onMounted, ref, computed } from "vue";
 import NavbarDefault from "../../../examples/navbars/NavbarDefault.vue";
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
 
-const isAuthenticated = computed(() => !!sessionStorage.getItem('access_token'));
-const userId = computed(() => sessionStorage.getItem('user_id'));
-const loggedUserName = computed(() => sessionStorage.getItem('username'));
-const token = computed(() => sessionStorage.getItem('access_token'));
+const isAuthenticated = computed(() => !!localStorage.getItem('access_token'));
+const userId = computed(() => localStorage.getItem('user_id'));
+const loggedUserName = computed(() => localStorage.getItem('username'));
+const token = computed(() => localStorage.getItem('token'));
 
+const profileId = ref(null);
 const profileData = ref([]);
+const skillsData = ref([]);
 const router = useRouter();
+const route = useRoute();
 const debugText = ref('');
 const selectedImage = ref(null);
 
 const getProfile = async () => {
     const profileDataRecieved = await axios.get(`http://somebodyhire.me/api/profile/${userId.value}/`);
     profileData.value = processProfileData(profileDataRecieved.data);
+};
+
+const getSkills = async () => {
+    const skillsDataRecieved = await axios.get(`http://somebodyhire.me/api/profile/${profileId.value}/skills/`);
+    skillsData.value = skillsDataRecieved.data;
 };
 
 const processProfileData = (data) => {
@@ -77,15 +85,23 @@ const updateProfile = async () => {
     // Create a new FormData object
     const formData = new FormData();
 
-    // Append the profile data
-    Object.entries(profileData.value).forEach(([key, value]) => {
-      formData.append(key, value);
-    });
+    formData.append('name', profileData.value.name);
+    formData.append('email', profileData.value.email);
+    formData.append('username', profileData.value.username);
+    formData.append('location', profileData.value.location);
+    formData.append('short_intro', profileData.value.short_intro);
+    formData.append('bio', profileData.value.bio);
+    formData.append('social_github', profileData.value.social_github);
+    formData.append('social_twitter', profileData.value.social_twitter);
+    formData.append('social_vk', profileData.value.social_vk);
+    formData.append('social_youtube', profileData.value.social_youtube);
+    formData.append('social_website', profileData.value.social_website);
 
-   
     if (selectedImage.value) {
       formData.append('profile_image', selectedImage.value);
     };
+
+
 
 
     await axios.patch(`http://somebodyhire.me/api/profile/${userId.value}/`, formData, { headers });
@@ -102,6 +118,7 @@ const cancelUpdate = () => {
 
 onMounted(async() => {
     await getProfile();
+    await getSkills();
 });
 </script>
 
@@ -110,8 +127,8 @@ onMounted(async() => {
     <div class="profile-container">
         <h1>User Profile: {{ loggedUserName }}</h1>
         <!-- 
-          Это поле, в которое выводится весь обмен, происходящий между клиентом и сервером. Нужно для отладки.
-          <textarea readonly v-model="debugText"></textarea> -->
+          Это поле, в которое выводится весь обмен, происходящий между клиентом и сервером. Нужно для отладки.-->
+          <textarea readonly v-model="debugText"></textarea> 
 
         <!-- Событие происходит в момент загрузки файла. В этот момент в переменную selectedImage записывается файл, который был выбран. -->
         <img class="project-image" :src="profileData.profile_image" alt="Profile image">
@@ -128,6 +145,10 @@ onMounted(async() => {
         <textarea v-model="profileData.social_vk" placeholder="ВКонтакте"></textarea>
         <textarea v-model="profileData.social_youtube" placeholder="YouTube"></textarea>
         <textarea v-model="profileData.social_website" placeholder="Сайт"></textarea>
+
+        <p :style="{fontSize: '20px'}">Навыки:</p>
+      <p v-for = "skill in skillsData" :key="skill.id" :style="{fontSize: '16px'}">{{ skill.name }} ({{ skill.description }})</p>
+
         <div>
         <button @click="updateProfile" class="btn-submit">Сохранить</button>
         <button @click="cancelUpdate" class="btn-cancel">Отменить</button>
