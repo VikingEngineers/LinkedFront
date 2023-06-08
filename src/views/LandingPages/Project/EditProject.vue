@@ -67,7 +67,7 @@ const updateProject = async () => {
         formData.append('description', projectData.value.description);
         formData.append('demo_link', projectData.value.demo_link);
         formData.append('source_link', projectData.value.source_link);
-        formData.append('likes', projectData.value.likes);                  
+                
 
         // if (projectData.value.featured_image) {
         //     formData.append('featured_image', projectData.value.featured_image);

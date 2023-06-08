@@ -2,21 +2,29 @@
 import axios from 'axios';
 import { onMounted, ref, computed } from "vue";
 import NavbarDefault from "../../../examples/navbars/NavbarDefault.vue";
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
 
 const isAuthenticated = computed(() => !!localStorage.getItem('access_token'));
 const userId = computed(() => localStorage.getItem('user_id'));
 const loggedUserName = computed(() => localStorage.getItem('username'));
 const token = computed(() => localStorage.getItem('token'));
 
+const profileId = ref(null);
 const profileData = ref([]);
+const skillsData = ref([]);
 const router = useRouter();
+const route = useRoute();
 const debugText = ref('');
 const selectedImage = ref(null);
 
 const getProfile = async () => {
     const profileDataRecieved = await axios.get(`http://somebodyhire.me/api/profile/${userId.value}/`);
     profileData.value = processProfileData(profileDataRecieved.data);
+};
+
+const getSkills = async () => {
+    const skillsDataRecieved = await axios.get(`http://somebodyhire.me/api/profile/${profileId.value}/skills/`);
+    skillsData.value = skillsDataRecieved.data;
 };
 
 const processProfileData = (data) => {
@@ -110,6 +118,7 @@ const cancelUpdate = () => {
 
 onMounted(async() => {
     await getProfile();
+    await getSkills();
 });
 </script>
 
@@ -136,6 +145,10 @@ onMounted(async() => {
         <textarea v-model="profileData.social_vk" placeholder="ВКонтакте"></textarea>
         <textarea v-model="profileData.social_youtube" placeholder="YouTube"></textarea>
         <textarea v-model="profileData.social_website" placeholder="Сайт"></textarea>
+
+        <p :style="{fontSize: '20px'}">Навыки:</p>
+      <p v-for = "skill in skillsData" :key="skill.id" :style="{fontSize: '16px'}">{{ skill.name }} ({{ skill.description }})</p>
+
         <div>
         <button @click="updateProfile" class="btn-submit">Сохранить</button>
         <button @click="cancelUpdate" class="btn-cancel">Отменить</button>
