@@ -9,7 +9,7 @@ const route = useRoute();
 const profileData = ref([]);
 const skillsData = ref([]);
 
-/* const projectsData = ref([]); */
+const projectsData = ref([]); 
 
 
 const getProfile = async () => {
@@ -23,19 +23,11 @@ const getSkills = async () => {
     skillsData.value = skillsDataRecieved.data;
 };
 
-
-/* const fetchProjects = async () => {
-    const projectDataRecieved = await axios.get(`http://somebodyhire.me/api/search/projects/${profileId.value}`);
-    projectsData.value = processProjectsData(projectDataRecieved.data); 
-
-    const projectsResponse = await axios.get(`http://somebodyhire.me/api/search/projects/?search_query=${searchQuery.value}`);
-    searchResultProjects.value = projectsResponse.data;
+const getProjects = async () => {
+    const projectsDataRecieved = await axios.get(`http://somebodyhire.me/api/profile/${profileId.value}`);
+    projectsData.value = projectsDataRecieved.data;
 };
 
-const filteredProjects = computed(() => {
-  return searchResultProjects.value.filter(project => project.owner == profileId.value);
-});
- */
 const processProfileData = (data) => {
     return {
         ...data,
@@ -52,18 +44,12 @@ const processProfileData = (data) => {
     };
   }
 
-/* const processProjectsData = (data) => {
-    return {
-        ...data,
-        title: data.name || '🤷 No Name Provided',
-    };
-}; */
 
 onMounted(async() => {
     profileId.value = route.params.id;
     await getProfile();
     await getSkills();
-    /* await fetchProjects(); */
+    await getProjects();
 });
 
 </script>
@@ -106,7 +92,8 @@ onMounted(async() => {
       <p :style="{fontSize: '20px'}">Биография: {{ profileData.bio }}</p>
       <p :style="{fontSize: '20px'}">Навыки:</p>
       <p v-for = "skill in skillsData" :key="skill.id" :style="{fontSize: '16px'}">{{ skill.name }} ({{ skill.description }})</p>
-
+      <p :style="{fontSize: '20px'}">Проекты:</p>
+      <p v-for = "project in projectsData" :key="project.id" :style="{fontSize: '16px'}">{{ project.title }} ({{ project.description }})</p>
       
       </div>
   </div>

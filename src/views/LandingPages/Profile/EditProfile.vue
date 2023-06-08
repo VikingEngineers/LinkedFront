@@ -101,9 +101,6 @@ const updateProfile = async () => {
       formData.append('profile_image', selectedImage.value);
     };
 
-
-
-
     await axios.patch(`http://somebodyhire.me/api/profile/${userId.value}/`, formData, { headers });
     router.push('/ViewMyProfile');
   } catch (error) {
@@ -124,35 +121,40 @@ onMounted(async() => {
 
 <template>
     <NavbarDefault />
-    <div class="profile-container">
-        <h1>User Profile: {{ loggedUserName }}</h1>
-        <!-- 
-          Это поле, в которое выводится весь обмен, происходящий между клиентом и сервером. Нужно для отладки.-->
-          <textarea readonly v-model="debugText"></textarea> 
+    <div class="profile-container" :style="{fontWeight: '900',  fontFamily: 'monospace' }">
+      <div class="profile-container1">
+
 
         <!-- Событие происходит в момент загрузки файла. В этот момент в переменную selectedImage записывается файл, который был выбран. -->
         <img class="project-image" :src="profileData.profile_image" alt="Profile image">
         <input type="file" accept="image/*" @change="onFileChange">
-        
-        <input type="text" v-model="profileData.username" placeholder="Имя пользователя">
-        <input type="email" v-model="profileData.email" placeholder="Email">
-        <input type="text" v-model="profileData.name" placeholder="Полное имя">
-        <input type="text" v-model="profileData.short_intro" placeholder="Краткое описание">
-        <input type="text" v-model="profileData.location" placeholder="Местоположение">
-        <textarea v-model="profileData.bio" placeholder="Подробное описание"></textarea>
-        <textarea v-model="profileData.social_github" placeholder="GitHub"></textarea>
-        <textarea v-model="profileData.social_twitter" placeholder="Twitter"></textarea>
-        <textarea v-model="profileData.social_vk" placeholder="ВКонтакте"></textarea>
-        <textarea v-model="profileData.social_youtube" placeholder="YouTube"></textarea>
-        <textarea v-model="profileData.social_website" placeholder="Сайт"></textarea>
 
-        <p :style="{fontSize: '20px'}">Навыки:</p>
-      <p v-for = "skill in skillsData" :key="skill.id" :style="{fontSize: '16px'}">{{ skill.name }} ({{ skill.description }})</p>
+      </div>
 
+      <div class="profile-container2">
+        <h1 :style="{ fontSize: '18px', fontWeight: '500',  fontFamily: 'PressStart2P, sans-serif' }">User Profile: {{ loggedUserName }}</h1>
+        <!-- 
+          Это поле, в которое выводится весь обмен, происходящий между клиентом и сервером. Нужно для отладки.-->
+          <textarea readonly v-model="debugText"></textarea> 
+          <input type="text" v-model="profileData.username" placeholder="Имя пользователя">
+          <input type="email" v-model="profileData.email" placeholder="Email">
+          <input type="text" v-model="profileData.name" placeholder="Полное имя">
+          <input type="text" v-model="profileData.short_intro" placeholder="Краткое описание">
+          <input type="text" v-model="profileData.location" placeholder="Местоположение">
+          <textarea v-model="profileData.bio" placeholder="Подробное описание"></textarea>
+          <textarea v-model="profileData.social_github" placeholder="GitHub"></textarea>
+          <textarea v-model="profileData.social_twitter" placeholder="Twitter"></textarea>
+          <textarea v-model="profileData.social_vk" placeholder="ВКонтакте"></textarea>
+          <textarea v-model="profileData.social_youtube" placeholder="YouTube"></textarea>
+          <textarea v-model="profileData.social_website" placeholder="Сайт"></textarea>  
+          <p :style="{fontSize: '18px'}">Навыки:</p>
+          <p v-for = "skill in skillsData" :key="skill.id" :style="{fontSize: '16px'}">{{ skill.name }} ({{ skill.description }})</p>
         <div>
-        <button @click="updateProfile" class="btn-submit">Сохранить</button>
-        <button @click="cancelUpdate" class="btn-cancel">Отменить</button>
+          <button @click="updateProfile" class="btn-submit">Сохранить</button>
+          <button @click="cancelUpdate" class="btn-cancel">Отменить</button>
         </div>
+      </div>
+
     </div>
     <DefaultFooter />
 </template>
@@ -160,15 +162,29 @@ onMounted(async() => {
 
 <style scoped>
 .profile-container {
-  display: flex;
+  /*display: flex;
   flex-direction: column;
   align-items: center;
+  box-shadow: 0px 0px 10px 0px rgba(6, 104, 14, 0.281);*/
   width: 80%;
+  height: auto;
   margin: 5% 10%;
   padding: 20px;
-  box-shadow: 0px 0px 10px 0px rgba(6, 104, 14, 0.281);
+  
 }
-
+.profile-container1 {
+  width: 45%;
+float: left;
+flex-direction: column;
+text-align: center;
+height: auto;
+  }
+.profile-container2 {
+    width: 55%;
+float: right;
+flex-direction: column;
+height: auto;
+    }
 .profile-container img {
   width: 50%;
   height: auto;
@@ -179,7 +195,7 @@ onMounted(async() => {
 
 
 .profile-container input, .profile-container textarea {
-  width: 100%; /* Make inputs and textareas take up the full width of the container */
+  width: 70%; /* Make inputs and textareas take up the full width of the container */
   padding: 10px; /* Add some padding */
   margin-bottom: 15px; /* Add some margin */
   box-sizing: border-box; /* Ensure padding doesn't affect final dimensions */
