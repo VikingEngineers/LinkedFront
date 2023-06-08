@@ -133,6 +133,7 @@ onMounted(async() => {
         <button @click="cancelUpdate" class="btn-cancel">Отменить</button>
         </div>
     </div>
+    <DefaultFooter />
 </template>
 
 

@@ -162,6 +162,7 @@ onMounted(async() => {
 
         </div>
     </div>
+    <DefaultFooter />
 </template>
 
 

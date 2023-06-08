@@ -82,6 +82,7 @@ const onFileChange = (event) => {
         <button @click="createProject" class="btn-submit">Подтвердить</button>
         <button @click="cancelCreate" class="btn-cancel">Отменить</button>
     </div>
+    <DefaultFooter />
 </template>
 
 <style scoped>

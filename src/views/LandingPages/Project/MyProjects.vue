@@ -50,6 +50,7 @@ onMounted(() => {
       </div>
     </div>
   </div>
+  <DefaultFooter />
 </template>
 
   

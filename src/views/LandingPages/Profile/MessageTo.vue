@@ -124,6 +124,7 @@ onMounted(() => {
         <a :href="`/editmyprofile`" class="btn_link">Редактировать профиль</a>
       </div>
     </div> -->
+    <DefaultFooter />
   </template> 
 
 

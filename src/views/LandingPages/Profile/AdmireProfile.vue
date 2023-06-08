@@ -42,7 +42,7 @@ onMounted(async() => {
 <template>
     <NavbarDefault />
     <div class="profile-container" :style="{fontWeight: '900',  fontFamily: 'monospace' }">
-      <h2 :style="{ fontSize: '27px', fontWeight: '900',  fontFamily: 'PressStart2P, sans-serif' }">{{ profileData.username }}</h2>
+      <div class="profile-container1">
         <img :src="profileData.profile_image" alt="Profile Image">
         <p :style="{ fontSize: '24px'}">{{ profileData.email }}</p>
         <div class="social-link" :style="{ fontSize: '12px', fontWeight: '500',  fontFamily: 'PressStart2P, sans-serif' }">
@@ -52,40 +52,58 @@ onMounted(async() => {
           <a :href="`${profileData.social_youtube}`" target="_blank" >YouTube</a>
           <a :href="`${profileData.social_website}`" target="_blank" >Мой сайт</a>
         </div>
-        <div class="text-container">
-        <p :style="{ fontSize: '24px'}">Местоположение: {{ profileData.location }}</p>
-        <p :style="{ fontSize: '24px'}">Краткое описание: {{ profileData.short_intro }}</p>
-        <p :style="{ fontSize: '24px'}">Биография: {{ profileData.bio }}</p>
+      </div>
+
+      <div class="profile-container2">
+        <h2 :style="{ fontSize: '27px', fontWeight: '900',  fontFamily: 'PressStart2P, sans-serif' }">Мой профиль</h2>
+        <!-- <h2 :style="{ fontSize: '27px', fontWeight: '900',  fontFamily: 'PressStart2P, sans-serif' }">{{ profileData.username }}</h2> -->
+        
+        <p :style="{ fontSize: '20px'}">Местоположение: {{ profileData.location }}</p>
+        <p :style="{ fontSize: '20px'}">Краткое описание: {{ profileData.short_intro }}</p>
+        <p :style="{ fontSize: '20px'}">Биография: {{ profileData.bio }}</p>
+        <p :style="{ fontSize: '20px'}">Навыки: </p>
         <a :href="`/editmyprofile`" class="btn_link">Редактировать профиль</a>
       </div>
-    </div>
+        
+      </div>
+      <DefaultFooter />
   </template> 
 
 
 
 <style scoped>
 .profile-container {
-  width: 50%;
+  width: 90%;
   padding: 20px;
-  box-shadow: 0px 0px 10px 0px rgba(6, 104, 14, 0.281);
-  margin: 5% auto;
-  background-color: #ffffff57;
-  border-radius: 10px;
+  margin: 50px;
+ /*border-radius: 10px;
   align-items: center;
   text-align: center;
+  box-shadow: 0px 0px 10px 0px rgba(6, 104, 14, 0.281);
+  */
 }
-.text-container {
-  width: 90%;
-  margin-left: 9%;
-  background-color: #ffffff57;
-  border-radius: 10px;
-  text-align: left;
-  margin-bottom: 30px;
-}
+.profile-container1 {
+  width: 45%;
+float: left;
+flex-direction: column;
+text-align: center;
+  }
+.profile-container2 {
+    width: 55%;
+float: right;
+flex-direction: column;
+    }
 .social-link {
-  margin-left: 5%;
+  /*margin-left: 5%;
   width: 100%;
   flex-direction: row;
+  display: flex;
+  flex-wrap: wrap;
+  text-align: center;*/
+  margin-left: 25%;
+  margin-bottom: 5%;
+  width: 50%;
+  flex-direction: column;
   display: flex;
   flex-wrap: wrap;
   text-align: center;
@@ -116,10 +134,10 @@ padding: 7px;
   }
 }
 .profile-container img {
-  width: 250px;
-  height: 245px;
+  width: auto;
+  height: 20vw;
   margin-bottom: 20px;
-  border-radius: 50%;
+  border-radius: 5px;
   border: 2px solid #4ea852e0;
   box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.7);
 }
@@ -128,7 +146,6 @@ h1,h2{
   /*font-family: 'PressStart2P';*/
   color:rgb(70, 104, 105);
   font-weight: 800;
-  text-align: center;
 }
 p{
   font-family: 'SpaceMono' monospace;
