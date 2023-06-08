@@ -189,6 +189,7 @@ onMounted(async() => {
     margin-left: 10%;
     margin-right: 10%;
     box-sizing: border-box;
+    width: 50%;
   }
   
   .profile-container {
