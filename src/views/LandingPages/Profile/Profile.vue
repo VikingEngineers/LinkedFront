@@ -7,6 +7,7 @@ import NavbarDefault from '../../../examples/navbars/NavbarDefault.vue';
 const profileId = ref(null);
 const route = useRoute();
 const profileData = ref([]);
+const skillsData = ref([]);
 
 /* const projectsData = ref([]); */
 
@@ -16,6 +17,12 @@ const getProfile = async () => {
     profileData.value = processProfileData(profileDataRecieved.data);
 
 };
+
+const getSkills = async () => {
+    const skillsDataRecieved = await axios.get(`http://somebodyhire.me/api/profile/${profileId.value}/skills/`);
+    skillsData.value = skillsDataRecieved.data;
+};
+
 
 /* const fetchProjects = async () => {
     const projectDataRecieved = await axios.get(`http://somebodyhire.me/api/search/projects/${profileId.value}`);
@@ -55,6 +62,7 @@ const processProfileData = (data) => {
 onMounted(async() => {
     profileId.value = route.params.id;
     await getProfile();
+    await getSkills();
     /* await fetchProjects(); */
 });
 
@@ -96,18 +104,10 @@ onMounted(async() => {
       <p :style="{fontSize: '20px'}">Местоположение: {{ profileData.location }}</p>
       <p :style="{fontSize: '20px'}">Краткое описание: {{ profileData.short_intro }}</p>
       <p :style="{fontSize: '20px'}">Биография: {{ profileData.bio }}</p>
-      <!--<p>Ссылка на изображение: {{ profileData.profile_image }}</p>
-      <p :style="{fontSize: '20px'}">GitHub: {{ profileData.social_github }}</p>
-      <p :style="{fontSize: '20px'}">Twitter: {{ profileData.social_twitter }}</p>
-      <p :style="{fontSize: '20px'}">VK: {{ profileData.social_vk }}</p>
-      <p :style="{fontSize: '20px'}">YouTube: {{ profileData.social_youtube }}</p>
-      <p :style="{fontSize: '20px'}">Мой сайт: {{ profileData.social_website }}</p>-->
+      <p :style="{fontSize: '20px'}">Навыки:</p>
+      <p v-for = "skill in skillsData" :key="skill.id" :style="{fontSize: '16px'}">{{ skill.name }} ({{ skill.description }})</p>
 
-      <!-- <ul>
-        <li v-for="project in filteredProjects" :key="project.id">
-          {{ project.name }}
-        </li>
-      </ul> -->
+      
       </div>
   </div>
   <DefaultFooter />
