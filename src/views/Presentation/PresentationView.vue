@@ -132,13 +132,11 @@ export default {
         <h3 :style="{ fontWeight: '900',  fontFamily: 'monospace' }">{{ project.title }}</h3>
         <img class="project-image" :src="project.featured_image" alt="Featured image">
         <!-- <p>{{ project.description }}</p>  -->
-        <div v-if="project.tags.length > 0 ">
-        <div class="tags-container">
-        <div class="tags" v-for="project in searchResultProjects" :key="project.tags">
+        <div class="tags-container" v-if="project.tags.length > 0 ">
+        <!-- <div class="tags" v-for="project in searchResultProjects" :key="project.tags"> -->
         <p>{{ project.tags }}</p>
-        </div>
-      </div>
-    </div>
+       </div>
+      <!--  </div> -->
         <div class="btn_link-container">
         <a :href="`project/${project.id}`" class="btn_link">Посмотреть</a>
       </div>
@@ -150,6 +148,7 @@ export default {
         <h3 :style="{ fontWeight: '900',  fontFamily: 'monospace' }">{{ user.username }}</h3>
         <img class="profile-image" :src="user.profile_image" alt="Featured image">
         <p>{{ user.short_intro }}</p> <!-- краткое описание -->
+
         <!--<div v-if="user.skill.length > 0 ">
           <div class="tags-container">
           <div class="tags" v-for="user in searchResultUsers" :key="user.skill">
