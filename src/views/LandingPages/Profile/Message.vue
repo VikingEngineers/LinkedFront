@@ -72,12 +72,12 @@ onMounted(async() => {
     <p >{{ debugText }}</p>
     <div class="profile-container" :style="{fontWeight: '900',  fontFamily: 'monospace' }">
       <h2 :style="{ fontSize: '27px', fontWeight: '900',  fontFamily: 'PressStart2P, sans-serif', marginBottom:'5%' }">Мои сообщения</h2>
-      <RouterLink :style="{fontFamily: 'PressStart2P, sans-serif', fontSize: '14px'}"
+      <!-- <RouterLink :style="{fontFamily: 'PressStart2P, sans-serif', fontSize: '14px'}"
                   :to="{ name: 'send-message' }"
                   class="btn_link"
                   >
                   Написать сообщение
-                </RouterLink> 
+                </RouterLink>  -->
         <!-- <p :style="{ fontSize: '24px'}">{{ messageData.email }}</p> -->
 
         <div class="tabs">
