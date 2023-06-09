@@ -8,7 +8,7 @@ import { useRoute } from 'vue-router';
 const isAuthenticated = computed(() => !!localStorage.getItem('access_token'));
 const userId = computed(() => localStorage.getItem('user_id'));
 const loggedUserName = computed(() => localStorage.getItem('username'));
-const token = computed(() => localStorage.getItem('access_token'));
+const token = computed(() => localStorage.getItem('token'));
 
 const projectData = ref([]);
 const router = useRouter();
