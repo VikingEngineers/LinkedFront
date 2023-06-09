@@ -42,6 +42,13 @@ onMounted(() => {
       <div class="result-card" v-for="project in filteredProjects" :key="project.id">
         <div class="project-title"> <h3 :style="{ fontWeight: '900',  fontFamily: 'monospace' }">{{ project.title }}</h3></div>
         <img class="project-image" :src="project.featured_image" alt="Featured image">
+        <div v-if="project.tags.length > 0 ">
+          <div class="tags-container">
+            <div class="tags-container" v-if="project.tags.length > 0 ">
+              <p>{{ project.tags }}</p>
+          </div>
+        </div>
+      </div>
         <p>{{ project.description }}</p>
         <div class="btn_link-container">
           <a :href="`project/${project.id}`" class="btn_link">Посмотреть</a>
@@ -184,7 +191,7 @@ onMounted(() => {
   }
   
   .project-image {
-    width: 20%;
+    width: 20vw;
     height: auto;
     margin-bottom: 20px;
   }

@@ -174,7 +174,7 @@ p{
 }
 
 .project-image {
-  width: 20%;
+  width: 15vw;
   height: auto;
   margin-bottom: 20px;
 }

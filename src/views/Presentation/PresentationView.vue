@@ -279,7 +279,7 @@ export default {
   display: flex;
   flex-direction: column;
   /*background-color: #3d913248;*/
-  padding: 5px;
+  padding: 0.5vw;
   margin: 10px 20px;
   border-radius: 10px;
   border: 2px solid #4ea85280;
@@ -346,8 +346,9 @@ export default {
 }
 
 .project-image {
-  width: 70%;
-  height: 70%;
+  /*width: 70%;
+  height: 70%;*/
+  height: 10vw;
   margin-bottom: 20px;
   margin-top: 20px;
 }
