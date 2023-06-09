@@ -153,7 +153,15 @@ onMounted(async() => {
          <img class="project-image" :src="profileData.profile_image" alt="Profile image">
         <p>Выберите новое изображение профиля</p>
         <input type="file" accept="image/*" @change="onFileChange">
-
+        <p>Добавить навык</p>
+        <div class="skills">
+          <input type="text" v-model="newSkillData.name" placeholder="Название">
+          <input type="text" v-model="newSkillData.description" placeholder="Описание">
+          <button @click="addSkill" class="btn-submit">Добавить</button>
+        </div>
+        <p :style="{fontSize: '18px'}">Навыки:</p>
+        <p v-for = "skill in skillsData" :key="skill.id" :style="{fontSize: '16px'}">{{ skill.name }} ({{ skill.description }})</p>
+        
       </div>
 
       <div class="profile-container2">
@@ -188,14 +196,7 @@ onMounted(async() => {
           <button @click="updateProfile" class="btn-submit">Сохранить</button>
           <button @click="cancelUpdate" class="btn-cancel">Отменить</button>
         
-        <p :style="{fontSize: '18px'}">Навыки:</p>
-        <p v-for = "skill in skillsData" :key="skill.id" :style="{fontSize: '16px'}">{{ skill.name }} ({{ skill.description }})</p>
-        <div>
-          <p>Добавить навык</p>
-          <input type="text" v-model="newSkillData.name" placeholder="Название">
-          <input type="text" v-model="newSkillData.description" placeholder="Описание">
-          <button @click="addSkill" class="btn-submit">Добавить</button>
-        </div>
+        
         
       </div>
       </div>
@@ -218,7 +219,9 @@ onMounted(async() => {
   height: auto;
   margin: 5% 10%;
   padding: 20px;
-  
+}
+.skills button{
+  width: 35%;
 }
 .profile-container1 {
   width: 45%;
