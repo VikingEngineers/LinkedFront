@@ -215,7 +215,6 @@ onMounted(async() => {
   }
   .spantext2{
     width: 30%;
-  
     display:inline-block;
     text-decoration: none;
     font-size: larger;
