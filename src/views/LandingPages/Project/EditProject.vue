@@ -157,8 +157,15 @@ onMounted(async() => {
         <div>
         <button @click="updateProject" class="btn-submit">Сохранить</button>
         <button @click="cancelUpdate" class="btn-cancel">Отмена</button>
-        <button @click="deleteProject" class="btn-cancel">Удалить</button>
+        <!-- <button @click="deleteProject" class="btn-cancel">Удалить</button> -->
+        <a href="#okno" class="btn-cancel">Удалить</a>      
+          
         </div> 
+        <div id="okno">
+            Вы действительно хотите удалить проект?
+        <button @click="deleteProject" class="btn-cancel">Удалить</button>
+        <button @click="cancelUpdate" class="btn-submit">Отмена</button>
+          </div>
     </div>
 
         </div>
@@ -185,7 +192,25 @@ onMounted(async() => {
   object-fit: cover;
   margin-bottom: 20px;
 }
-
+#okno {
+    z-index: 101;
+    top: 0;
+    background: #fcfbfa;
+    text-align: center;
+    overflow: hidden; 
+    -webkit-box-shadow: 0 0 5px black;
+    -moz-box-shadow:    0 0 5px black;
+    box-shadow:         0 0 5px black;
+    width: 30%;
+    height: 15%;
+    text-align: center;
+    padding: 15px;
+    border: 3px solid #4CAF50;
+    border-radius: 10px;
+    color: #4CAF50;
+    display: none;
+     }
+#okno:target {display: block;}
 
 .profile-container input, .profile-container textarea {
   width: 100%; /* Make inputs and textareas take up the full width of the container */
