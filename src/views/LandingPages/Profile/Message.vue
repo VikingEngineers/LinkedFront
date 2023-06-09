@@ -83,20 +83,20 @@ onMounted(async() => {
           <div id="content-1">
             <div v-for = "message in messageData" :key="message.id" class="one_inbox" :style="{ fontSize: '12px', fontWeight: '500',  fontFamily: 'PressStart2P, sans-serif' }">
           
-              <p :style="{ fontSize: '12px'}">От: {{ findUsername(message.sender) }}</p>
-              <p :style="{ fontSize: '12px'}">Кому: {{ findUsername(message.recipient) }} </p>
-              <p :style="{ fontSize: '12px'}">Тема: {{ message.subject }}</p>
-              <p :style="{ fontSize: '12px'}">Сообщение: {{ message.body }}</p>
+              <p :style="{ fontSize: '14px'}">От: {{ findUsername(message.sender) }}</p>
+              <p :style="{ fontSize: '14px'}">Кому: {{ findUsername(message.recipient) }} </p>
+              <p :style="{ fontSize: '14px'}">Тема: {{ message.subject }}</p>
+              <p :style="{ fontSize: '14px'}">Сообщение: {{ message.body }}</p>
             </div>
     
           </div>
           <div id="content-2">
             <div v-for = "message in messageData" :key="message.id" class="one_inbox" :style="{ fontSize: '12px', fontWeight: '500',  fontFamily: 'PressStart2P, sans-serif' }">
           
-              <p :style="{ fontSize: '12px'}">От: {{ findUsername(message.sender) }}</p>
-              <p :style="{ fontSize: '12px'}">Кому: {{ findUsername(message.recipient) }} </p>
-              <p :style="{ fontSize: '12px'}">Тема: {{ message.subject }}</p>
-              <p :style="{ fontSize: '12px'}">Сообщение: {{ message.body }}</p>
+              <p :style="{ fontSize: '14px'}">От: {{ findUsername(message.sender) }}</p>
+              <p :style="{ fontSize: '14px'}">Кому: {{ findUsername(message.recipient) }} </p>
+              <p :style="{ fontSize: '14px'}">Тема: {{ message.subject }}</p>
+              <p :style="{ fontSize: '14px'}">Сообщение: {{ message.body }}</p>
             </div>
           </div>
     
