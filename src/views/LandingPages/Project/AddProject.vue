@@ -66,12 +66,14 @@ const onFileChange = (event) => {
     selectedImage.value = event.target.files[0];
     debugText.value = `Selected image: ${selectedImage.value.name}`;
 };
+
+
 </script>
 
 <template>
     <NavbarDefault />
-    <div class="profile-container">
-      <h1>Создание проекта для {{ loggedUserName }}</h1>
+    <div class="profile-container" :style="{ fontWeight: '900',  fontFamily: 'monospace' }">
+      <h1 :style="{ fontWeight: '300',  fontFamily: 'PressStart2P, sans-serif', fontSize:'32px', marginBottom:'3%' }">Создание проекта для {{ loggedUserName }}</h1>
         <!-- <textarea readonly v-model="debugText"></textarea> -->
         <input type="text" v-model="projectData.title" placeholder="Добавьте название проекта">
         <input type="text" v-model="projectData.description" placeholder="Добавьте описание проекта">
@@ -79,8 +81,10 @@ const onFileChange = (event) => {
         <input type="file" accept="image/*" @change="onFileChange" placeholder="Link to featured image">
         <textarea v-model="projectData.demo_link" placeholder="Ссылка на демонстрацию проекта"></textarea>
         <textarea v-model="projectData.source_link" placeholder="Ссылка на исходный код"></textarea>
-        <button @click="createProject" class="btn-submit">Подтвердить</button>
+        <div class="btn_link-container">
+          <button @click="createProject" class="btn-submit">Подтвердить</button>
         <button @click="cancelCreate" class="btn-cancel">Отменить</button>
+        </div>
     </div>
     <DefaultFooter />
 </template>
@@ -90,8 +94,8 @@ const onFileChange = (event) => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 80%;
-  margin: auto;
+  width: 60%;
+  margin: 5% auto;
   padding: 20px;
   box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
 }
@@ -135,7 +139,10 @@ const onFileChange = (event) => {
     cursor: pointer;
     border-radius: 5px;
 }
-
+.btn-submit:hover {
+  color: #5f5e5e;
+  background-color: #4caf4f7a;
+}
 .btn-cancel {
     color: #fff;
     background-color: #f44336;

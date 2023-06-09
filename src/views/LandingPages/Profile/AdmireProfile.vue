@@ -8,12 +8,19 @@ const userId = computed(() => localStorage.getItem('user_id'));
 const loggedUserName = computed(() => localStorage.getItem('username'));
 
 const profileData = ref([]);
+const skillsData = ref([]);
 
 
 const getProfile = async () => {
     const profileDataRecieved = await axios.get(`http://somebodyhire.me/api/profile/${userId.value}/`);
     profileData.value = processProfileData(profileDataRecieved.data);
 };
+
+const getSkills = async () => {
+    const skillsDataRecieved = await axios.get(`http://somebodyhire.me/api/profile/${profileId.value}/skills/`);
+    skillsData.value = skillsDataRecieved.data;
+};
+
 
 const processProfileData = (data) => {
     return {
@@ -55,13 +62,16 @@ onMounted(async() => {
       </div>
 
       <div class="profile-container2">
-        <h2 :style="{ fontSize: '27px', fontWeight: '900',  fontFamily: 'PressStart2P, sans-serif' }">Мой профиль</h2>
+        <h2 :style="{ fontSize: '27px', fontWeight: '900',  fontFamily: 'PressStart2P, sans-serif', marginBottom:'3%' }">Мой профиль</h2>
         <!-- <h2 :style="{ fontSize: '27px', fontWeight: '900',  fontFamily: 'PressStart2P, sans-serif' }">{{ profileData.username }}</h2> -->
         
         <p :style="{ fontSize: '20px'}">Местоположение: {{ profileData.location }}</p>
         <p :style="{ fontSize: '20px'}">Краткое описание: {{ profileData.short_intro }}</p>
         <p :style="{ fontSize: '20px'}">Биография: {{ profileData.bio }}</p>
         <p :style="{ fontSize: '20px'}">Навыки: </p>
+        <p v-for = "skill in skillsData" :key="skill.id" :style="{fontSize: '16px'}">{{ skill.name }} ({{ skill.description }})</p>
+        <p :style="{fontSize: '20px'}">Проекты:</p>
+      <p v-for = "project in projectsData" :key="project.id" :style="{fontSize: '16px'}">{{ project.title }} ({{ project.description }})</p>
         <a :href="`/editmyprofile`" class="btn_link">Редактировать профиль</a>
       </div>
         
