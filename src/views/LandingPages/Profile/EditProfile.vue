@@ -16,6 +16,11 @@ const router = useRouter();
 const route = useRoute();
 const debugText = ref('');
 const selectedImage = ref(null);
+const newSkillData = ref({
+    name: '',
+    description: ''
+});
+
 
 const getProfile = async () => {
     const profileDataRecieved = await axios.get(`http://somebodyhire.me/api/profile/${userId.value}/`);
@@ -23,7 +28,7 @@ const getProfile = async () => {
 };
 
 const getSkills = async () => {
-    const skillsDataRecieved = await axios.get(`http://somebodyhire.me/api/profile/${profileId.value}/skills/`);
+    const skillsDataRecieved = await axios.get(`http://somebodyhire.me/api/profile/${userId.value}/skills/`);
     skillsData.value = skillsDataRecieved.data;
 };
 
@@ -109,6 +114,26 @@ const updateProfile = async () => {
   }
 };
 
+const addSkill = async () => {
+    try {
+        const tokenValue = token.value;
+        const headers = { 
+            'Authorization': `Bearer ${tokenValue}`,
+            'Content-Type': 'application/json'
+        };
+        const skillData = {
+            name: newSkillData.value.name,
+            description: newSkillData.value.description
+        };
+        await axios.post(`http://somebodyhire.me/api/skills/create/`, skillData, { headers });
+        await getSkills();
+        newSkillData.value.name = '';
+        newSkillData.value.description = '';
+        location.reload();
+    } catch (error) {
+        console.error(error);
+    }
+};
 const cancelUpdate = () => {
     router.push('/ViewMyProfile');
 };
@@ -121,40 +146,63 @@ onMounted(async() => {
 
 <template>
     <NavbarDefault />
-    <div class="profile-container" :style="{fontWeight: '900',  fontFamily: 'monospace' }">
+    <div v-if="isAuthenticated" class="profile-container" :style="{fontWeight: '900',  fontFamily: 'monospace' }">
       <div class="profile-container1">
 
 
-        <!-- Событие происходит в момент загрузки файла. В этот момент в переменную selectedImage записывается файл, который был выбран. -->
-        <img class="project-image" :src="profileData.profile_image" alt="Profile image">
+         <img class="project-image" :src="profileData.profile_image" alt="Profile image">
+        <p>Выберите новое изображение профиля</p>
         <input type="file" accept="image/*" @change="onFileChange">
 
       </div>
 
       <div class="profile-container2">
-        <h1 :style="{ fontSize: '18px', fontWeight: '500',  fontFamily: 'PressStart2P, sans-serif' }">User Profile: {{ loggedUserName }}</h1>
+        <h1 :style="{ fontSize: '18px', fontWeight: '500',  fontFamily: 'PressStart2P, sans-serif' }">Редактируем профиль: {{ loggedUserName }}</h1>
         <!-- 
-          Это поле, в которое выводится весь обмен, происходящий между клиентом и сервером. Нужно для отладки.-->
-          <textarea readonly v-model="debugText"></textarea> 
+          <p>Отладочный текст</p>
+          <textarea readonly v-model="debugText"></textarea>-->
+          <p>Псевдоним</p> 
           <input type="text" v-model="profileData.username" placeholder="Имя пользователя">
+          <p>Адрес электронной почты</p>
           <input type="email" v-model="profileData.email" placeholder="Email">
+          <p>Настоящее имя </p>
           <input type="text" v-model="profileData.name" placeholder="Полное имя">
+          <p>Краткая биография</p>
           <input type="text" v-model="profileData.short_intro" placeholder="Краткое описание">
+          <p>Местоположение</p>
           <input type="text" v-model="profileData.location" placeholder="Местоположение">
+          <p>Биография </p>
           <textarea v-model="profileData.bio" placeholder="Подробное описание"></textarea>
+          <p>Ссылка на GitHub</p>
           <textarea v-model="profileData.social_github" placeholder="GitHub"></textarea>
+          <p>Ссылка на Twitter</p>
           <textarea v-model="profileData.social_twitter" placeholder="Twitter"></textarea>
+          <p>Ссылка на ВКонтакте</p>
           <textarea v-model="profileData.social_vk" placeholder="ВКонтакте"></textarea>
+          <p>Ссылка на YouTube</p>
           <textarea v-model="profileData.social_youtube" placeholder="YouTube"></textarea>
+          <p>Ссылка на сайт</p>
           <textarea v-model="profileData.social_website" placeholder="Сайт"></textarea>  
-          <p :style="{fontSize: '18px'}">Навыки:</p>
-          <p v-for = "skill in skillsData" :key="skill.id" :style="{fontSize: '16px'}">{{ skill.name }} ({{ skill.description }})</p>
-        <div>
+          <p></p>
+
           <button @click="updateProfile" class="btn-submit">Сохранить</button>
           <button @click="cancelUpdate" class="btn-cancel">Отменить</button>
+        
+        <p :style="{fontSize: '18px'}">Навыки:</p>
+        <p v-for = "skill in skillsData" :key="skill.id" :style="{fontSize: '16px'}">{{ skill.name }} ({{ skill.description }})</p>
+        <div>
+          <p>Добавить навык</p>
+          <input type="text" v-model="newSkillData.name" placeholder="Название">
+          <input type="text" v-model="newSkillData.description" placeholder="Описание">
+          <button @click="addSkill" class="btn-submit">Добавить</button>
         </div>
+        
+      </div>
       </div>
 
+
+    <div v-else>
+      <h1>Вы не авторизованы</h1>
     </div>
     <DefaultFooter />
 </template>

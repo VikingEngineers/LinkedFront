@@ -160,13 +160,8 @@ export default {
         <div class="btn_link-container">
 
         <a :href="`/profile/${user.id}`" class="btn_link">Открыть</a>
-        <a :href="`/message-to/${user.id}`" class="btn_link">Написать</a>
-        <!-- <RouterLink :style="{fontSize: '16px'}"
-                  :to="{ name: 'message-to' }"
-                  class="btn_link"
-                  >
-                  Написать
-                </RouterLink>  -->
+        <a v-if="isAuthenticatedLocal" :href="`/message-to/${user.id}`" class="btn_link">Написать</a>
+
       </div>
     </div>
     </div>

@@ -10,6 +10,7 @@ import NavbarDefault from "../../../examples/navbars/NavbarDefault.vue";
 
 const userId = computed(() => localStorage.getItem('user_id'));
 const token = computed(() => localStorage.getItem('token'));
+const isAuthenticated = computed(() => !!token.value);
 
 const recipientId = ref('');
 const debugText = ref('');
@@ -91,7 +92,8 @@ onMounted(async() => {
 
 <template>
     <NavbarDefault />
-    <div class="profile-container" :style="{ fontWeight: '900',  fontFamily: 'monospace' }">
+    <div v-if="isAuthenticated"
+     class="profile-container" :style="{ fontWeight: '900',  fontFamily: 'monospace' }">
       <h3 :style="{ fontWeight: '800',  fontFamily: 'PressStart2P, sans-serif' }">Сообщение {{ findUsername(recipientId ) }} от {{ findUsername(userId) }} </h3>
         <input v-model="messageData.subject" placeholder="Введите тему сообщения">
         <textarea v-model="messageData.body" placeholder="Напишите текст сообщения"></textarea>
@@ -99,6 +101,9 @@ onMounted(async() => {
         <button @click="sendMessage" class="btn-submit">ОТПРАВИТЬ</button>
         <button @click="cancelCreate" class="btn-cancel">ОТМЕНИТЬ</button>
       </div>
+    </div>
+    <div v-else>
+      <h1>Для отправки сообщения необходимо авторизоваться</h1>
     </div>
     <DefaultFooter />
   </template> 

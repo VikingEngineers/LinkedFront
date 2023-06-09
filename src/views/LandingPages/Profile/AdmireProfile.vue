@@ -17,7 +17,7 @@ const getProfile = async () => {
 };
 
 const getSkills = async () => {
-    const skillsDataRecieved = await axios.get(`http://somebodyhire.me/api/profile/${profileId.value}/skills/`);
+    const skillsDataRecieved = await axios.get(`http://somebodyhire.me/api/profile/${userId.value}/skills/`);
     skillsData.value = skillsDataRecieved.data;
 };
 
@@ -40,6 +40,7 @@ const processProfileData = (data) => {
 
 onMounted(async() => {
     await getProfile();
+    await getSkills();
 });
 
 

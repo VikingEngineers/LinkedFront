@@ -1,6 +1,6 @@
 <script setup>
 import axios from 'axios';
-import { ref, computed } from "vue";
+import { onMounted, ref, computed } from "vue";
 import NavbarDefault from "../../../examples/navbars/NavbarDefault.vue";
 import { useRouter } from "vue-router";
 
@@ -15,14 +15,11 @@ const projectData = ref({
     featured_image: "",
     demo_link: null,
     source_link: null,
-    likes: 0,
     owner: userId.value,
-    tags: []
 });
 
 const router = useRouter();
 const selectedImage = ref(null);
-
 const debugText = ref('');
 
 // Axios request and response interceptors
@@ -42,15 +39,17 @@ axios.interceptors.response.use((response) => {
 const createProject = async () => {
     try {
         const headers = { 'Authorization': `Bearer ${token.value}` };
-        const data = {
-            title: projectData.value.title,
-            description: projectData.value.description,
-            demo_link: projectData.value.demo_link,
-            source_link: projectData.value.source_link,
-            vote_total: projectData.value.vote_total,
-            vote_ratio: projectData.value.vote_ratio,
-            owner: userId.value
-        };
+        const data = new FormData();
+        data.append('title', projectData.value.title);
+        data.append('description', projectData.value.description);
+        data.append('demo_link', projectData.value.demo_link);
+        data.append('source_link', projectData.value.source_link);
+        data.append('owner', userId.value);
+
+
+        if (selectedImage.value) {
+            data.append('featured_image', selectedImage.value);
+        }
         const response = await axios.post('http://somebodyhire.me/api/projects/create/', data, { headers });
         router.push(`/project/${response.data.id}`);
     } catch (error) {
@@ -77,12 +76,11 @@ const onFileChange = (event) => {
         <!-- <textarea readonly v-model="debugText"></textarea> -->
         <input type="text" v-model="projectData.title" placeholder="Добавьте название проекта">
         <input type="text" v-model="projectData.description" placeholder="Добавьте описание проекта">
-        <input v-model="projectData.featured_image" placeholder="Link to featured image">
-        <input type="file" accept="image/*" @change="onFileChange" placeholder="Link to featured image">
+        <input type="file" accept="image/*" @change="onFileChange" placeholder="Выберите изображение">
         <textarea v-model="projectData.demo_link" placeholder="Ссылка на демонстрацию проекта"></textarea>
         <textarea v-model="projectData.source_link" placeholder="Ссылка на исходный код"></textarea>
         <div class="btn_link-container">
-          <button @click="createProject" class="btn-submit">Подтвердить</button>
+          <button @click="createProject" class="btn-submit">Создать проект</button>
         <button @click="cancelCreate" class="btn-cancel">Отменить</button>
         </div>
     </div>
