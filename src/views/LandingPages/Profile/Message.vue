@@ -63,7 +63,6 @@ onMounted(async() => {
     await getMessages();
 
 });
-
 </script>
 
 
