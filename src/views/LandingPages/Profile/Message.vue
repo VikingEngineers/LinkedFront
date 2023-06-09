@@ -78,7 +78,13 @@ onMounted(async() => {
                   Написать сообщение
                 </RouterLink>  -->
         <!-- <p :style="{ fontSize: '24px'}">{{ messageData.email }}</p> -->
-
+        <RouterLink :style="{fontFamily: 'PressStart2P, sans-serif', fontSize: '14px'}"
+        :to="{ name: 'open-message' }"
+        class="btn_link"
+        >
+        Написать сообщение
+      </RouterLink>
+      
         <div class="tabs">
           <div id="content-1" > 
             <div class="table-wrap">

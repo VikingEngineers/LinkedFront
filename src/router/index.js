@@ -122,7 +122,7 @@ const router = createRouter({
       component: MessageTo,
     },
     {
-      path: "/open-message/:id",
+      path: "/open-message",
       name: "open-message",
       component: OpenMessage,
     },
