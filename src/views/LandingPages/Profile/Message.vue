@@ -82,24 +82,64 @@ onMounted(async() => {
 
         <div class="tabs">
           <div id="content-1" > 
-          <div v-for = "message in messageData" :key="message.id" class="one_inbox" :style="{ fontFamily: 'monospace' }">  
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Отправитель</th>
+                    <th>Получатель</th>
+                    <th>Тема</th>
+                    <th>Текст</th>
+                  </tr>
+                </thead>
+                <tbody v-for = "message in messageData"  :key="message.id" :style="{ fontFamily: 'monospace' }">
+                  <tr v-if="message.recipient == userId"  :key="message.id">
+                    <td data-label="Отправитель">{{ findUsername(message.sender) }}</td>
+                    <td data-label="Получатель">{{ findUsername(message.recipient) }} </td>
+                    <td data-label="Тема">{{ message.subject }}</td>
+                    <td data-label="Текст">{{ message.body }}</td>
+                  </tr>
+                </tbody>
+            </table>
+            </div>
+          <!-- <div v-for = "message in messageData" :key="message.id" class="one_inbox" :style="{ fontFamily: 'monospace' }">  
     
             
               <p :style="{ fontWeight: '500',  fontSize: '16px'}">От: {{ findUsername(message.sender) }}</p>
               <p :style="{ fontWeight: '500',  fontSize: '16px'}">Кому: {{ findUsername(message.recipient) }} </p>
               <p :style="{ fontWeight: '500',  fontSize: '16px'}">Тема: {{ message.subject }}</p>
               <p :style="{ fontWeight: '500',  fontSize: '16px'}">Сообщение: {{ message.body }}</p>
-            </div>
+            </div> -->
           </div>
           <div id="content-2" >
-            <div v-for = "message in messageData" :key="message.id" class="one_inbox" :style="{ fontWeight: '500',  fontFamily: 'monospace' }">
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Отправитель</th>
+                    <th>Получатель</th>
+                    <th>Тема</th>
+                    <th>Текст</th>
+                  </tr>
+                </thead>
+                <tbody v-for = "message in messageData" :key="message.id" :style="{ fontFamily: 'monospace' }">
+                  <tr v-if="message.sender == userId" :key="message.id">
+                    <td data-label="Отправитель">{{ findUsername(message.sender) }}</td>
+                    <td data-label="Получатель">{{ findUsername(message.recipient) }} </td>
+                    <td data-label="Тема">{{ message.subject }}</td>
+                    <td data-label="Текст">{{ message.body }}</td>
+                  </tr>
+                </tbody>
+            </table>
+            </div>
+            <!-- <div v-for = "message in messageData" :key="message.id" class="one_inbox" :style="{ fontWeight: '500',  fontFamily: 'monospace' }">
 
               
               <p :style="{ fontWeight: '500',  fontSize: '16px'}">От: {{ findUsername(message.sender) }}</p>
               <p :style="{ fontWeight: '500',  fontSize: '16px'}">Кому: {{ findUsername(message.recipient) }} </p>
               <p :style="{ fontWeight: '500',  fontSize: '16px'}">Тема: {{ message.subject }}</p>
               <p :style="{ fontWeight: '500',  fontSize: '16px'}">Сообщение: {{ message.body }}</p>
-            </div>
+            </div> -->
           </div>
           <div class="tabs__links">
             <a href="#content-1">Входящие</a>
@@ -196,7 +236,7 @@ onMounted(async() => {
   display: inline-block;
 background-color: #fff;
 padding: 2rem 2rem;
-color: #000;
+color: #4EA852;
 }
 
 table {
@@ -206,11 +246,13 @@ table {
   padding:0;
   border-collapse: collapse;
   border-spacing: 0;
+  
 }
 
 table tr {
   border: 1px solid #ddd;
   padding: 5px;
+  
 }
 
 table th, table td {
@@ -221,7 +263,7 @@ table th, table td {
 
 table th {
   color: #fff;
-  background-color: #444;
+  background-color: rgb(70, 104, 105);
   text-transform: uppercase;
   font-size: 14px;
   letter-spacing: 1px;
