@@ -81,6 +81,9 @@ onMounted(() => {
     padding-left: 5%;
   }
   
+  .project-title {
+    flex-wrap: wrap;
+  }
   .result-card {
     display: flex;
   flex-direction: column;

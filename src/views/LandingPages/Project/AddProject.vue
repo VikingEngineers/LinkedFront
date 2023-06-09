@@ -66,6 +66,8 @@ const onFileChange = (event) => {
     selectedImage.value = event.target.files[0];
     debugText.value = `Selected image: ${selectedImage.value.name}`;
 };
+
+
 </script>
 
 <template>

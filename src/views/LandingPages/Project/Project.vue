@@ -110,7 +110,7 @@ const search = async () => {
       
       </div>
         <div class="project-container2" v-if="projectData" >
-          <h1 class="subtitle" :style="{ fontWeight: '500',  fontFamily: 'PressStart2P, sans-serif' }">{{ projectData.title }}</h1>
+          <h1 class="subtitle" :style="{ fontWeight: '500',  fontFamily: 'PressStart2P, sans-serif',fontSize:'26px' }">{{ projectData.title }}</h1>
           <img class="project-image" :src="projectData.featured_image" alt="Featured image">
           <p class="project-created">Created On: {{ new Date(projectData.created).toLocaleDateString() }}</p>
           
@@ -159,6 +159,7 @@ float: left;
 .project-container2 {
   width: 70%;
 float: right;
+
 }
 .feedback {
   margin: 10px 0px;
@@ -179,6 +180,7 @@ input, textarea{
   font-size: 24px;
   font-weight: bold;
   color: #333;
+  
 }
 
 .project-subtitle {
@@ -242,6 +244,7 @@ input, textarea{
 h1,h2{
   /*font-family: 'PressStart2P';*/
   color:rgb(70, 104, 105);
+  width: 30%;
 }
 p{
   font-family: 'SpaceMono' monospace;
