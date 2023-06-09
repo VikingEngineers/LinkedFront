@@ -112,7 +112,7 @@ const logout = () => {
                 >
                   <span>Все пользователи</span>
                 </RouterLink>
-            <a v-if="isAuthenticated" class="dropdown-item border-radius-md" href="/profiles">Мои контакты</a>
+            <!-- <a v-if="isAuthenticated" class="dropdown-item border-radius-md" href="/profiles">Мои контакты</a> -->
           </div>
         </div>
 
