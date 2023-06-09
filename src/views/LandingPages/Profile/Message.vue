@@ -81,22 +81,22 @@ onMounted(async() => {
 
         <div class="tabs">
           <div id="content-1">
-            <div v-for = "message in messageData" :key="message.id" class="one_inbox" :style="{ fontSize: '12px', fontWeight: '500',  fontFamily: 'PressStart2P, sans-serif' }">
+            <div v-for = "message in messageData" :key="message.id" class="one_inbox" :style="{ fontFamily: 'monospace' }">
           
-              <p :style="{ fontSize: '14px'}">От: {{ findUsername(message.sender) }}</p>
-              <p :style="{ fontSize: '14px'}">Кому: {{ findUsername(message.recipient) }} </p>
-              <p :style="{ fontSize: '14px'}">Тема: {{ message.subject }}</p>
-              <p :style="{ fontSize: '14px'}">Сообщение: {{ message.body }}</p>
+              <p :style="{ fontWeight: '500',  fontSize: '16px'}">От: {{ findUsername(message.sender) }}</p>
+              <p :style="{ fontWeight: '500',  fontSize: '16px'}">Кому: {{ findUsername(message.recipient) }} </p>
+              <p :style="{ fontWeight: '500',  fontSize: '16px'}">Тема: {{ message.subject }}</p>
+              <p :style="{ fontWeight: '500',  fontSize: '16px'}">Сообщение: {{ message.body }}</p>
             </div>
     
           </div>
           <div id="content-2">
-            <div v-for = "message in messageData" :key="message.id" class="one_inbox" :style="{ fontSize: '12px', fontWeight: '500',  fontFamily: 'PressStart2P, sans-serif' }">
+            <div v-for = "message in messageData" :key="message.id" class="one_inbox" :style="{ fontWeight: '500',  fontFamily: 'monospace' }">
           
-              <p :style="{ fontSize: '14px'}">От: {{ findUsername(message.sender) }}</p>
-              <p :style="{ fontSize: '14px'}">Кому: {{ findUsername(message.recipient) }} </p>
-              <p :style="{ fontSize: '14px'}">Тема: {{ message.subject }}</p>
-              <p :style="{ fontSize: '14px'}">Сообщение: {{ message.body }}</p>
+              <p :style="{ fontWeight: '500',  fontSize: '16px'}">От: {{ findUsername(message.sender) }}</p>
+              <p :style="{ fontWeight: '500',  fontSize: '16px'}">Кому: {{ findUsername(message.recipient) }} </p>
+              <p :style="{ fontWeight: '500',  fontSize: '16px'}">Тема: {{ message.subject }}</p>
+              <p :style="{ fontWeight: '500',  fontSize: '16px'}">Сообщение: {{ message.body }}</p>
             </div>
           </div>
     
