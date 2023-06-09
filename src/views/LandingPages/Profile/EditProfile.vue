@@ -2,6 +2,7 @@
 import axios from 'axios';
 import { onMounted, ref, computed } from "vue";
 import NavbarDefault from "../../../examples/navbars/NavbarDefault.vue";
+import DefaultFooter from "../../../examples/footers/FooterDefault.vue";
 import { useRouter, useRoute } from "vue-router";
 
 const isAuthenticated = computed(() => !!localStorage.getItem('access_token'));
@@ -197,15 +198,17 @@ onMounted(async() => {
           <button @click="cancelUpdate" class="btn-cancel">Отменить</button>
         
         
-        
+          <div class="podval1"><DefaultFooter /></div>
       </div>
+      
       </div>
 
 
     <div v-else>
       <h1>Вы не авторизованы</h1>
+      <div class="podval2"><DefaultFooter /></div>
     </div>
-    <DefaultFooter />
+    
 </template>
 
 
@@ -219,6 +222,17 @@ onMounted(async() => {
   height: auto;
   margin: 5% 10%;
   padding: 20px;
+}
+
+.podval1 {
+  margin-left: -70%;
+	width: 150%;
+
+}
+.podval2 {
+  margin-top: 80%;
+	width: 100%;
+
 }
 .skills button{
   width: 35%;
@@ -266,7 +280,7 @@ height: auto;
     color: #fff;
     background-color: #4CAF50;
     border: none;
-    padding: 15px 32px;
+    padding: 15px;
     text-align: center;
     text-decoration: none;
     display: inline-block;

@@ -2,6 +2,7 @@
 import axios from 'axios';
 import { onMounted, ref, computed } from "vue";
 import NavbarDefault from "../../../examples/navbars/NavbarDefault.vue";
+import DefaultFooter from "../../../examples/footers/FooterDefault.vue";
 import { useRouter } from "vue-router";
 
 const isAuthenticated = computed(() => !!localStorage.getItem('access_token'));

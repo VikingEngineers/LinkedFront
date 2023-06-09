@@ -5,6 +5,7 @@ import { useRouter } from 'vue-router';
 import { useRoute } from 'vue-router';
 
 import NavbarDefault from "../../../examples/navbars/NavbarDefault.vue";
+import DefaultFooter from "../../../examples/footers/FooterDefault.vue";
 
 const isAuthenticated = computed(() => !!localStorage.getItem('access_token'));
 const userId = computed(() => localStorage.getItem('user_id'));

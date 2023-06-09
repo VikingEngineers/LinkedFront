@@ -6,6 +6,7 @@ import { computed } from "vue";
 
 // example components
 import NavbarDefault from "@/examples/navbars/NavbarDefault.vue";
+import DefaultFooter from "../../../examples/footers/FooterDefault.vue";
 import Header from "@/examples/Header.vue";
 
 
@@ -36,4 +37,5 @@ const isAuthenticated = computed(() => !!localStorage.getItem('access_token')); 
         <p>Очень жаль</p>
     </div>
   </Header>
+  <DefaultFooter />
 </template>

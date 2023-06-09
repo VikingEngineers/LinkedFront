@@ -3,6 +3,7 @@ import axios from 'axios';
 import { onMounted, ref, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import NavbarDefault from '../../../examples/navbars/NavbarDefault.vue';
+import DefaultFooter from "../../../examples/footers/FooterDefault.vue";
 
 
 const projectId = ref(null);
@@ -161,7 +162,7 @@ const search = async () => {
         
 
     </div>
-    <DefaultFooter />
+    <div class="podval"><DefaultFooter /></div>
 </template> 
 
 
@@ -176,6 +177,28 @@ const search = async () => {
   align-items: center;
   text-align: center;*/
   width: 90%;
+}
+.podval {
+  position: absolute;
+	left: 0;
+	margin-top: 60%;
+	width: 100%;
+	height: 80px;
+}
+@media screen and (max-width: 992px) {
+  .podval {
+   
+    margin-top: 110%;
+   
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .podval {
+
+    margin-top: 130%;
+
+  }
 }
 .project-container1 {
   width: 30%;

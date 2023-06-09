@@ -5,6 +5,7 @@ import { useRouter } from 'vue-router';
 import { useRoute } from 'vue-router';
 
 import NavbarDefault from "../../../examples/navbars/NavbarDefault.vue";
+import DefaultFooter from "../../../examples/footers/FooterDefault.vue";
 
 
 
@@ -105,7 +106,7 @@ onMounted(async() => {
     <div v-else>
       <h1>Для отправки сообщения необходимо авторизоваться</h1>
     </div>
-    <DefaultFooter />
+    <div class="podval"><DefaultFooter /></div>
   </template> 
 
 
@@ -124,7 +125,13 @@ onMounted(async() => {
   display: flex;
   flex-wrap: wrap;
 }
-
+.podval {
+  position: absolute;
+	left: 0;
+	margin-top: 30%;
+	width: 100%;
+	height: 40px;
+}
 .profile-container input, .profile-container textarea {
   width: 100%; /* Make inputs and textareas take up the full width of the container */
   padding: 10px; /* Add some padding */
