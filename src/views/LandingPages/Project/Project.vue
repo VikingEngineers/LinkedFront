@@ -1,12 +1,13 @@
 <script setup>
 import axios from 'axios';
 import { onMounted, ref, computed } from "vue";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import NavbarDefault from '../../../examples/navbars/NavbarDefault.vue';
 
 
 const projectId = ref(null);
 const route = useRoute();
+const router = useRouter();
 const projectData = ref([]);
 const ProjectReviews = ref([]);
 const commentData = ref({
@@ -23,6 +24,7 @@ const loggedUserName = computed(() => localStorage.getItem('username'));
 const token = computed(() => localStorage.getItem('access_token'));
 
 const debugText = ref('Debug Text');  
+const isLiked = ref(false);
 
 
 onMounted(async() => {
@@ -30,6 +32,7 @@ onMounted(async() => {
     await getProject();
     await GetProjectReviews();
     await search();
+    
 });
 
 
@@ -57,7 +60,8 @@ const search = async () => {
     try {
         const usersResponse = await axios.get(`http://somebodyhire.me/api/search/profiles/?search_query=${searchQuery.value}`);
         searchResultUsers.value = usersResponse.data;
-        // debugText.value = JSON.stringify(usersResponse.data); 
+        // debugText.value = JSON.stringify(usersResponse.data);
+        likers.value = searchResultUsers.value.likes;
     } catch (error) {
         console.error('There was an error fetching the search results', error); 
     }
@@ -85,6 +89,17 @@ const search = async () => {
     }
   };
 
+  const postLike = async () => {
+    try {
+        const headers = { 'Authorization': `Bearer ${token.value}` };
+        const response = await axios.patch (`http://somebodyhire.me/api/projects/${projectId.value}/like/`, {}, { headers });
+        location.reload();
+    } catch (error) {
+        console.error('There was an error posting the like', error);
+    } 
+  };
+
+ 
 </script>
 
 
@@ -99,13 +114,18 @@ const search = async () => {
           </p>
         <a v-if="projectData.demo_link" class="project-link" target="_blank" :href="projectData.demo_link">Demo Live</a>
         <a v-if="projectData.source_link" class="project-link" target="_blank" :href="projectData.source_link">Source Code</a>
-        <p  class="project-votes">Количество лайкнувших:{{ projectData.likes }} </p>
+        <p  class="project-votes">ID лайкнувших:{{ projectData.likes }} </p>
         <div v-if = "projectData.owner == userId" class="project-owner-note">
           <a class="btn_link" :href="`/editproject/${projectData.id}`">Редактирование проекта</a>
         </div>
       <div class="btn_link-container">
-        <button v-if = "projectData.owner != userId"  class="button_like" > Нравится </button>
-        <button v-if = "projectData.owner != userId"  class="button_dislike"> Не нравится </button>
+        <button v-if = "projectData.owner != userId"  class="button_like" @click="postLike" > Нравится </button>
+        <!-- 
+       button v-if="projectData.owner !== userId && projectData.likes.includes(userId)" class="button_like">Не нравится</button>
+       <button v-if = "projectData.owner != userId"  class="button_dislike"> Не нравится </button> 
+      
+        <button v-else-if="projectData.owner !== userId && !projectData.likes.includes(userId)" class="button_dislike">Нравится</button> -->
+
       </div>
       
       </div>
