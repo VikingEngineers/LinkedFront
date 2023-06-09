@@ -39,8 +39,8 @@ onMounted(() => {
         <!-- <p>{{ project.description }}</p> -->
         <div v-if="project.tags.length > 0 ">
           <div class="tags-container">
-          <div class="tags" v-for="project in searchResultProjects" :key="project.tags">
-          <p>{{ project.tags }}</p>
+            <div class="tags-container" v-if="project.tags.length > 0 ">
+              <p>{{ project.tags }}</p>
           </div>
         </div>
       </div>
