@@ -101,7 +101,7 @@ const logout = () => {
 <template>
 <nav>
     <div class="nav-wrapper-new">
-        <router-link to="/" class="logo" :style="{ fontSize: '20px', fontWeight: '500',  fontFamily: 'PressStart2P, sans-serif' }">LinkedMin</router-link>
+        <router-link to="/" class="logo" :style="{ fontWeight: '900',  fontFamily: 'PressStart2P, sans-serif' }">LinkedMin</router-link>
       <div class="nav-links" :style="{ fontSize: '18px', fontWeight: '900',  fontFamily: 'monospace' }">
         <div class="nav-item" @click="usersOpen = !usersOpen">
           Пользователи
@@ -215,9 +215,7 @@ export default {
 }
 
 .logo {
-  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-  font-weight: 900;
-  font-size: 200%;
+  font-size: 26px;
   color: #4EA852;
 }
 
@@ -276,6 +274,9 @@ border-radius: 5px;
   .dropdown {
     position: absolute;
     top: auto;
+  }
+  .logo {
+    font-size: 20px;
   }
 }
 
