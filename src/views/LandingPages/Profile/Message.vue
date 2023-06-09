@@ -100,15 +100,6 @@ onMounted(async() => {
           </div>
         </div>
 
-<!--         <div v-for = "message in messageData" :key="message.id" class="one_inbox" :style="{ fontSize: '12px', fontWeight: '500',  fontFamily: 'PressStart2P, sans-serif' }">
-          
-          <p :style="{ fontSize: '12px'}">От: {{ findUsername(message.sender) }}</p>
-          <p :style="{ fontSize: '12px'}">Кому: {{ findUsername(message.recipient) }} </p>
-          <p :style="{ fontSize: '12px'}">Тема: {{ message.subject }}</p>
-          <p :style="{ fontSize: '12px'}">Сообщение: {{ message.body }}</p>
-        </div> -->
-
-
       
     </div>
     <DefaultFooter />
@@ -127,8 +118,10 @@ onMounted(async() => {
   order: 0;
   white-space: nowrap;
   margin-bottom: 15px;
+  margin-left: 50px;
   background-color: #fff;
-  border: 1px solid #e3f2fd;
+  border: 2px solid #e3f2fd;
+  border-radius: 10px;
   box-shadow: 0 2px 4px 0 #e3f2fd;
 }
 
@@ -138,6 +131,10 @@ onMounted(async() => {
   color: #4EA852;
   padding: 6px 10px;
   text-align: center;
+  border-radius: 5px;
+  font-family: PressStart2P, sans-serif;
+  font-size: 15px;
+  font-weight: 200;
 }
 
 .tabs__links>a:hover {
@@ -147,7 +144,7 @@ onMounted(async() => {
 .tabs>#content-1:target~.tabs__links>a[href="#content-1"],
 .tabs>#content-2:target~.tabs__links>a[href="#content-2"],
 .tabs>#content-3:target~.tabs__links>a[href="#content-3"] {
-  background-color: #bbdefb;
+  background-color: #4ea85252;
   cursor: default;
 }
 
@@ -188,31 +185,7 @@ onMounted(async() => {
 }
 
 
-  .btn_link {
-    /* Adds some padding inside the button */
-    padding: 10px;
-    /* Changes the font size */
-    font-size: 16px;
-    /* Changes the background color of the button */
-    background-color: #4EA852;
-    /* Changes the color of the text inside the button */
-    color: rgb(255, 255, 255);
-    /* Makes the border corners rounded */
-    border-radius: 5px;
-    /* Removes the default button border */
-    border: none;
-    /* Changes the cursor to a hand pointer when hovering over the button */
-    cursor: pointer;
-    width: 70%;
-    text-align: center;
-  }
-  .spantext2{
-    width: 30%;
-    display:inline-block;
-    text-decoration: none;
-    font-size: larger;
-    color:#1b191957;
-  }
+
   .one_inbox {
     border-radius: 5px;
     border:2px solid #272424;
@@ -223,7 +196,7 @@ onMounted(async() => {
     margin-left: 10%;
     margin-right: 10%;
     box-sizing: border-box;
-    width: 50%;
+    width: 60%;
   }
   
   .profile-container {
@@ -237,28 +210,7 @@ onMounted(async() => {
   align-items: center;
   text-align: center;
 }
-.text-container {
-  width: 90%;
-  margin-left: 9%;
-  background-color: #ffffff57;
-  border-radius: 10px;
-  text-align: left;
-  margin-bottom: 30px;
-}
-.social-link {
-  margin-left: 5%;
-  width: 100%;
-  flex-direction: row;
-  display: flex;
-  flex-wrap: wrap;
-  text-align: center;
-  }
-.social-link a{
-margin: 3% 4%;
-border-radius: 5px;
-border: 2px solid #4ea852e0;
-padding: 7px;
-}
+
 @media screen and (max-width: 992px) {
   .profile-container {
     width: 90%;
@@ -273,10 +225,7 @@ padding: 7px;
   .profile-container {
     width: 90%;
   }
-  .text-container {
-    width: 70%;
-    margin: 5% 15%;
-  }
+
 }
 .profile-container img {
   width: 250px;
@@ -329,5 +278,4 @@ button:hover{
   margin-top: 20px;
   text-align: center;
 }
-
 </style>
