@@ -234,8 +234,8 @@ onMounted(async() => {
 .table-wrap {
   text-align: center;
   display: inline-block;
-  padding: 2vw 2vw 2vw 2vw;
-  margin-left: -15%;
+  padding: 0,5vw;
+  margin-left: -25%;
   color: #4EA852;
 }
 
