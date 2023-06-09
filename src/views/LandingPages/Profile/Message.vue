@@ -94,10 +94,10 @@ onMounted(async() => {
                 </thead>
                 <tbody v-for = "message in messageData"  :key="message.id" :style="{ fontFamily: 'monospace' }">
                   <tr v-if="message.recipient == userId"  :key="message.id">
-                    <td data-label="Отправитель">{{ findUsername(message.sender) }}</td>
-                    <td data-label="Получатель">{{ findUsername(message.recipient) }} </td>
-                    <td data-label="Тема">{{ message.subject }}</td>
-                    <td data-label="Текст">{{ message.body }}</td>
+                    <td data-label="Отправитель"><a :href="`/open-message/${user.id}`">{{ findUsername(message.sender) }}</a></td>
+                    <td data-label="Получатель"><a :href="`/open-message/${user.id}`">{{ findUsername(message.recipient) }} </a></td>
+                    <td data-label="Тема"><a :href="`/open-message/${user.id}`">{{ message.subject }}</a></td>
+                    <td data-label="Текст"><a :href="`/open-message/${user.id}`">{{ message.body }}</a></td>
                   </tr>
                 </tbody>
             </table>
@@ -234,9 +234,9 @@ onMounted(async() => {
 .table-wrap {
   text-align: center;
   display: inline-block;
-background-color: #fff;
-padding: 2rem 2rem;
-color: #4EA852;
+  padding: 2vw 2vw 2vw 2vw;
+  margin-left: -15%;
+  color: #4EA852;
 }
 
 table {

@@ -16,7 +16,8 @@ import MyProjects from "../views/LandingPages/Project/MyProjects.vue";
 import Message from "../views/LandingPages/Profile/Message.vue";
 import FormMessage from "../views/LandingPages/Profile/FormMessage.vue";
 import MessageTo from "../views/LandingPages/Profile/MessageTo.vue";
-/* import MessageTo from "../views/Presentation/404.vue"; */
+import OpenMessage from "../views/LandingPages/Profile/OpenMessage.vue";
+import NotFoundPage from "../views/Presentation/NotFoundPage.vue";
 
 
 const router = createRouter({
@@ -120,13 +121,16 @@ const router = createRouter({
       name: "message-to",
       component: MessageTo,
     },
- /*    {
-      path: "/404",
-      name: "pageError",
-      component: 404,
-    }, */
-
-
+    {
+      path: "/open-message/:id",
+      name: "open-message",
+      component: OpenMessage,
+    },
+    {
+      path: "/not-found",
+      name: "not-found",
+      component: NotFoundPage,
+    }, 
   ],
 });
 

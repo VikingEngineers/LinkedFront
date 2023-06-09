@@ -53,15 +53,18 @@ onMounted(async() => {
 
 
 <template>
-    <NavbarDefault />
-    <p >{{ debugText }}</p>
-    <div class="profile-container" :style="{fontWeight: '900',  fontFamily: 'monospace' }">
-  
-    
+  <NavbarDefault />
+  <div class="profile-container" :style="{ fontWeight: '900',  fontFamily: 'monospace' }">
+    <h3 :style="{ fontWeight: '800',  fontFamily: 'PressStart2P, sans-serif' }">Сообщение {{ findUsername(recipientId ) }} от {{ findUsername(userId) }} </h3>
+      <input v-model="messageData.subject" placeholder="Введите тему сообщения">
+      <textarea v-model="messageData.body" placeholder="Напишите текст сообщения"></textarea>
+      <div class="btn-container">
+      <button @click="sendMessage" class="btn-submit">ОТПРАВИТЬ</button>
+      <button @click="cancelCreate" class="btn-cancel">ОТМЕНИТЬ</button>
     </div>
-
-    <DefaultFooter />
-  </template> 
+  </div>
+  <DefaultFooter />
+</template> 
 
 
 
