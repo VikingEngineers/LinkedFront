@@ -9,6 +9,8 @@ const messageData = ref([]);
 const debugText = ref('');
 const searchResultUsers = ref([]);
 
+const userId = computed(() => localStorage.getItem('user_id'));
+
 // // Axios request and response interceptors
 // axios.interceptors.request.use((request) => {
 //   //debugText.value += '\n\nRequest:\n' + JSON.stringify(request, null, 2);
@@ -80,14 +82,19 @@ onMounted(async() => {
 
         <div class="tabs">
           <div id="content-1" > 
-          <div v-for = "message in messageData" :key="message.id" class="one_inbox" :style="{ fontFamily: 'monospace' }">          
+          <div v-for = "message in messageData" :key="message.id" class="one_inbox" :style="{ fontFamily: 'monospace' }">  
+    
+            
               <p :style="{ fontWeight: '500',  fontSize: '16px'}">От: {{ findUsername(message.sender) }}</p>
               <p :style="{ fontWeight: '500',  fontSize: '16px'}">Кому: {{ findUsername(message.recipient) }} </p>
               <p :style="{ fontWeight: '500',  fontSize: '16px'}">Тема: {{ message.subject }}</p>
               <p :style="{ fontWeight: '500',  fontSize: '16px'}">Сообщение: {{ message.body }}</p>
-            </div></div>
+            </div>
+          </div>
           <div id="content-2" >
             <div v-for = "message in messageData" :key="message.id" class="one_inbox" :style="{ fontWeight: '500',  fontFamily: 'monospace' }">
+
+              
               <p :style="{ fontWeight: '500',  fontSize: '16px'}">От: {{ findUsername(message.sender) }}</p>
               <p :style="{ fontWeight: '500',  fontSize: '16px'}">Кому: {{ findUsername(message.recipient) }} </p>
               <p :style="{ fontWeight: '500',  fontSize: '16px'}">Тема: {{ message.subject }}</p>
@@ -184,7 +191,72 @@ onMounted(async() => {
   display: block;
 }
 
+.table-wrap {
+  text-align: center;
+  display: inline-block;
+background-color: #fff;
+padding: 2rem 2rem;
+color: #000;
+}
 
+table {
+  border: 1px solid #ccc;
+  width: 100%;
+  margin:0;
+  padding:0;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+table tr {
+  border: 1px solid #ddd;
+  padding: 5px;
+}
+
+table th, table td {
+  padding: 10px;
+  text-align: center;
+  border-right: 1px solid #ddd;
+}
+
+table th {
+  color: #fff;
+  background-color: #444;
+  text-transform: uppercase;
+  font-size: 14px;
+  letter-spacing: 1px;
+}
+
+
+@media screen and (max-width: 600px) {
+table {
+  border: 0;
+}
+table thead {
+  display: none;
+}
+table tr {
+  margin-bottom: 10px;
+  display: block;
+  border-bottom: 2px solid #ddd;
+}
+table td {
+  display: block;
+  text-align: right;
+  font-size: 13px;
+  border-bottom: 1px dotted #ccc;
+  border-right: 1px solid transparent;
+}
+table td:last-child {
+  border-bottom: 0;
+}
+table td:before {
+  content: attr(data-label);
+  float: left;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+}
 
   .one_inbox {
     border-radius: 5px;
