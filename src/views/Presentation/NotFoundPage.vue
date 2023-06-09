@@ -4,7 +4,7 @@ import vueMkHeader from "@/assets/img/7.jpg";
 import axios from 'axios';
 
 //example components
-import NavbarDefault from "../..//examples/navbars/NavbarDefault.vue";
+import NavbarDefault from "../../examples/navbars/NavbarDefault.vue";
 import DefaultFooter from "../../examples/footers/FooterDefault.vue";
 import Header from "../../examples/Header.vue";
 

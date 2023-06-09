@@ -9,6 +9,8 @@ const messageData = ref([]);
 const debugText = ref('');
 const searchResultUsers = ref([]);
 
+const userId = computed(() => localStorage.getItem('user_id'));
+
 // // Axios request and response interceptors
 // axios.interceptors.request.use((request) => {
 //   //debugText.value += '\n\nRequest:\n' + JSON.stringify(request, null, 2);
@@ -61,9 +63,6 @@ onMounted(async() => {
     await getMessages();
 
 });
-
-              
-
 </script>
 
 
@@ -72,53 +71,82 @@ onMounted(async() => {
     <p >{{ debugText }}</p>
     <div class="profile-container" :style="{fontWeight: '900',  fontFamily: 'monospace' }">
       <h2 :style="{ fontSize: '27px', fontWeight: '900',  fontFamily: 'PressStart2P, sans-serif', marginBottom:'5%' }">Мои сообщения</h2>
-      <RouterLink :style="{fontFamily: 'PressStart2P, sans-serif', fontSize: '14px'}"
+      <!-- <RouterLink :style="{fontFamily: 'PressStart2P, sans-serif', fontSize: '14px'}"
                   :to="{ name: 'send-message' }"
                   class="btn_link"
                   >
                   Написать сообщение
-                </RouterLink> 
-        <p :style="{ fontSize: '24px'}">{{ messageData.email }}</p>
+                </RouterLink>  -->
+        <!-- <p :style="{ fontSize: '24px'}">{{ messageData.email }}</p> -->
 
-        <div v-for = "message in messageData" :key="message.id" class="one_inbox" :style="{ fontSize: '12px', fontWeight: '500',  fontFamily: 'PressStart2P, sans-serif' }">
-          
-          <p :style="{ fontSize: '12px'}">От: {{ findUsername(message.sender) }}</p>
-          <p :style="{ fontSize: '12px'}">Кому: {{ findUsername(message.recipient) }} </p>
-          <p :style="{ fontSize: '12px'}">Тема: {{ message.subject }}</p>
-          <p :style="{ fontSize: '12px'}">Сообщение: {{ message.body }}</p>
-        </div>
-
-
-        
-        <!-- <div class="one_inbox" :style="{ fontSize: '12px', fontWeight: '500',  fontFamily: 'PressStart2P, sans-serif' }">
-          
-          <a class="spantext2" :href="`${messageData.sender}`" target="_blank" >Sender {{ messageData.sender }}</a>
-           <a class="spantext2" :href="`${messageData.name}`" target="_blank" >Name {{ messageData.name }}</a>
-          <a class="spantext2" :href="`${messageData.email}`" target="_blank" >Email {{ messageData.email }}</a> 
-          <a class="spantext2" :href="`${messageData.subject}`" target="_blank" >Subject{{ messageData.subject }}</a>
-          <a class="spantext2" :href="`${messageData.body}`" target="_blank" >Body{{ messageData.body}}</a>
-          <a class="spantext2" :href="`${messageData.created}`" target="_blank" >Created{{ messageData.created }}</a>
-        </div>
-
-        <div class='container_content'>
-            <div class="inbox">
-              <h3 class="send">New Messages</h3>
-              {/*<h4 class="spantext1">Who?</h4>
-              <h4 class="spantext1" >What?</h4>
-        <h4 class="spantext1">When?</h4>*/}
-              <div class="one_inbox">
-              <a class="spantext2" href="{% url 'message' message.id %}">message.name</a>
-              <a class="spantext2" href="{% url 'message' message.id %}">message.subject</a>
-              <a class="spantext2" href="{% url 'message' message.id %}">message.created</a>
-                </div>
+        <div class="tabs">
+          <div id="content-1" > 
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Отправитель</th>
+                    <th>Получатель</th>
+                    <th>Тема</th>
+                    <th>Текст</th>
+                  </tr>
+                </thead>
+                <tbody v-for = "message in messageData"  :key="message.id" :style="{ fontFamily: 'monospace' }">
+                  <tr v-if="message.recipient == userId"  :key="message.id">
+                    <td data-label="Отправитель"><a :href="`/open-message/${user.id}`">{{ findUsername(message.sender) }}</a></td>
+                    <td data-label="Получатель"><a :href="`/open-message/${user.id}`">{{ findUsername(message.recipient) }} </a></td>
+                    <td data-label="Тема"><a :href="`/open-message/${user.id}`">{{ message.subject }}</a></td>
+                    <td data-label="Текст"><a :href="`/open-message/${user.id}`">{{ message.body }}</a></td>
+                  </tr>
+                </tbody>
+            </table>
             </div>
+          <!-- <div v-for = "message in messageData" :key="message.id" class="one_inbox" :style="{ fontFamily: 'monospace' }">  
+    
+            
+              <p :style="{ fontWeight: '500',  fontSize: '16px'}">От: {{ findUsername(message.sender) }}</p>
+              <p :style="{ fontWeight: '500',  fontSize: '16px'}">Кому: {{ findUsername(message.recipient) }} </p>
+              <p :style="{ fontWeight: '500',  fontSize: '16px'}">Тема: {{ message.subject }}</p>
+              <p :style="{ fontWeight: '500',  fontSize: '16px'}">Сообщение: {{ message.body }}</p>
             </div> -->
- <!--        <div class="text-container">
-        <p :style="{ fontSize: '24px'}">Местоположение: {{ profileData.location }}</p>
-        <p :style="{ fontSize: '24px'}">Краткое описание: {{ profileData.short_intro }}</p>
-        <p :style="{ fontSize: '24px'}">Биография: {{ profileData.bio }}</p>
-        <a :href="`/editmyprofile`" class="btn_link">Редактировать профиль</a>
-      </div> -->
+          </div>
+          <div id="content-2" >
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Отправитель</th>
+                    <th>Получатель</th>
+                    <th>Тема</th>
+                    <th>Текст</th>
+                  </tr>
+                </thead>
+                <tbody v-for = "message in messageData" :key="message.id" :style="{ fontFamily: 'monospace' }">
+                  <tr v-if="message.sender == userId" :key="message.id">
+                    <td data-label="Отправитель">{{ findUsername(message.sender) }}</td>
+                    <td data-label="Получатель">{{ findUsername(message.recipient) }} </td>
+                    <td data-label="Тема">{{ message.subject }}</td>
+                    <td data-label="Текст">{{ message.body }}</td>
+                  </tr>
+                </tbody>
+            </table>
+            </div>
+            <!-- <div v-for = "message in messageData" :key="message.id" class="one_inbox" :style="{ fontWeight: '500',  fontFamily: 'monospace' }">
+
+              
+              <p :style="{ fontWeight: '500',  fontSize: '16px'}">От: {{ findUsername(message.sender) }}</p>
+              <p :style="{ fontWeight: '500',  fontSize: '16px'}">Кому: {{ findUsername(message.recipient) }} </p>
+              <p :style="{ fontWeight: '500',  fontSize: '16px'}">Тема: {{ message.subject }}</p>
+              <p :style="{ fontWeight: '500',  fontSize: '16px'}">Сообщение: {{ message.body }}</p>
+            </div> -->
+          </div>
+          <div class="tabs__links">
+            <a href="#content-1">Входящие</a>
+            <a href="#content-2">Исходящие</a>
+          </div>
+        </div>
+
+      
     </div>
     <DefaultFooter />
   </template> 
@@ -126,60 +154,151 @@ onMounted(async() => {
 
 
 <style scoped>
-/*.inbox{
-    text-align: center;
-    padding-top: 5%; 
-    margin-top: 5%;
-    margin-left: 18%;
-      width: 1200px;
-      height: 700px;
-      background: #616161; 
-      border-radius: 10px;
-      box-shadow: 5px 20px 50px #000;
-    justify-content:space-between;
+.tabs {
+  display: flex;
+  flex-direction: column;
+}
+.tabs__links {
+  display: flex;
+  flex-direction: row;
+  order: 0;
+  white-space: nowrap;
+  margin-bottom: 15px;
+  margin-left: 50px;
+  background-color: #fff;
+  border: 2px solid #e3f2fd;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px 0 #e3f2fd;
+}
+
+.tabs__links>a {
+  display: inline-block;
+  text-decoration: none;
+  color: #4EA852;
+  padding: 6px 10px;
+  text-align: center;
+  border-radius: 5px;
+  font-family: PressStart2P, sans-serif;
+  font-size: 15px;
+  font-weight: 200;
+}
+
+.tabs__links>a:hover {
+  background-color: rgba(227, 242, 253, 0.3);
+}
+
+.tabs>#content-1:target~.tabs__links>a[href="#content-1"],
+.tabs>#content-2:target~.tabs__links>a[href="#content-2"],
+.tabs>#content-3:target~.tabs__links>a[href="#content-3"] {
+  background-color: #4ea85252;
+  cursor: default;
+}
+
+.tabs>div:not(.tabs__links) {
+  display: none;
+  order: 1;
+  flex-grow: 1;
+}
+
+@media (min-width: 576px) {
+  .tabs {
+    flex-direction: row;
   }
-  .inboxtext{
-    text-decoration: none;
-    font-size: larger;
-    color: #282828;  
-    border-width: 5%;
-    border-color: #66FCF1;
-    border-style:solid;
-  }
-  .spantext1{
-    width: 30%;
-  
-    display:inline-block;
-    text-decoration: none;
-    font-size: larger;
-    color:#999999;
-  }*/
-  .btn_link {
-    /* Adds some padding inside the button */
-    padding: 10px;
-    /* Changes the font size */
-    font-size: 16px;
-    /* Changes the background color of the button */
-    background-color: #4EA852;
-    /* Changes the color of the text inside the button */
-    color: rgb(255, 255, 255);
-    /* Makes the border corners rounded */
-    border-radius: 5px;
-    /* Removes the default button border */
+
+  .tabs__links {
+    flex-direction: column;
     border: none;
-    /* Changes the cursor to a hand pointer when hovering over the button */
-    cursor: pointer;
-    width: 70%;
-    text-align: center;
+    box-shadow: none;
   }
-  .spantext2{
-    width: 30%;
+
+  .tabs__links>a {
+    border: 1px solid #e3f2fd;
+    box-shadow: 0 2px 4px 0 #e3f2fd;
+    margin-bottom: 8px;
+  }
+
+  .tabs__links>a:last-child {
+    margin-bottom: 0;
+  }
+
+  .tabs>div:not(.tabs__links) {
+    padding-left: 15px;
+  }
+}
+
+.tabs>div:target {
+  display: block;
+}
+
+.table-wrap {
+  text-align: center;
+  display: inline-block;
+  padding: 0,5vw;
+  margin-left: -25%;
+  color: #4EA852;
+}
+
+table {
+  border: 1px solid #ccc;
+  width: 100%;
+  margin:0;
+  padding:0;
+  border-collapse: collapse;
+  border-spacing: 0;
   
-    display:inline-block;
-    text-decoration: none;
-    font-size: larger;
-    color:#1b191957;
-  }
+}
+
+table tr {
+  border: 1px solid #ddd;
+  padding: 5px;
+  
+}
+
+table th, table td {
+  padding: 10px;
+  text-align: center;
+  border-right: 1px solid #ddd;
+}
+
+table th {
+  color: #fff;
+  background-color: rgb(70, 104, 105);
+  text-transform: uppercase;
+  font-size: 14px;
+  letter-spacing: 1px;
+}
+
+
+@media screen and (max-width: 600px) {
+table {
+  border: 0;
+}
+table thead {
+  display: none;
+}
+table tr {
+  margin-bottom: 10px;
+  display: block;
+  border-bottom: 2px solid #ddd;
+}
+table td {
+  display: block;
+  text-align: right;
+  font-size: 13px;
+  border-bottom: 1px dotted #ccc;
+  border-right: 1px solid transparent;
+}
+table td:last-child {
+  border-bottom: 0;
+}
+table td:before {
+  content: attr(data-label);
+  float: left;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+}
+
   .one_inbox {
     border-radius: 5px;
     border:2px solid #272424;
@@ -190,7 +309,7 @@ onMounted(async() => {
     margin-left: 10%;
     margin-right: 10%;
     box-sizing: border-box;
-    width: 50%;
+    width: 60%;
   }
   
   .profile-container {
@@ -204,28 +323,7 @@ onMounted(async() => {
   align-items: center;
   text-align: center;
 }
-.text-container {
-  width: 90%;
-  margin-left: 9%;
-  background-color: #ffffff57;
-  border-radius: 10px;
-  text-align: left;
-  margin-bottom: 30px;
-}
-.social-link {
-  margin-left: 5%;
-  width: 100%;
-  flex-direction: row;
-  display: flex;
-  flex-wrap: wrap;
-  text-align: center;
-  }
-.social-link a{
-margin: 3% 4%;
-border-radius: 5px;
-border: 2px solid #4ea852e0;
-padding: 7px;
-}
+
 @media screen and (max-width: 992px) {
   .profile-container {
     width: 90%;
@@ -240,10 +338,7 @@ padding: 7px;
   .profile-container {
     width: 90%;
   }
-  .text-container {
-    width: 70%;
-    margin: 5% 15%;
-  }
+
 }
 .profile-container img {
   width: 250px;
@@ -296,5 +391,4 @@ button:hover{
   margin-top: 20px;
   text-align: center;
 }
-
 </style>
