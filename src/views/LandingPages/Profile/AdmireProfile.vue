@@ -58,6 +58,7 @@ onMounted(async() => {
           <a :href="`${profileData.social_vk}`" target="_blank" >VK</a>
           <a :href="`${profileData.social_youtube}`" target="_blank" >YouTube</a>
           <a :href="`${profileData.social_website}`" target="_blank" >Мой сайт</a>
+          <a href="/not-found" target="_blank" >404</a>
         </div>
       </div>
 
