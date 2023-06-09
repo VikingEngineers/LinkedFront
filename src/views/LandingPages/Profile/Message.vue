@@ -62,7 +62,6 @@ onMounted(async() => {
 
 });
 
-
 </script>
 
 
@@ -77,29 +76,24 @@ onMounted(async() => {
                   >
                   Написать сообщение
                 </RouterLink> 
-        <p :style="{ fontSize: '24px'}">{{ messageData.email }}</p>
+        <!-- <p :style="{ fontSize: '24px'}">{{ messageData.email }}</p> -->
 
         <div class="tabs">
-          <div id="content-1">
-            <div v-for = "message in messageData" :key="message.id" class="one_inbox" :style="{ fontFamily: 'monospace' }">
-          
+          <div id="content-1" > 
+          <div v-for = "message in messageData" :key="message.id" class="one_inbox" :style="{ fontFamily: 'monospace' }">          
               <p :style="{ fontWeight: '500',  fontSize: '16px'}">От: {{ findUsername(message.sender) }}</p>
               <p :style="{ fontWeight: '500',  fontSize: '16px'}">Кому: {{ findUsername(message.recipient) }} </p>
               <p :style="{ fontWeight: '500',  fontSize: '16px'}">Тема: {{ message.subject }}</p>
               <p :style="{ fontWeight: '500',  fontSize: '16px'}">Сообщение: {{ message.body }}</p>
-            </div>
-    
-          </div>
-          <div id="content-2">
+            </div></div>
+          <div id="content-2" >
             <div v-for = "message in messageData" :key="message.id" class="one_inbox" :style="{ fontWeight: '500',  fontFamily: 'monospace' }">
-          
               <p :style="{ fontWeight: '500',  fontSize: '16px'}">От: {{ findUsername(message.sender) }}</p>
               <p :style="{ fontWeight: '500',  fontSize: '16px'}">Кому: {{ findUsername(message.recipient) }} </p>
               <p :style="{ fontWeight: '500',  fontSize: '16px'}">Тема: {{ message.subject }}</p>
               <p :style="{ fontWeight: '500',  fontSize: '16px'}">Сообщение: {{ message.body }}</p>
             </div>
           </div>
-    
           <div class="tabs__links">
             <a href="#content-1">Входящие</a>
             <a href="#content-2">Исходящие</a>
@@ -127,7 +121,6 @@ onMounted(async() => {
   display: flex;
   flex-direction: column;
 }
-
 .tabs__links {
   display: flex;
   flex-direction: row;
@@ -142,7 +135,7 @@ onMounted(async() => {
 .tabs__links>a {
   display: inline-block;
   text-decoration: none;
-  color: #1976d2;
+  color: #4EA852;
   padding: 6px 10px;
   text-align: center;
 }
