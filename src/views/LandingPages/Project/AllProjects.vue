@@ -33,7 +33,7 @@ onMounted(() => {
 
 <template>
 <NavbarDefault  />
-<div v-if="isAuthenticated">
+<div >
     <!-- <h2 class="result-header">Найдено проектов: {{ searchResultProjects.length}} </h2> -->
     <div class="result-grid" :style="{ fontWeight: '900',  fontFamily: 'monospace' }">
       <div class="result-card" v-for="project in searchResultProjects" :key="project.id">
@@ -54,11 +54,7 @@ onMounted(() => {
     </div>
     
   </div>
-  <div v-else>
-    <div :style="{ marginBottom:'25vw', textAlign:'center'}">
-      <h1 :style="{ fontWeight: '900',  fontFamily: 'PressStart2P, sans-serif', paddingTop:'10vw'}">Вы не авторизованы!</h1>
-    </div>
-    </div>
+
   <DefaultFooter />
   </template>
 

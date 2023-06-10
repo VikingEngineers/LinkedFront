@@ -109,7 +109,7 @@ onMounted(async() => {
       <p :style="{fontSize: '20px'}">Краткое описание: {{ profileData.short_intro }}</p>
       <p :style="{fontSize: '20px'}">Биография: {{ profileData.bio }}</p>
       <p :style="{fontSize: '20px', fontFamily: 'PressStart2P, sans-serif'}">Навыки:</p>
-      <p v-for = "skill in skillsData" :key="skill.id" :style="{fontSize: '16px'}">{{ skill.name }} ({{ skill.description }})</p>
+      <p v-for = "skill in skillsData" :key="skill.id" :style="{fontWeight: '900', fontSize: '16px'}">{{ skill.name }} ({{ skill.description }})</p>
       <p :style="{fontSize: '20px', fontFamily: 'PressStart2P, sans-serif'}">Проекты:</p>
       <!-- <p  v-for="project in filteredProjects" :key="project.id" :style="{fontSize: '16px'}">{{ project.title }} ({{ project.description }})</p> -->
       
@@ -126,13 +126,13 @@ onMounted(async() => {
             </div>
           </div>
         </div> -->
-           <!--  <a :href="`project/${project.id}`" :style="{ cursor:'pointer', padding:'10px', marginBottom:'5%', backgroundColor:'#4EA852',fontFamily:'monospace', fontSize:'18px', color:'white', borderRadius:'5px'}">Посмотреть</a> -->
+            <a :href="`project/${project.id}`" :style="{ cursor:'pointer', padding:'10px', marginBottom:'5%', backgroundColor:'#4EA852',fontFamily:'monospace', fontSize:'18px', color:'white', borderRadius:'5px'}">Посмотреть</a>
           
-            <router-link :style="{ cursor:'pointer', padding:'10px', marginBottom:'5%', backgroundColor:'#4EA852',fontFamily:'monospace', fontSize:'18px', color:'white', borderRadius:'5px'}"
+            <!-- <router-link :style="{ cursor:'pointer', padding:'10px', marginBottom:'5%', backgroundColor:'#4EA852',fontFamily:'monospace', fontSize:'18px', color:'white', borderRadius:'5px'}"
                   :to="{ name: 'project', params: { id: route.params.id } }"
                   >
                   Посмотреть
-                  </router-link>
+                  </router-link> -->
 
         </div>
       </div>

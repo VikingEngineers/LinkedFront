@@ -62,7 +62,7 @@ onMounted(async() => {
           <a :href="`${profileData.social_youtube}`" target="_blank" >YouTube</a>
           <a :href="`${profileData.social_website}`" target="_blank" >Мой сайт</a>
           <a href="/not-found" target="_blank" >404</a>
-          <a :href="`/editmyprofile`" >Редактировать профиль</a>
+          <a :href="`/editmyprofile`" class="btn_link">Редактировать профиль</a>
         </div>
       </div>
 
@@ -75,8 +75,8 @@ onMounted(async() => {
         <p :style="{ fontSize: '20px'}">Биография: {{ profileData.bio }}</p>
         <p :style="{ fontSize: '20px'}">Навыки: </p>
         <p v-for = "skill in skillsData" :key="skill.id" :style="{fontSize: '16px'}">{{ skill.name }} ({{ skill.description }})</p>
-        <p :style="{fontSize: '20px'}">Проекты:</p>
-      <p v-for = "project in projectsData" :key="project.id" :style="{fontSize: '16px'}">{{ project.title }} ({{ project.description }})</p>
+        <!-- <p :style="{fontSize: '20px'}">Проекты:</p>
+      <p v-for = "project in projectsData" :key="project.id" :style="{fontSize: '16px'}">{{ project.title }} ({{ project.description }})</p> -->
         
       </div>
       
@@ -194,23 +194,27 @@ button:hover{
   color: rgb(61, 61, 61);
 }
 .btn_link {
-  /* Adds some padding inside the button */
-  padding: 10px 20px;
-  /* Changes the font size */
-  font-size: 16px;
   /* Changes the background color of the button */
   background-color: #4EA852;
   /* Changes the color of the text inside the button */
   color: rgb(255, 255, 255);
-  /* Makes the border corners rounded */
-  border-radius: 5px;
-  /* Removes the default button border */
-  border: none;
   /* Changes the cursor to a hand pointer when hovering over the button */
   cursor: pointer;
-  width: 70%;
-  margin-top: 20px;
+ 
+ 
   text-align: center;
+  margin: 3% 4%;
+border-radius: 5px;
+border: 2px solid #4ea852e0;
+padding: 7px;
 }
+.btn_link:hover {
+  /* Changes the background color of the button */
+  background-color: #4ea85286;
+  /* Changes the color of the text inside the button */
+  color: rgb(58, 57, 57);
+ 
+}
+
 
 </style>

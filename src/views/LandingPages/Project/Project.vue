@@ -114,7 +114,7 @@ const search = async () => {
 
 <template>
   <NavbarDefault />
-  <div v-if="isAuthenticated">
+  <div >
     <div class="project-container" :style="{fontWeight: '900',  fontFamily: 'monospace' }">
       <div class="project-container1" v-if="projectData" >
         <p class="project-tags"> 
@@ -143,6 +143,7 @@ const search = async () => {
           <p class="project-created">Created On: {{ new Date(projectData.created).toLocaleDateString() }}</p>
           
             <p class="project-description">{{ projectData.description }}</p>
+            <div v-if="isAuthenticated">
             <div v-if = "projectData.owner != userId" class="project-owner-note">
                 
                 <!-- <p>
@@ -155,6 +156,7 @@ const search = async () => {
                 
               </div>
             </div>
+          </div>
             <h3 :style="{ fontWeight: '500',  fontFamily: 'PressStart2P, sans-serif' }">Feedback</h3>
                 <p v-for = "(review, index) in ProjectReviews" :key="index" >
                   <p class="project-review">{{ findUsername(review.owner) }}  :  {{ review.body }}</p>
@@ -165,10 +167,7 @@ const search = async () => {
     </div>
     <div class="podval"><DefaultFooter /></div>
   </div>
-  <div v-else>
-    <h1>Вы не авторизованы</h1>
-    <div class="podval" :style="{fontWeight: '900',  fontFamily: 'monospace' }">Екатерина Кузнецова, Ирина Комарова. 2023 . Использованы материалы Creative Tim.</div>
-  </div>
+ 
 </template> 
 
 
