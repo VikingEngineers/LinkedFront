@@ -50,7 +50,8 @@ onMounted(async() => {
 
 <template>
     <NavbarDefault />
-    <div class="profile-container" :style="{fontWeight: '900',  fontFamily: 'monospace' }">
+    <div v-if="isAuthenticated">
+    <div  class="profile-container" :style="{fontWeight: '900',  fontFamily: 'monospace' }">
       <div class="profile-container1">
         <img :src="profileData.profile_image" alt="Profile Image">
         <p :style="{ fontSize: '24px'}">{{ profileData.email }}</p>
@@ -78,9 +79,15 @@ onMounted(async() => {
       <p v-for = "project in projectsData" :key="project.id" :style="{fontSize: '16px'}">{{ project.title }} ({{ project.description }})</p>
         
       </div>
-        
+      
       </div>
-      <div class="podval"><DefaultFooter /></div>
+      <div class="podval" :style="{fontWeight: '900',  fontFamily: 'monospace' }">Екатерина Кузнецова, Ирина Комарова. 2023 . Использованы материалы Creative Tim.</div>
+    </div>
+      <div v-else>
+        <h1>Вы не авторизованы</h1>
+        <div class="podval" :style="{fontWeight: '900',  fontFamily: 'monospace' }">Екатерина Кузнецова, Ирина Комарова. 2023 . Использованы материалы Creative Tim.</div>
+      </div>
+      
   </template> 
 
 
@@ -98,11 +105,11 @@ onMounted(async() => {
   */
 }
 .podval {
-  position: absolute;
-	left: 0;
-	bottom: 0;
+  height: 50px;
+  margin-top: 50%;
+  text-align: center;
 	width: 100%;
-	height: 80px;
+	
 }
 .profile-container1 {
   width: 45%;
