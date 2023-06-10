@@ -83,9 +83,9 @@ onMounted(async() => {
       </div>
       <div class="podval" :style="{fontWeight: '900',  fontFamily: 'monospace' }">Екатерина Кузнецова, Ирина Комарова. 2023 . Использованы материалы Creative Tim.</div>
     </div>
-      <div v-else>
-        <h1>Вы не авторизованы</h1>
-        <div class="podval" :style="{fontWeight: '900',  fontFamily: 'monospace' }">Екатерина Кузнецова, Ирина Комарова. 2023 . Использованы материалы Creative Tim.</div>
+      <div v-else :style="{ marginBottom:'25vw', textAlign:'center'}">
+        <h1 :style="{ fontWeight: '900',  fontFamily: 'PressStart2P, sans-serif', paddingTop:'10vw',paddingBottom:'20vw'}">Вы не авторизованы</h1>
+        <DefaultFooter />
       </div>
       
   </template> 

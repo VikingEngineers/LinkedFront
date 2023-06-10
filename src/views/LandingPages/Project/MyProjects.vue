@@ -12,6 +12,10 @@ const searchResultUsers = ref([]);
 const userId = computed(() => localStorage.getItem('user_id'));
 const username = computed(() => localStorage.getItem('username'));
 
+
+const isAuthenticated = computed(() => !!localStorage.getItem('access_token'));
+
+
 const search = async () => {
   try {
     const projectsResponse = await axios.get(`http://somebodyhire.me/api/search/projects/?search_query=${searchQuery.value}`);
@@ -37,7 +41,7 @@ onMounted(() => {
 
 <template>
   <NavbarDefault />
-  <div>
+  <div v-if="isAuthenticated">
 <!--     <h2 class="result-header">Найдено проектов: {{ filteredProjects.length }} </h2> -->
     <div class="result-grid" :style="{ fontWeight: '900',  fontFamily: 'monospace' }">
       <div class="result-card" v-for="project in filteredProjects" :key="project.id">
@@ -58,6 +62,11 @@ onMounted(() => {
       </div>
     </div>
   </div>
+  <div v-else>
+    <div :style="{ marginBottom:'25vw', textAlign:'center'}">
+      <h1 :style="{ fontWeight: '900',  fontFamily: 'PressStart2P, sans-serif', paddingTop:'10vw'}">Вы не авторизованы!</h1>
+    </div>
+    </div>
   <DefaultFooter />
 </template>
 

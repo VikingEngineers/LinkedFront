@@ -1,7 +1,7 @@
 <script setup>
 import { onMounted, onUnmounted } from "vue";
 import axios from 'axios';
-import { ref } from "vue";
+import { ref, computed  } from "vue";
 import NavbarDefault from "../../../examples/navbars/NavbarDefault.vue";
 import DefaultFooter from "../../../examples/footers/FooterDefault.vue";
 
@@ -9,6 +9,8 @@ import DefaultFooter from "../../../examples/footers/FooterDefault.vue";
 const searchQuery = ref('');
 const searchResultProjects = ref([]);
 const searchResultUsers = ref([]);
+
+const isAuthenticated = computed(() => !!localStorage.getItem('access_token'));
 
 const search = async () => {
   try {

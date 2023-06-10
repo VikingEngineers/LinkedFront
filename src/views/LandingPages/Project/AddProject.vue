@@ -72,6 +72,7 @@ const onFileChange = (event) => {
 
 <template>
     <NavbarDefault />
+    <div v-if="isAuthenticated">
     <div class="profile-container" :style="{ fontWeight: '900',  fontFamily: 'monospace' }">
       <h1 :style="{ fontWeight: '300',  fontFamily: 'PressStart2P, sans-serif', fontSize:'32px', marginBottom:'3%' }">Создание проекта для {{ loggedUserName }}</h1>
         <!-- <textarea readonly v-model="debugText"></textarea> -->
@@ -84,6 +85,12 @@ const onFileChange = (event) => {
           <button @click="createProject" class="btn-submit">Создать проект</button>
         <button @click="cancelCreate" class="btn-cancel">Отменить</button>
         </div>
+    </div>
+  </div>
+  <div v-else>
+    <div :style="{ marginBottom:'25vw', textAlign:'center'}">
+      <h1 :style="{ fontWeight: '900',  fontFamily: 'PressStart2P, sans-serif', paddingTop:'10vw'}">Вы не авторизованы!</h1>
+    </div>
     </div>
     <DefaultFooter />
 </template>
