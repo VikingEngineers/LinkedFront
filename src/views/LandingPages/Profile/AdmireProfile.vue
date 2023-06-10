@@ -2,6 +2,7 @@
 import axios from 'axios';
 import { onMounted, ref, computed } from "vue";
 import NavbarDefault from "../../../examples/navbars/NavbarDefault.vue";
+import DefaultFooter from "../../../examples/footers/FooterDefault.vue";
 
 const isAuthenticated = computed(() => !!localStorage.getItem('access_token'));
 const userId = computed(() => localStorage.getItem('user_id'));
@@ -78,7 +79,7 @@ onMounted(async() => {
       </div>
         
       </div>
-      <DefaultFooter />
+      <div class="podval"><DefaultFooter /></div>
   </template> 
 
 
@@ -88,11 +89,19 @@ onMounted(async() => {
   width: 90%;
   padding: 20px;
   margin: 50px;
+  height: 120%;
  /*border-radius: 10px;
   align-items: center;
   text-align: center;
   box-shadow: 0px 0px 10px 0px rgba(6, 104, 14, 0.281);
   */
+}
+.podval {
+  position: absolute;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	height: 80px;
 }
 .profile-container1 {
   width: 45%;

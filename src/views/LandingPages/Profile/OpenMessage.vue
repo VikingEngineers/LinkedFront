@@ -2,6 +2,7 @@
 import axios from 'axios';
 import { onMounted, ref, computed } from "vue";
 import NavbarDefault from "../../../examples/navbars/NavbarDefault.vue";
+import DefaultFooter from "../../../examples/footers/FooterDefault.vue";
 
 const token = computed(() => localStorage.getItem('token'));
 
@@ -55,7 +56,12 @@ onMounted(async() => {
 <template>
   <NavbarDefault />
   <div class="profile-container" :style="{ fontWeight: '900',  fontFamily: 'monospace' }">
-    <h3 :style="{ fontWeight: '800',  fontFamily: 'PressStart2P, sans-serif' }">Сообщение {{ findUsername(recipientId ) }} от {{ findUsername(userId) }} </h3>
+    <h3 :style="{ fontWeight: '800',  fontFamily: 'PressStart2P, sans-serif' }">Сообщение </h3>
+      <input v-model="messageData.subject" readonly placeholder="Тема сообщения">
+      <textarea v-model="messageData.body" readonly placeholder="Текст сообщения"></textarea>
+
+
+    <h3 :style="{ fontWeight: '800',  fontFamily: 'PressStart2P, sans-serif' }">Ответить</h3>
       <input v-model="messageData.subject" placeholder="Введите тему сообщения">
       <textarea v-model="messageData.body" placeholder="Напишите текст сообщения"></textarea>
       <div class="btn-container">
@@ -69,103 +75,6 @@ onMounted(async() => {
 
 
 <style scoped>
-
-.tabs {
-  display: flex;
-  flex-direction: column;
-}
-
-.tabs__links {
-  display: flex;
-  flex-direction: row;
-  order: 0;
-  white-space: nowrap;
-  margin-bottom: 15px;
-  background-color: #fff;
-  border: 1px solid #e3f2fd;
-  box-shadow: 0 2px 4px 0 #e3f2fd;
-}
-
-.tabs__links>a {
-  display: inline-block;
-  text-decoration: none;
-  color: #1976d2;
-  padding: 6px 10px;
-  text-align: center;
-}
-
-.tabs__links>a:hover {
-  background-color: rgba(227, 242, 253, 0.3);
-}
-
-.tabs>#content-1:target~.tabs__links>a[href="#content-1"],
-.tabs>#content-2:target~.tabs__links>a[href="#content-2"],
-.tabs>#content-3:target~.tabs__links>a[href="#content-3"] {
-  background-color: #bbdefb;
-  cursor: default;
-}
-
-.tabs>div:not(.tabs__links) {
-  display: none;
-  order: 1;
-  flex-grow: 1;
-}
-
-@media (min-width: 576px) {
-  .tabs {
-    flex-direction: row;
-  }
-
-  .tabs__links {
-    flex-direction: column;
-    border: none;
-    box-shadow: none;
-  }
-
-  .tabs__links>a {
-    border: 1px solid #e3f2fd;
-    box-shadow: 0 2px 4px 0 #e3f2fd;
-    margin-bottom: 8px;
-  }
-
-  .tabs__links>a:last-child {
-    margin-bottom: 0;
-  }
-
-  .tabs>div:not(.tabs__links) {
-    padding-left: 15px;
-  }
-}
-
-.tabs>div:target {
-  display: block;
-}
-  .btn_link {
-    /* Adds some padding inside the button */
-    padding: 10px;
-    /* Changes the font size */
-    font-size: 16px;
-    /* Changes the background color of the button */
-    background-color: #4EA852;
-    /* Changes the color of the text inside the button */
-    color: rgb(255, 255, 255);
-    /* Makes the border corners rounded */
-    border-radius: 5px;
-    /* Removes the default button border */
-    border: none;
-    /* Changes the cursor to a hand pointer when hovering over the button */
-    cursor: pointer;
-    width: 70%;
-    text-align: center;
-  }
-  .spantext2{
-    width: 30%;
-  
-    display:inline-block;
-    text-decoration: none;
-    font-size: larger;
-    color:#1b191957;
-  }
   .one_inbox {
     border-radius: 5px;
     border:2px solid #272424;
@@ -176,8 +85,7 @@ onMounted(async() => {
     margin-left: 10%;
     margin-right: 10%;
     box-sizing: border-box;
-    width: 50%;
-    font-size: 18px;
+    width: 60%;
   }
   
   .profile-container {
@@ -196,20 +104,17 @@ onMounted(async() => {
   .profile-container {
     width: 90%;
   }
+  .text-container {
+    width: 70%;
+    margin: 5% 15%;
+  }
 }
 
 @media screen and (max-width: 600px) {
   .profile-container {
     width: 90%;
   }
-}
-.profile-container img {
-  width: 250px;
-  height: 245px;
-  margin-bottom: 20px;
-  border-radius: 50%;
-  border: 2px solid #4ea852e0;
-  box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.7);
+
 }
 
 h1,h2{
@@ -235,24 +140,41 @@ button:hover{
   background-color: #6ac55e;
   color: rgb(61, 61, 61);
 }
-.btn_link {
-  /* Adds some padding inside the button */
-  padding: 10px 20px;
-  /* Changes the font size */
-  font-size: 16px;
-  /* Changes the background color of the button */
-  background-color: #4EA852;
-  /* Changes the color of the text inside the button */
-  color: rgb(255, 255, 255);
-  /* Makes the border corners rounded */
-  border-radius: 5px;
-  /* Removes the default button border */
-  border: none;
-  /* Changes the cursor to a hand pointer when hovering over the button */
-  cursor: pointer;
-  width: 70%;
-  margin-top: 20px;
-  text-align: center;
+.profile-container input, .profile-container textarea {
+  width: 70%; /* Make inputs and textareas take up the full width of the container */
+  padding: 10px; /* Add some padding */
+  margin-bottom: 15px; /* Add some margin */
+  box-sizing: border-box; /* Ensure padding doesn't affect final dimensions */
+  border: 1px solid #2ca33c; /* Add a border */
+  border-radius: 5px; /* Add rounded corners */
 }
+.btn-submit {
+  color: #fff;
+  background-color: #4CAF50;
+  border: none;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.btn-cancel {
+  color: #fff;
+  background-color: #f44336;
+  border: none;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
 
 </style>

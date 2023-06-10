@@ -2,6 +2,7 @@
 import axios from 'axios';
 import { onMounted, ref, computed } from "vue";
 import NavbarDefault from "../../../examples/navbars/NavbarDefault.vue";
+import DefaultFooter from "../../../examples/footers/FooterDefault.vue";
 
 const token = computed(() => localStorage.getItem('token'));
 
@@ -78,7 +79,13 @@ onMounted(async() => {
                   Написать сообщение
                 </RouterLink>  -->
         <!-- <p :style="{ fontSize: '24px'}">{{ messageData.email }}</p> -->
-
+        <RouterLink :style="{fontFamily: 'PressStart2P, sans-serif', fontSize: '14px'}"
+        :to="{ name: 'open-message' }"
+        class="btn_link"
+        >
+        Написать сообщение
+      </RouterLink>
+      
         <div class="tabs">
           <div id="content-1" > 
             <div class="table-wrap">
@@ -148,12 +155,19 @@ onMounted(async() => {
 
       
     </div>
-    <DefaultFooter />
+    <div class="podval"><DefaultFooter /></div>
   </template> 
 
 
 
 <style scoped>
+.podval {
+  position: absolute;
+	left: 0;
+	margin-top: 40%;
+	width: 100%;
+	height: 40px;
+}
 .tabs {
   display: flex;
   flex-direction: column;

@@ -3,6 +3,7 @@ import axios from 'axios';
 import { onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
 import NavbarDefault from '../../../examples/navbars/NavbarDefault.vue';
+import DefaultFooter from "../../../examples/footers/FooterDefault.vue";
 
 const profileId = ref(null);
 const route = useRoute();
@@ -97,7 +98,8 @@ onMounted(async() => {
       
       </div>
   </div>
-  <DefaultFooter />
+  <div class="podval"><DefaultFooter /></div>
+  
 </template> 
 
 <style scoped>
@@ -111,12 +113,20 @@ box-shadow: 0px 0px 10px 0px rgba(6, 104, 14, 0.281);
 background-color: #ffffff57;
 border-radius: 10px;*/
 }
+.podval {
+  position: absolute;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	height: 80px;
+}
 
 .profile-container1 {
   width: 45%;
 float: left;
 flex-direction: column;
 text-align: center;
+
   }
 .profile-container2 {
     width: 55%;

@@ -3,6 +3,7 @@ import { onMounted, onUnmounted, computed } from "vue";
 import axios from 'axios';
 import { ref } from "vue";
 import NavbarDefault from "../../../examples/navbars/NavbarDefault.vue";
+import DefaultFooter from "../../../examples/footers/FooterDefault.vue";
 
 const searchQuery = ref('');
 const searchResultProjects = ref([]);
