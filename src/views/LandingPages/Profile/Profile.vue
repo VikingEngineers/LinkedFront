@@ -108,11 +108,35 @@ onMounted(async() => {
       <p :style="{fontSize: '20px'}">Местоположение: {{ profileData.location }}</p>
       <p :style="{fontSize: '20px'}">Краткое описание: {{ profileData.short_intro }}</p>
       <p :style="{fontSize: '20px'}">Биография: {{ profileData.bio }}</p>
-      <p :style="{fontSize: '20px'}">Навыки:</p>
+      <p :style="{fontSize: '20px', fontFamily: 'PressStart2P, sans-serif'}">Навыки:</p>
       <p v-for = "skill in skillsData" :key="skill.id" :style="{fontSize: '16px'}">{{ skill.name }} ({{ skill.description }})</p>
-      <p :style="{fontSize: '20px'}">Проекты:</p>
-      <p  v-for="project in filteredProjects" :key="project.id" :style="{fontSize: '16px'}">{{ project.title }} ({{ project.description }})</p>
+      <p :style="{fontSize: '20px', fontFamily: 'PressStart2P, sans-serif'}">Проекты:</p>
+      <!-- <p  v-for="project in filteredProjects" :key="project.id" :style="{fontSize: '16px'}">{{ project.title }} ({{ project.description }})</p> -->
       
+
+      <div class="result-grid" :style="{ fontWeight: '600',  fontFamily: 'monospace', flexWrap:'wrap' }" >
+        <div :style="{ height:'auto', width:'15vw', flexDirection:'column', alignItems:'center' }" class="result-card" v-for="project in filteredProjects" :key="project.id" >
+         <div class="project-title"> <h3 :style="{ fontWeight: '700',  fontSize:'18px', fontFamily: 'PressStart2P, sans-serif' }">{{ project.title }}</h3></div>
+         <img :style="{ height:'auto', width:'10vw' }" :src="project.featured_image" alt="Featured image">
+          <!-- <p>{{ project.description }}</p> -->
+          <!-- <div v-if="project.tags.length > 0 ">
+            <div class="tags-container">
+              <div class="tags-container" v-if="project.tags.length > 0 ">
+                <p>{{ project.tags }}</p>
+            </div>
+          </div>
+        </div> -->
+           <!--  <a :href="`project/${project.id}`" :style="{ cursor:'pointer', padding:'10px', marginBottom:'5%', backgroundColor:'#4EA852',fontFamily:'monospace', fontSize:'18px', color:'white', borderRadius:'5px'}">Посмотреть</a> -->
+          
+            <router-link :style="{ cursor:'pointer', padding:'10px', marginBottom:'5%', backgroundColor:'#4EA852',fontFamily:'monospace', fontSize:'18px', color:'white', borderRadius:'5px'}"
+                  :to="{ name: 'project', params: { id: route.params.id } }"
+                  >
+                  Посмотреть
+                  </router-link>
+
+        </div>
+      </div>
+
       </div>
   </div>
   <div class="podval" :style="{fontWeight: '500',  fontFamily: 'monospace' }">Екатерина Кузнецова, Ирина Комарова. 2023 . Использованы материалы Creative Tim.</div>
@@ -120,6 +144,68 @@ onMounted(async() => {
 </template> 
 
 <style scoped>
+
+.result-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: left;
+  padding-left: 7%;
+}
+
+.result-card {
+  display: flex;
+  flex-direction: column;
+  /*background-color: #3d913248;*/
+  padding: 5px 10px 20px 5px;
+  margin: 10px 20px ;
+  border-radius: 5px;
+  border: 2px solid #4ea85280;
+  box-sizing: border-box;
+  box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+  /*align-items: center;
+  position:relative;
+  padding-bottom:10%;*/
+  text-align: center;
+}
+
+.project-title{
+  padding-bottom: 25px;
+  padding-top: 15px;
+}
+
+@media screen and (max-width: 992px) {
+  .result-grid {
+    padding-right:80px;
+  }
+  .result-card {
+    width: calc(100% / 2 - 20px);
+    padding-bottom:20%;
+    margin: 10px 10px;
+  }
+  .project-image {
+    width: 5vw;
+    height: auto;
+    margin-bottom: 20px;
+  }
+  
+}
+
+@media screen and (max-width: 600px) {
+  .result-grid {
+    padding-right:80px;
+  }
+  .result-card {
+    width: calc(100% / 2 - 20px);
+    padding-bottom:20%;
+    margin: 10px 10px;
+  }
+  .project-image {
+    width: 5vw;
+    height: auto;
+    margin-bottom: 20px;
+  }
+  
+}
 .profile-container {
 width: 90%;
 margin: 50px;
