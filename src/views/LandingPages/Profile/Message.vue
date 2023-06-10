@@ -5,6 +5,7 @@ import NavbarDefault from "../../../examples/navbars/NavbarDefault.vue";
 import DefaultFooter from "../../../examples/footers/FooterDefault.vue";
 
 const token = computed(() => localStorage.getItem('token'));
+const isAuthenticated = computed(() => !!localStorage.getItem('access_token'));
 
 const messageData = ref([]);
 const debugText = ref('');
@@ -69,6 +70,7 @@ onMounted(async() => {
 
 <template>
     <NavbarDefault />
+    <div v-if="isAuthenticated">
     <p >{{ debugText }}</p>
     <div class="profile-container" :style="{fontWeight: '900',  fontFamily: 'monospace' }">
       <h2 :style="{ fontSize: '27px', fontWeight: '900',  fontFamily: 'PressStart2P, sans-serif', marginBottom:'5%' }">Мои сообщения</h2>
@@ -126,6 +128,11 @@ onMounted(async() => {
         </div>
     </div>
     <div class="podval"><DefaultFooter /></div>
+  </div>
+  <div v-else>
+    <h1>Вы не авторизованы</h1>
+    <div class="podval" :style="{fontWeight: '900',  fontFamily: 'monospace' }">Екатерина Кузнецова, Ирина Комарова. 2023 . Использованы материалы Creative Tim.</div>
+  </div>
   </template> 
 
 

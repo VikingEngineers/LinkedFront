@@ -10,7 +10,7 @@ const messageData = ref([]);
 const debugText = ref('');
 const searchResultUsers = ref([]);
 
-
+const isAuthenticated = computed(() => !!localStorage.getItem('access_token'));
 
 const getMessages = async () => {
     try { 
@@ -55,6 +55,7 @@ onMounted(async() => {
 
 <template>
   <NavbarDefault />
+  <div v-if="isAuthenticated">
   <div class="profile-container" :style="{ fontWeight: '900',  fontFamily: 'monospace' }">
     <h3 :style="{ fontWeight: '800',  fontFamily: 'PressStart2P, sans-serif' }">Сообщение </h3>
       <input v-model="messageData.subject" readonly placeholder="Тема сообщения">
@@ -69,6 +70,12 @@ onMounted(async() => {
       <button @click="cancelCreate" class="btn-cancel">ОТМЕНИТЬ</button>
     </div>
   </div>
+</div>
+<div v-else>
+<div :style="{ marginBottom:'25vw', textAlign:'center'}">
+  <h1 :style="{ fontWeight: '900',  fontFamily: 'PressStart2P, sans-serif', paddingTop:'10vw'}">Вы не авторизованы!</h1>
+</div>
+</div>
   <DefaultFooter />
 </template> 
 
@@ -127,7 +134,7 @@ p{
   font-family: 'SpaceMono' monospace;
   font-weight: 500;
 }
-button{
+/*button{
   background-color: #3d9132;
   border-radius: 10px;
   text-align: center;
@@ -139,7 +146,7 @@ button{
 button:hover{
   background-color: #6ac55e;
   color: rgb(61, 61, 61);
-}
+}*/
 .profile-container input, .profile-container textarea {
   width: 70%; /* Make inputs and textareas take up the full width of the container */
   padding: 10px; /* Add some padding */
@@ -149,22 +156,22 @@ button:hover{
   border-radius: 5px; /* Add rounded corners */
 }
 .btn-submit {
-  color: #fff;
   background-color: #4CAF50;
-  border: none;
-  padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
-  cursor: pointer;
-  border-radius: 5px;
 }
-
+.btn-submit:hover {
+  background-color: #4caf4f6b;
+  color: #535151;
+}
 .btn-cancel {
-  color: #fff;
   background-color: #f44336;
+}
+.btn-cancel:hover  {
+  background-color: #f4433659;
+  color: #535151;
+}
+.btn-submit,.btn-cancel{
+  color: #fff;
+  width: 10%;
   border: none;
   padding: 15px 32px;
   text-align: center;
@@ -174,7 +181,8 @@ button:hover{
   margin: 4px 2px;
   cursor: pointer;
   border-radius: 5px;
+  font-family: monospace;
+  font-weight: 700;
 }
-
 
 </style>
