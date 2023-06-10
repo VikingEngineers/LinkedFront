@@ -1,6 +1,6 @@
 <script setup>
 import axios from 'axios';
-import { onMounted, ref } from "vue";
+import { onMounted, ref , computed} from "vue";
 import { useRoute } from "vue-router";
 import NavbarDefault from '../../../examples/navbars/NavbarDefault.vue';
 import DefaultFooter from "../../../examples/footers/FooterDefault.vue";
@@ -10,8 +10,10 @@ const route = useRoute();
 const profileData = ref([]);
 const skillsData = ref([]);
 
-const projectsData = ref([]); 
 
+const searchQuery = ref('');
+const searchResultProjects = ref([]);
+const searchResultUsers = ref([]);
 
 const getProfile = async () => {
     const profileDataRecieved = await axios.get(`http://somebodyhire.me/api/profile/${profileId.value}/`);
@@ -24,10 +26,25 @@ const getSkills = async () => {
     skillsData.value = skillsDataRecieved.data;
 };
 
-const getProjects = async () => {
-    const projectsDataRecieved = await axios.get(`http://somebodyhire.me/api/profile/${profileId.value}`);
-    projectsData.value = projectsDataRecieved.data;
+const search = async () => {
+  try {
+    const projectsResponse = await axios.get(`http://somebodyhire.me/api/search/projects/?search_query=${searchQuery.value}`);
+    searchResultProjects.value = projectsResponse.data;
+
+    const usersResponse = await axios.get(`http://somebodyhire.me/api/search/profiles/?search_query=${searchQuery.value}`);
+    searchResultUsers.value = usersResponse.data;
+  } catch (error) {
+    console.error('There was an error fetching the search results', error);
+  }
 };
+
+const filteredProjects = computed(() => {
+  return searchResultProjects.value.filter(project => project.owner == profileId.value);
+});
+
+onMounted(() => {
+  search();
+});
 
 const processProfileData = (data) => {
     return {
@@ -94,11 +111,11 @@ onMounted(async() => {
       <p :style="{fontSize: '20px'}">Навыки:</p>
       <p v-for = "skill in skillsData" :key="skill.id" :style="{fontSize: '16px'}">{{ skill.name }} ({{ skill.description }})</p>
       <p :style="{fontSize: '20px'}">Проекты:</p>
-      <p v-for = "project in projectsData" :key="project.id" :style="{fontSize: '16px'}">{{ project.title }} ({{ project.description }})</p>
+      <p  v-for="project in filteredProjects" :key="project.id" :style="{fontSize: '16px'}">{{ project.title }} ({{ project.description }})</p>
       
       </div>
   </div>
-  <div class="podval"><DefaultFooter /></div>
+  <div class="podval" :style="{fontWeight: '500',  fontFamily: 'monospace' }">Екатерина Кузнецова, Ирина Комарова. 2023 . Использованы материалы Creative Tim.</div>
   
 </template> 
 
@@ -106,19 +123,20 @@ onMounted(async() => {
 .profile-container {
 width: 90%;
 margin: 50px;
+display: flex;
 /*padding: 15px 25px;
 margin: 5% 25%;
 padding: 20px 50px;
 box-shadow: 0px 0px 10px 0px rgba(6, 104, 14, 0.281);
 background-color: #ffffff57;
 border-radius: 10px;*/
+margin-bottom: 5vw;
 }
 .podval {
-  position: absolute;
-	left: 0;
-	bottom: 0;
-	width: 100%;
-	height: 80px;
+  text-align: center;
+  bottom: 0;
+  width: 100%;
+  height: 10px;
 }
 
 .profile-container1 {
