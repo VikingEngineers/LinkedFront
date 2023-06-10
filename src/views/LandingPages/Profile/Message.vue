@@ -37,7 +37,7 @@ const getMessages = async () => {
 
       const messagesResponse = await axios.get(`http://somebodyhire.me/api/messages/`, { headers });
       messageData.value = messagesResponse.data;
-      // debugText.value = JSON.stringify(messagesResponse.data);
+      //debugText.value = JSON.stringify(messagesResponse.data);
     } catch (error) {
       console.error('There was an error fetching the messages', error);
     }
@@ -47,7 +47,7 @@ const getMessages = async () => {
     try {
         const usersResponse = await axios.get(`http://somebodyhire.me/api/profiles/`);
         searchResultUsers.value = usersResponse.data;
-        // debugText.value = JSON.stringify(searchResultUsers.value); 
+        //debugText.value = JSON.stringify(searchResultUsers.value); 
     } catch (error) {
         console.error('There was an error fetching the search results', error); 
     }
@@ -72,20 +72,7 @@ onMounted(async() => {
     <p >{{ debugText }}</p>
     <div class="profile-container" :style="{fontWeight: '900',  fontFamily: 'monospace' }">
       <h2 :style="{ fontSize: '27px', fontWeight: '900',  fontFamily: 'PressStart2P, sans-serif', marginBottom:'5%' }">Мои сообщения</h2>
-      <!-- <RouterLink :style="{fontFamily: 'PressStart2P, sans-serif', fontSize: '14px'}"
-                  :to="{ name: 'send-message' }"
-                  class="btn_link"
-                  >
-                  Написать сообщение
-                </RouterLink>  -->
-        <!-- <p :style="{ fontSize: '24px'}">{{ messageData.email }}</p> -->
-        <RouterLink :style="{fontFamily: 'PressStart2P, sans-serif', fontSize: '14px'}"
-        :to="{ name: 'open-message' }"
-        class="btn_link"
-        >
-        Написать сообщение
-      </RouterLink>
-      
+   
         <div class="tabs">
           <div id="content-1" > 
             <div class="table-wrap">
@@ -93,64 +80,49 @@ onMounted(async() => {
                 <thead>
                   <tr>
                     <th>Отправитель</th>
-                    <th>Получатель</th>
                     <th>Тема</th>
                     <th>Текст</th>
                   </tr>
                 </thead>
                 <tbody v-for = "message in messageData"  :key="message.id" :style="{ fontFamily: 'monospace' }">
                   <tr v-if="message.recipient == userId"  :key="message.id">
-                    <td data-label="Отправитель"><a :href="`/open-message/${user.id}`">{{ findUsername(message.sender) }}</a></td>
-                    <td data-label="Получатель"><a :href="`/open-message/${user.id}`">{{ findUsername(message.recipient) }} </a></td>
-                    <td data-label="Тема"><a :href="`/open-message/${user.id}`">{{ message.subject }}</a></td>
-                    <td data-label="Текст"><a :href="`/open-message/${user.id}`">{{ message.body }}</a></td>
+                    <td data-label="Отправитель"><a :href="`/profile/${ message.sender }`">{{ findUsername(message.sender) }}</a></td>
+                    <td data-label="Тема"><a :href="`/message/${ message.id }`">{{ message.subject }}</a></td>
+                    <td data-label="Текст"><a :href="`/message/${ message.id }`">{{ message.body }}</a></td>
                   </tr>
+                  
                 </tbody>
             </table>
             </div>
-          <!-- <div v-for = "message in messageData" :key="message.id" class="one_inbox" :style="{ fontFamily: 'monospace' }">  
-    
-            
-              <p :style="{ fontWeight: '500',  fontSize: '16px'}">От: {{ findUsername(message.sender) }}</p>
-              <p :style="{ fontWeight: '500',  fontSize: '16px'}">Кому: {{ findUsername(message.recipient) }} </p>
-              <p :style="{ fontWeight: '500',  fontSize: '16px'}">Тема: {{ message.subject }}</p>
-              <p :style="{ fontWeight: '500',  fontSize: '16px'}">Сообщение: {{ message.body }}</p>
-            </div> -->
           </div>
-          <div id="content-2" >
+          <div id="content-2" > 
             <div class="table-wrap">
               <table>
                 <thead>
                   <tr>
-                    <th>Отправитель</th>
-                    <th>Получатель</th>
+                    
+                     <th>Получатель</th> 
                     <th>Тема</th>
                     <th>Текст</th>
                   </tr>
                 </thead>
-                <tbody v-for = "message in messageData" :key="message.id" :style="{ fontFamily: 'monospace' }">
-                  <tr v-if="message.sender == userId" :key="message.id">
-                    <td data-label="Отправитель">{{ findUsername(message.sender) }}</td>
-                    <td data-label="Получатель">{{ findUsername(message.recipient) }} </td>
-                    <td data-label="Тема">{{ message.subject }}</td>
-                    <td data-label="Текст">{{ message.body }}</td>
+                <tbody v-for = "message in messageData"  :key="message.id" :style="{ fontFamily: 'monospace' }">
+                  <tr v-if="message.sender == userId"  :key="message.id">
+                    <td data-label="Получатель"><a :href="`/profile/${ message.recipient }`">{{ findUsername(message.recipient) }} </a></td>
+                    <td data-label="Тема"><a :href="`/message/${ message.id }`">{{ message.subject }}</a></td>
+                    <td data-label="Текст"><a :href="`/message/${ message.id }`">{{ message.body }}</a></td>
                   </tr>
+                  
                 </tbody>
             </table>
             </div>
-            <!-- <div v-for = "message in messageData" :key="message.id" class="one_inbox" :style="{ fontWeight: '500',  fontFamily: 'monospace' }">
-
-              
-              <p :style="{ fontWeight: '500',  fontSize: '16px'}">От: {{ findUsername(message.sender) }}</p>
-              <p :style="{ fontWeight: '500',  fontSize: '16px'}">Кому: {{ findUsername(message.recipient) }} </p>
-              <p :style="{ fontWeight: '500',  fontSize: '16px'}">Тема: {{ message.subject }}</p>
-              <p :style="{ fontWeight: '500',  fontSize: '16px'}">Сообщение: {{ message.body }}</p>
-            </div> -->
           </div>
+          
           <div class="tabs__links">
             <a href="#content-1">Входящие</a>
             <a href="#content-2">Исходящие</a>
           </div>
+          
         </div>
 
       
