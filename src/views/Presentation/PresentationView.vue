@@ -132,13 +132,11 @@ export default {
         <h3 :style="{ fontWeight: '900',  fontFamily: 'monospace' }">{{ project.title }}</h3>
         <img class="project-image" :src="project.featured_image" alt="Featured image">
         <!-- <p>{{ project.description }}</p>  -->
-        <div v-if="project.tags.length > 0 ">
-        <div class="tags-container">
-        <div class="tags" v-for="project in searchResultProjects" :key="project.tags">
+        <div class="tags-container" v-if="project.tags.length > 0 ">
+        <!-- <div class="tags" v-for="project in searchResultProjects" :key="project.tags"> -->
         <p>{{ project.tags }}</p>
-        </div>
-      </div>
-    </div>
+       </div>
+      <!--  </div> -->
         <div class="btn_link-container">
         <a :href="`project/${project.id}`" class="btn_link">Посмотреть</a>
       </div>
@@ -150,6 +148,7 @@ export default {
         <h3 :style="{ fontWeight: '900',  fontFamily: 'monospace' }">{{ user.username }}</h3>
         <img class="profile-image" :src="user.profile_image" alt="Featured image">
         <p>{{ user.short_intro }}</p> <!-- краткое описание -->
+
         <!--<div v-if="user.skill.length > 0 ">
           <div class="tags-container">
           <div class="tags" v-for="user in searchResultUsers" :key="user.skill">
@@ -162,12 +161,7 @@ export default {
 
         <a :href="`/profile/${user.id}`" class="btn_link">Открыть</a>
         <a :href="`/message-to/${user.id}`" class="btn_link">Написать</a>
-        <!-- <RouterLink :style="{fontSize: '16px'}"
-                  :to="{ name: 'message-to' }"
-                  class="btn_link"
-                  >
-                  Написать
-                </RouterLink>  -->
+
       </div>
     </div>
     </div>
@@ -280,7 +274,7 @@ export default {
   display: flex;
   flex-direction: column;
   /*background-color: #3d913248;*/
-  padding: 5px;
+  padding: 0.5vw;
   margin: 10px 20px;
   border-radius: 10px;
   border: 2px solid #4ea85280;
@@ -347,8 +341,9 @@ export default {
 }
 
 .project-image {
-  width: 70%;
-  height: 70%;
+  /*width: 70%;
+  height: 70%;*/
+  height: 10vw;
   margin-bottom: 20px;
   margin-top: 20px;
 }

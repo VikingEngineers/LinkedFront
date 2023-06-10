@@ -1,7 +1,8 @@
 <script setup>
 import axios from 'axios';
-import { ref, computed } from "vue";
+import { onMounted, ref, computed } from "vue";
 import NavbarDefault from "../../../examples/navbars/NavbarDefault.vue";
+import DefaultFooter from "../../../examples/footers/FooterDefault.vue";
 import { useRouter } from "vue-router";
 
 const isAuthenticated = computed(() => !!localStorage.getItem('access_token'));
@@ -15,14 +16,11 @@ const projectData = ref({
     featured_image: "",
     demo_link: null,
     source_link: null,
-    likes: 0,
     owner: userId.value,
-    tags: []
 });
 
 const router = useRouter();
 const selectedImage = ref(null);
-
 const debugText = ref('');
 
 // Axios request and response interceptors
@@ -42,15 +40,17 @@ axios.interceptors.response.use((response) => {
 const createProject = async () => {
     try {
         const headers = { 'Authorization': `Bearer ${token.value}` };
-        const data = {
-            title: projectData.value.title,
-            description: projectData.value.description,
-            demo_link: projectData.value.demo_link,
-            source_link: projectData.value.source_link,
-            vote_total: projectData.value.vote_total,
-            vote_ratio: projectData.value.vote_ratio,
-            owner: userId.value
-        };
+        const data = new FormData();
+        data.append('title', projectData.value.title);
+        data.append('description', projectData.value.description);
+        data.append('demo_link', projectData.value.demo_link);
+        data.append('source_link', projectData.value.source_link);
+        data.append('owner', userId.value);
+
+
+        if (selectedImage.value) {
+            data.append('featured_image', selectedImage.value);
+        }
         const response = await axios.post('http://somebodyhire.me/api/projects/create/', data, { headers });
         router.push(`/project/${response.data.id}`);
     } catch (error) {
@@ -66,21 +66,31 @@ const onFileChange = (event) => {
     selectedImage.value = event.target.files[0];
     debugText.value = `Selected image: ${selectedImage.value.name}`;
 };
+
+
 </script>
 
 <template>
     <NavbarDefault />
-    <div class="profile-container">
-      <h1>Создание проекта для {{ loggedUserName }}</h1>
+    <div v-if="isAuthenticated">
+    <div class="profile-container" :style="{ fontWeight: '900',  fontFamily: 'monospace' }">
+      <h1 :style="{ fontWeight: '300',  fontFamily: 'PressStart2P, sans-serif', fontSize:'32px', marginBottom:'3%' }">Создание проекта для {{ loggedUserName }}</h1>
         <!-- <textarea readonly v-model="debugText"></textarea> -->
         <input type="text" v-model="projectData.title" placeholder="Добавьте название проекта">
         <input type="text" v-model="projectData.description" placeholder="Добавьте описание проекта">
-        <input v-model="projectData.featured_image" placeholder="Link to featured image">
-        <input type="file" accept="image/*" @change="onFileChange" placeholder="Link to featured image">
+        <input type="file" accept="image/*" @change="onFileChange" placeholder="Выберите изображение">
         <textarea v-model="projectData.demo_link" placeholder="Ссылка на демонстрацию проекта"></textarea>
         <textarea v-model="projectData.source_link" placeholder="Ссылка на исходный код"></textarea>
-        <button @click="createProject" class="btn-submit">Подтвердить</button>
+        <div class="btn_link-container">
+          <button @click="createProject" class="btn-submit">Создать проект</button>
         <button @click="cancelCreate" class="btn-cancel">Отменить</button>
+        </div>
+    </div>
+  </div>
+  <div v-else>
+    <div :style="{ marginBottom:'25vw', textAlign:'center'}">
+      <h1 :style="{ fontWeight: '900',  fontFamily: 'PressStart2P, sans-serif', paddingTop:'10vw'}">Вы не авторизованы!</h1>
+    </div>
     </div>
     <DefaultFooter />
 </template>
@@ -90,8 +100,8 @@ const onFileChange = (event) => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 80%;
-  margin: auto;
+  width: 60%;
+  margin: 5% auto;
   padding: 20px;
   box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
 }
@@ -135,7 +145,10 @@ const onFileChange = (event) => {
     cursor: pointer;
     border-radius: 5px;
 }
-
+.btn-submit:hover {
+  color: #5f5e5e;
+  background-color: #4caf4f7a;
+}
 .btn-cancel {
     color: #fff;
     background-color: #f44336;

@@ -2,18 +2,26 @@
 import axios from 'axios';
 import { onMounted, ref, computed } from "vue";
 import NavbarDefault from "../../../examples/navbars/NavbarDefault.vue";
+import DefaultFooter from "../../../examples/footers/FooterDefault.vue";
 
 const isAuthenticated = computed(() => !!localStorage.getItem('access_token'));
 const userId = computed(() => localStorage.getItem('user_id'));
 const loggedUserName = computed(() => localStorage.getItem('username'));
 
 const profileData = ref([]);
+const skillsData = ref([]);
 
 
 const getProfile = async () => {
     const profileDataRecieved = await axios.get(`http://somebodyhire.me/api/profile/${userId.value}/`);
     profileData.value = processProfileData(profileDataRecieved.data);
 };
+
+const getSkills = async () => {
+    const skillsDataRecieved = await axios.get(`http://somebodyhire.me/api/profile/${userId.value}/skills/`);
+    skillsData.value = skillsDataRecieved.data;
+};
+
 
 const processProfileData = (data) => {
     return {
@@ -33,6 +41,7 @@ const processProfileData = (data) => {
 
 onMounted(async() => {
     await getProfile();
+    await getSkills();
 });
 
 
@@ -41,7 +50,8 @@ onMounted(async() => {
 
 <template>
     <NavbarDefault />
-    <div class="profile-container" :style="{fontWeight: '900',  fontFamily: 'monospace' }">
+    <div v-if="isAuthenticated">
+    <div  class="profile-container" :style="{fontWeight: '900',  fontFamily: 'monospace' }">
       <div class="profile-container1">
         <img :src="profileData.profile_image" alt="Profile Image">
         <p :style="{ fontSize: '24px'}">{{ profileData.email }}</p>
@@ -51,22 +61,33 @@ onMounted(async() => {
           <a :href="`${profileData.social_vk}`" target="_blank" >VK</a>
           <a :href="`${profileData.social_youtube}`" target="_blank" >YouTube</a>
           <a :href="`${profileData.social_website}`" target="_blank" >Мой сайт</a>
+          <a href="/not-found" target="_blank" >404</a>
+          <a :href="`/editmyprofile`" >Редактировать профиль</a>
         </div>
       </div>
 
       <div class="profile-container2">
-        <h2 :style="{ fontSize: '27px', fontWeight: '900',  fontFamily: 'PressStart2P, sans-serif' }">Мой профиль</h2>
+        <h2 :style="{ fontSize: '27px', fontWeight: '900',  fontFamily: 'PressStart2P, sans-serif', marginBottom:'3%' }">Мой профиль</h2>
         <!-- <h2 :style="{ fontSize: '27px', fontWeight: '900',  fontFamily: 'PressStart2P, sans-serif' }">{{ profileData.username }}</h2> -->
         
         <p :style="{ fontSize: '20px'}">Местоположение: {{ profileData.location }}</p>
         <p :style="{ fontSize: '20px'}">Краткое описание: {{ profileData.short_intro }}</p>
         <p :style="{ fontSize: '20px'}">Биография: {{ profileData.bio }}</p>
         <p :style="{ fontSize: '20px'}">Навыки: </p>
-        <a :href="`/editmyprofile`" class="btn_link">Редактировать профиль</a>
-      </div>
+        <p v-for = "skill in skillsData" :key="skill.id" :style="{fontSize: '16px'}">{{ skill.name }} ({{ skill.description }})</p>
+        <p :style="{fontSize: '20px'}">Проекты:</p>
+      <p v-for = "project in projectsData" :key="project.id" :style="{fontSize: '16px'}">{{ project.title }} ({{ project.description }})</p>
         
       </div>
-      <DefaultFooter />
+      
+      </div>
+      <div class="podval" :style="{fontWeight: '900',  fontFamily: 'monospace' }">Екатерина Кузнецова, Ирина Комарова. 2023 . Использованы материалы Creative Tim.</div>
+    </div>
+      <div v-else :style="{ marginBottom:'25vw', textAlign:'center'}">
+        <h1 :style="{ fontWeight: '900',  fontFamily: 'PressStart2P, sans-serif', paddingTop:'10vw',paddingBottom:'20vw'}">Вы не авторизованы</h1>
+        <DefaultFooter />
+      </div>
+      
   </template> 
 
 
@@ -76,11 +97,19 @@ onMounted(async() => {
   width: 90%;
   padding: 20px;
   margin: 50px;
+  height: 120%;
  /*border-radius: 10px;
   align-items: center;
   text-align: center;
   box-shadow: 0px 0px 10px 0px rgba(6, 104, 14, 0.281);
   */
+}
+.podval {
+  height: 50px;
+  margin-top: 50%;
+  text-align: center;
+	width: 100%;
+	
 }
 .profile-container1 {
   width: 45%;

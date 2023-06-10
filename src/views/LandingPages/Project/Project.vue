@@ -1,12 +1,14 @@
 <script setup>
 import axios from 'axios';
 import { onMounted, ref, computed } from "vue";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import NavbarDefault from '../../../examples/navbars/NavbarDefault.vue';
+import DefaultFooter from "../../../examples/footers/FooterDefault.vue";
 
 
 const projectId = ref(null);
 const route = useRoute();
+const router = useRouter();
 const projectData = ref([]);
 const ProjectReviews = ref([]);
 const commentData = ref({
@@ -23,6 +25,7 @@ const loggedUserName = computed(() => localStorage.getItem('username'));
 const token = computed(() => localStorage.getItem('access_token'));
 
 const debugText = ref('Debug Text');  
+const isLiked = ref(false);
 
 
 onMounted(async() => {
@@ -30,6 +33,8 @@ onMounted(async() => {
     await getProject();
     await GetProjectReviews();
     await search();
+    checkIfLiked();
+       
 });
 
 
@@ -57,7 +62,7 @@ const search = async () => {
     try {
         const usersResponse = await axios.get(`http://somebodyhire.me/api/search/profiles/?search_query=${searchQuery.value}`);
         searchResultUsers.value = usersResponse.data;
-        // debugText.value = JSON.stringify(usersResponse.data); 
+        // debugText.value = JSON.stringify(usersResponse.data);
     } catch (error) {
         console.error('There was an error fetching the search results', error); 
     }
@@ -85,11 +90,31 @@ const search = async () => {
     }
   };
 
+  const postLike = async () => {
+    try {
+        const headers = { 'Authorization': `Bearer ${token.value}` };
+        const response = await axios.patch (`http://somebodyhire.me/api/projects/${projectId.value}/like/`, {}, { headers });
+        location.reload();
+    } catch (error) {
+        console.error('There was an error posting the like', error);
+    } 
+  };
+
+  const checkIfLiked = () => {
+    for (let i = 0; i < projectData.value.likes.length; i++) {
+        if (projectData.value.likes[i] == userId.value) {
+            isLiked.value = true;
+        }
+    }
+};
+  
+ 
 </script>
 
 
 <template>
   <NavbarDefault />
+  <div v-if="isAuthenticated">
     <div class="project-container" :style="{fontWeight: '900',  fontFamily: 'monospace' }">
       <div class="project-container1" v-if="projectData" >
         <p class="project-tags"> 
@@ -99,18 +124,21 @@ const search = async () => {
           </p>
         <a v-if="projectData.demo_link" class="project-link" target="_blank" :href="projectData.demo_link">Demo Live</a>
         <a v-if="projectData.source_link" class="project-link" target="_blank" :href="projectData.source_link">Source Code</a>
-        <p  class="project-votes">Количество лайкнувших:{{ projectData.likes }} </p>
+
+        <p v-if="projectData && projectData.likes" class="project-votes">Количество лайков: {{ projectData.likes.length }}</p>
         <div v-if = "projectData.owner == userId" class="project-owner-note">
           <a class="btn_link" :href="`/editproject/${projectData.id}`">Редактирование проекта</a>
         </div>
       <div class="btn_link-container">
-        <button v-if = "projectData.owner != userId"  class="button_like" > Нравится </button>
-        <button v-if = "projectData.owner != userId"  class="button_dislike"> Не нравится </button>
+        <button v-if = "projectData.owner != userId && !isLiked" class="button_like" @click="postLike" > Нравится </button>
+        <button v-if = "projectData.owner != userId && isLiked"  class="button_dislike" @click="postLike" > Не нравится </button>
+
+
       </div>
       
       </div>
         <div class="project-container2" v-if="projectData" >
-          <h1 class="subtitle" :style="{ fontWeight: '500',  fontFamily: 'PressStart2P, sans-serif' }">{{ projectData.title }}</h1>
+          <h1 class="subtitle" :style="{ fontWeight: '500',  fontFamily: 'PressStart2P, sans-serif',fontSize:'26px' }">{{ projectData.title }}</h1>
           <img class="project-image" :src="projectData.featured_image" alt="Featured image">
           <p class="project-created">Created On: {{ new Date(projectData.created).toLocaleDateString() }}</p>
           
@@ -135,7 +163,12 @@ const search = async () => {
         
 
     </div>
-    <DefaultFooter />
+    <div class="podval"><DefaultFooter /></div>
+  </div>
+  <div v-else>
+    <h1>Вы не авторизованы</h1>
+    <div class="podval" :style="{fontWeight: '900',  fontFamily: 'monospace' }">Екатерина Кузнецова, Ирина Комарова. 2023 . Использованы материалы Creative Tim.</div>
+  </div>
 </template> 
 
 
@@ -151,6 +184,28 @@ const search = async () => {
   text-align: center;*/
   width: 90%;
 }
+.podval {
+  position: absolute;
+	left: 0;
+	margin-top: 60%;
+	width: 100%;
+	height: 80px;
+}
+@media screen and (max-width: 992px) {
+  .podval {
+   
+    margin-top: 110%;
+   
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .podval {
+
+    margin-top: 130%;
+
+  }
+}
 .project-container1 {
   width: 30%;
 float: left;
@@ -159,6 +214,7 @@ float: left;
 .project-container2 {
   width: 70%;
 float: right;
+
 }
 .feedback {
   margin: 10px 0px;
@@ -179,6 +235,7 @@ input, textarea{
   font-size: 24px;
   font-weight: bold;
   color: #333;
+  
 }
 
 .project-subtitle {
@@ -242,6 +299,7 @@ input, textarea{
 h1,h2{
   /*font-family: 'PressStart2P';*/
   color:rgb(70, 104, 105);
+  width: 30%;
 }
 p{
   font-family: 'SpaceMono' monospace;

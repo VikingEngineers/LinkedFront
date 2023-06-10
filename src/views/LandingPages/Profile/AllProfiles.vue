@@ -1,13 +1,16 @@
 <script setup>
 import { onMounted, onUnmounted } from "vue";
 import axios from 'axios';
-import { ref } from "vue";
+import { ref, computed  } from "vue";
 import NavbarDefault from "../../../examples/navbars/NavbarDefault.vue";
+import DefaultFooter from "../../../examples/footers/FooterDefault.vue";
 
 
 const searchQuery = ref('');
 const searchResultProjects = ref([]);
 const searchResultUsers = ref([]);
+
+const isAuthenticated = computed(() => !!localStorage.getItem('access_token'));
 
 const search = async () => {
   try {
@@ -31,7 +34,7 @@ onMounted(() => {
 
 <template>
 <NavbarDefault />
-
+<div v-if="isAuthenticated">
     <!-- <h2 class="result-header">Найдено людей: {{ searchResultUsers.length}} </h2> -->
     <div class="result-grid" :style="{ fontWeight: '900',  fontFamily: 'monospace' }">
       <div class="result-card" v-for="user in searchResultUsers" :key="user.id">
@@ -44,9 +47,13 @@ onMounted(() => {
       </div>
       </div>
     </div>
-
-
     <DefaultFooter />
+  </div>
+
+  <div v-else>
+    <h1>Вы не авторизованы</h1>
+    <div class="podval" :style="{fontWeight: '900',  fontFamily: 'monospace' }">Екатерина Кузнецова, Ирина Комарова. 2023 . Использованы материалы Creative Tim.</div>
+  </div>
   </template>
 
 <style scoped>
@@ -55,7 +62,13 @@ onMounted(() => {
   justify-content: center;
   align-items: center;
 }
-
+.podval {
+  height: 50px;
+  margin-top: 50%;
+  text-align: center;
+	width: 100%;
+	
+}
 .searchInput {
   /* Makes the search input take up the maximum available width */
   flex-grow: 1;

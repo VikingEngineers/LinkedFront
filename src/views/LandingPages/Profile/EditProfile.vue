@@ -2,6 +2,7 @@
 import axios from 'axios';
 import { onMounted, ref, computed } from "vue";
 import NavbarDefault from "../../../examples/navbars/NavbarDefault.vue";
+import DefaultFooter from "../../../examples/footers/FooterDefault.vue";
 import { useRouter, useRoute } from "vue-router";
 
 const isAuthenticated = computed(() => !!localStorage.getItem('access_token'));
@@ -16,6 +17,11 @@ const router = useRouter();
 const route = useRoute();
 const debugText = ref('');
 const selectedImage = ref(null);
+const newSkillData = ref({
+    name: '',
+    description: ''
+});
+
 
 const getProfile = async () => {
     const profileDataRecieved = await axios.get(`http://somebodyhire.me/api/profile/${userId.value}/`);
@@ -23,7 +29,7 @@ const getProfile = async () => {
 };
 
 const getSkills = async () => {
-    const skillsDataRecieved = await axios.get(`http://somebodyhire.me/api/profile/${profileId.value}/skills/`);
+    const skillsDataRecieved = await axios.get(`http://somebodyhire.me/api/profile/${userId.value}/skills/`);
     skillsData.value = skillsDataRecieved.data;
 };
 
@@ -101,9 +107,6 @@ const updateProfile = async () => {
       formData.append('profile_image', selectedImage.value);
     };
 
-
-
-
     await axios.patch(`http://somebodyhire.me/api/profile/${userId.value}/`, formData, { headers });
     router.push('/ViewMyProfile');
   } catch (error) {
@@ -112,6 +115,26 @@ const updateProfile = async () => {
   }
 };
 
+const addSkill = async () => {
+    try {
+        const tokenValue = token.value;
+        const headers = { 
+            'Authorization': `Bearer ${tokenValue}`,
+            'Content-Type': 'application/json'
+        };
+        const skillData = {
+            name: newSkillData.value.name,
+            description: newSkillData.value.description
+        };
+        await axios.post(`http://somebodyhire.me/api/skills/create/`, skillData, { headers });
+        await getSkills();
+        newSkillData.value.name = '';
+        newSkillData.value.description = '';
+        location.reload();
+    } catch (error) {
+        console.error(error);
+    }
+};
 const cancelUpdate = () => {
     router.push('/ViewMyProfile');
 };
@@ -124,51 +147,109 @@ onMounted(async() => {
 
 <template>
     <NavbarDefault />
-    <div class="profile-container">
-        <h1>User Profile: {{ loggedUserName }}</h1>
-        <!-- 
-          Это поле, в которое выводится весь обмен, происходящий между клиентом и сервером. Нужно для отладки.-->
-          <textarea readonly v-model="debugText"></textarea> 
+    <div v-if="isAuthenticated" class="profile-container" :style="{fontWeight: '900',  fontFamily: 'monospace' }">
+      <div class="profile-container1">
 
-        <!-- Событие происходит в момент загрузки файла. В этот момент в переменную selectedImage записывается файл, который был выбран. -->
-        <img class="project-image" :src="profileData.profile_image" alt="Profile image">
+
+         <img class="project-image" :src="profileData.profile_image" alt="Profile image">
+        <p>Выберите новое изображение профиля</p>
         <input type="file" accept="image/*" @change="onFileChange">
-        
-        <input type="text" v-model="profileData.username" placeholder="Имя пользователя">
-        <input type="email" v-model="profileData.email" placeholder="Email">
-        <input type="text" v-model="profileData.name" placeholder="Полное имя">
-        <input type="text" v-model="profileData.short_intro" placeholder="Краткое описание">
-        <input type="text" v-model="profileData.location" placeholder="Местоположение">
-        <textarea v-model="profileData.bio" placeholder="Подробное описание"></textarea>
-        <textarea v-model="profileData.social_github" placeholder="GitHub"></textarea>
-        <textarea v-model="profileData.social_twitter" placeholder="Twitter"></textarea>
-        <textarea v-model="profileData.social_vk" placeholder="ВКонтакте"></textarea>
-        <textarea v-model="profileData.social_youtube" placeholder="YouTube"></textarea>
-        <textarea v-model="profileData.social_website" placeholder="Сайт"></textarea>
-
-        <p :style="{fontSize: '20px'}">Навыки:</p>
-      <p v-for = "skill in skillsData" :key="skill.id" :style="{fontSize: '16px'}">{{ skill.name }} ({{ skill.description }})</p>
-
-        <div>
-        <button @click="updateProfile" class="btn-submit">Сохранить</button>
-        <button @click="cancelUpdate" class="btn-cancel">Отменить</button>
+        <p>Добавить навык</p>
+        <div class="skills">
+          <input type="text" v-model="newSkillData.name" placeholder="Название">
+          <input type="text" v-model="newSkillData.description" placeholder="Описание">
+          <button @click="addSkill" class="btn-submit">Добавить</button>
         </div>
+        <p :style="{fontSize: '18px'}">Навыки:</p>
+        <p v-for = "skill in skillsData" :key="skill.id" :style="{fontSize: '16px'}">{{ skill.name }} ({{ skill.description }})</p>
+        
+      </div>
+
+      <div class="profile-container2">
+        <h1 :style="{ fontSize: '18px', fontWeight: '500',  fontFamily: 'PressStart2P, sans-serif' }">Редактируем профиль: {{ loggedUserName }}</h1>
+        <!-- 
+          <p>Отладочный текст</p>
+          <textarea readonly v-model="debugText"></textarea>-->
+          <p>Псевдоним</p> 
+          <input type="text" v-model="profileData.username" placeholder="Имя пользователя">
+          <p>Адрес электронной почты</p>
+          <input type="email" v-model="profileData.email" placeholder="Email">
+          <p>Настоящее имя </p>
+          <input type="text" v-model="profileData.name" placeholder="Полное имя">
+          <p>Краткая биография</p>
+          <input type="text" v-model="profileData.short_intro" placeholder="Краткое описание">
+          <p>Местоположение</p>
+          <input type="text" v-model="profileData.location" placeholder="Местоположение">
+          <p>Биография </p>
+          <textarea v-model="profileData.bio" placeholder="Подробное описание"></textarea>
+          <p>Ссылка на GitHub</p>
+          <textarea v-model="profileData.social_github" placeholder="GitHub"></textarea>
+          <p>Ссылка на Twitter</p>
+          <textarea v-model="profileData.social_twitter" placeholder="Twitter"></textarea>
+          <p>Ссылка на ВКонтакте</p>
+          <textarea v-model="profileData.social_vk" placeholder="ВКонтакте"></textarea>
+          <p>Ссылка на YouTube</p>
+          <textarea v-model="profileData.social_youtube" placeholder="YouTube"></textarea>
+          <p>Ссылка на сайт</p>
+          <textarea v-model="profileData.social_website" placeholder="Сайт"></textarea>  
+          <p></p>
+
+          <button @click="updateProfile" class="btn-submit">Сохранить</button>
+          <button @click="cancelUpdate" class="btn-cancel">Отменить</button>
+        
+        
+          <div class="podval1"><DefaultFooter /></div>
+      </div>
+      
+      </div>
+
+
+    <div v-else>
+      <h1>Вы не авторизованы</h1>
+      <div class="podval2"><DefaultFooter /></div>
     </div>
-    <DefaultFooter />
+    
 </template>
 
 
 <style scoped>
 .profile-container {
-  display: flex;
+  /*display: flex;
   flex-direction: column;
   align-items: center;
+  box-shadow: 0px 0px 10px 0px rgba(6, 104, 14, 0.281);*/
   width: 80%;
+  height: auto;
   margin: 5% 10%;
   padding: 20px;
-  box-shadow: 0px 0px 10px 0px rgba(6, 104, 14, 0.281);
 }
 
+.podval1 {
+  margin-left: -70%;
+	width: 150%;
+  margin-top: 10%;
+}
+.podval2 {
+  margin-top: 80%;
+	width: 100%;
+
+}
+.skills button{
+  width: 35%;
+}
+.profile-container1 {
+  width: 45%;
+float: left;
+flex-direction: column;
+text-align: center;
+height: auto;
+  }
+.profile-container2 {
+    width: 55%;
+float: right;
+flex-direction: column;
+height: auto;
+    }
 .profile-container img {
   width: 50%;
   height: auto;
@@ -179,7 +260,7 @@ onMounted(async() => {
 
 
 .profile-container input, .profile-container textarea {
-  width: 100%; /* Make inputs and textareas take up the full width of the container */
+  width: 70%; /* Make inputs and textareas take up the full width of the container */
   padding: 10px; /* Add some padding */
   margin-bottom: 15px; /* Add some margin */
   box-sizing: border-box; /* Ensure padding doesn't affect final dimensions */
@@ -199,7 +280,7 @@ onMounted(async() => {
     color: #fff;
     background-color: #4CAF50;
     border: none;
-    padding: 15px 32px;
+    padding: 15px;
     text-align: center;
     text-decoration: none;
     display: inline-block;

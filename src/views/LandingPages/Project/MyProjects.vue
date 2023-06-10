@@ -3,6 +3,7 @@ import { onMounted, onUnmounted, computed } from "vue";
 import axios from 'axios';
 import { ref } from "vue";
 import NavbarDefault from "../../../examples/navbars/NavbarDefault.vue";
+import DefaultFooter from "../../../examples/footers/FooterDefault.vue";
 
 const searchQuery = ref('');
 const searchResultProjects = ref([]);
@@ -10,6 +11,10 @@ const searchResultUsers = ref([]);
 
 const userId = computed(() => localStorage.getItem('user_id'));
 const username = computed(() => localStorage.getItem('username'));
+
+
+const isAuthenticated = computed(() => !!localStorage.getItem('access_token'));
+
 
 const search = async () => {
   try {
@@ -36,12 +41,19 @@ onMounted(() => {
 
 <template>
   <NavbarDefault />
-  <div>
+  <div v-if="isAuthenticated">
 <!--     <h2 class="result-header">Найдено проектов: {{ filteredProjects.length }} </h2> -->
     <div class="result-grid" :style="{ fontWeight: '900',  fontFamily: 'monospace' }">
       <div class="result-card" v-for="project in filteredProjects" :key="project.id">
         <div class="project-title"> <h3 :style="{ fontWeight: '900',  fontFamily: 'monospace' }">{{ project.title }}</h3></div>
         <img class="project-image" :src="project.featured_image" alt="Featured image">
+        <div v-if="project.tags.length > 0 ">
+          <div class="tags-container">
+            <div class="tags-container" v-if="project.tags.length > 0 ">
+              <p>{{ project.tags }}</p>
+          </div>
+        </div>
+      </div>
         <p>{{ project.description }}</p>
         <div class="btn_link-container">
           <a :href="`project/${project.id}`" class="btn_link">Посмотреть</a>
@@ -50,6 +62,11 @@ onMounted(() => {
       </div>
     </div>
   </div>
+  <div v-else>
+    <div :style="{ marginBottom:'25vw', textAlign:'center'}">
+      <h1 :style="{ fontWeight: '900',  fontFamily: 'PressStart2P, sans-serif', paddingTop:'10vw'}">Вы не авторизованы!</h1>
+    </div>
+    </div>
   <DefaultFooter />
 </template>
 
@@ -74,6 +91,9 @@ onMounted(() => {
     padding-left: 5%;
   }
   
+  .project-title {
+    flex-wrap: wrap;
+  }
   .result-card {
     display: flex;
   flex-direction: column;
@@ -184,7 +204,7 @@ onMounted(() => {
   }
   
   .project-image {
-    width: 20%;
+    width: 20vw;
     height: auto;
     margin-bottom: 20px;
   }

@@ -2,12 +2,16 @@
 import axios from 'axios';
 import { onMounted, ref, computed } from "vue";
 import NavbarDefault from "../../../examples/navbars/NavbarDefault.vue";
+import DefaultFooter from "../../../examples/footers/FooterDefault.vue";
 
 const token = computed(() => localStorage.getItem('token'));
+const isAuthenticated = computed(() => !!localStorage.getItem('access_token'));
 
 const messageData = ref([]);
 const debugText = ref('');
 const searchResultUsers = ref([]);
+
+const userId = computed(() => localStorage.getItem('user_id'));
 
 // // Axios request and response interceptors
 // axios.interceptors.request.use((request) => {
@@ -34,7 +38,7 @@ const getMessages = async () => {
 
       const messagesResponse = await axios.get(`http://somebodyhire.me/api/messages/`, { headers });
       messageData.value = messagesResponse.data;
-      // debugText.value = JSON.stringify(messagesResponse.data);
+      //debugText.value = JSON.stringify(messagesResponse.data);
     } catch (error) {
       console.error('There was an error fetching the messages', error);
     }
@@ -44,7 +48,7 @@ const getMessages = async () => {
     try {
         const usersResponse = await axios.get(`http://somebodyhire.me/api/profiles/`);
         searchResultUsers.value = usersResponse.data;
-        // debugText.value = JSON.stringify(searchResultUsers.value); 
+        //debugText.value = JSON.stringify(searchResultUsers.value); 
     } catch (error) {
         console.error('There was an error fetching the search results', error); 
     }
@@ -61,124 +65,218 @@ onMounted(async() => {
     await getMessages();
 
 });
-
-
 </script>
 
 
 <template>
     <NavbarDefault />
+    <div v-if="isAuthenticated">
     <p >{{ debugText }}</p>
     <div class="profile-container" :style="{fontWeight: '900',  fontFamily: 'monospace' }">
       <h2 :style="{ fontSize: '27px', fontWeight: '900',  fontFamily: 'PressStart2P, sans-serif', marginBottom:'5%' }">Мои сообщения</h2>
-      <RouterLink :style="{fontFamily: 'PressStart2P, sans-serif', fontSize: '14px'}"
-                  :to="{ name: 'send-message' }"
-                  class="btn_link"
-                  >
-                  Написать сообщение
-                </RouterLink> 
-        <p :style="{ fontSize: '24px'}">{{ messageData.email }}</p>
-
-        <div v-for = "message in messageData" :key="message.id" class="one_inbox" :style="{ fontSize: '12px', fontWeight: '500',  fontFamily: 'PressStart2P, sans-serif' }">
-          
-          <p :style="{ fontSize: '12px'}">От: {{ findUsername(message.sender) }}</p>
-          <p :style="{ fontSize: '12px'}">Кому: {{ findUsername(message.recipient) }} </p>
-          <p :style="{ fontSize: '12px'}">Тема: {{ message.subject }}</p>
-          <p :style="{ fontSize: '12px'}">Сообщение: {{ message.body }}</p>
-        </div>
-
-
-        
-        <!-- <div class="one_inbox" :style="{ fontSize: '12px', fontWeight: '500',  fontFamily: 'PressStart2P, sans-serif' }">
-          
-          <a class="spantext2" :href="`${messageData.sender}`" target="_blank" >Sender {{ messageData.sender }}</a>
-           <a class="spantext2" :href="`${messageData.name}`" target="_blank" >Name {{ messageData.name }}</a>
-          <a class="spantext2" :href="`${messageData.email}`" target="_blank" >Email {{ messageData.email }}</a> 
-          <a class="spantext2" :href="`${messageData.subject}`" target="_blank" >Subject{{ messageData.subject }}</a>
-          <a class="spantext2" :href="`${messageData.body}`" target="_blank" >Body{{ messageData.body}}</a>
-          <a class="spantext2" :href="`${messageData.created}`" target="_blank" >Created{{ messageData.created }}</a>
-        </div>
-
-        <div class='container_content'>
-            <div class="inbox">
-              <h3 class="send">New Messages</h3>
-              {/*<h4 class="spantext1">Who?</h4>
-              <h4 class="spantext1" >What?</h4>
-        <h4 class="spantext1">When?</h4>*/}
-              <div class="one_inbox">
-              <a class="spantext2" href="{% url 'message' message.id %}">message.name</a>
-              <a class="spantext2" href="{% url 'message' message.id %}">message.subject</a>
-              <a class="spantext2" href="{% url 'message' message.id %}">message.created</a>
-                </div>
+   
+       
+        <div class="tabs">
+          <input type="radio" name="tab-btn" id="tab-btn-1" value="" checked>
+          <label for="tab-btn-1">Входящие</label>
+          <input type="radio" name="tab-btn" id="tab-btn-2" value="">
+          <label for="tab-btn-2">Исходящие</label>
+      
+          <div id="content-1">
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Отправитель</th>
+                    <th>Тема</th>
+                    <th>Текст</th>
+                  </tr>
+                </thead>
+                <tbody v-for = "message in messageData"  :key="message.id" :style="{ fontFamily: 'monospace' }">
+                  <tr v-if="message.recipient == userId"  :key="message.id">
+                    <td data-label="Отправитель"><a :href="`/profile/${ message.sender }`">{{ findUsername(message.sender) }}</a></td>
+                    <td data-label="Тема"><a :href="`/message/${ message.id }`">{{ message.subject }}</a></td>
+                    <td data-label="Текст"><a :href="`/message/${ message.id }`">{{ message.body }}</a></td>
+                  </tr>
+                  
+                </tbody>
+            </table>
             </div>
-            </div> -->
- <!--        <div class="text-container">
-        <p :style="{ fontSize: '24px'}">Местоположение: {{ profileData.location }}</p>
-        <p :style="{ fontSize: '24px'}">Краткое описание: {{ profileData.short_intro }}</p>
-        <p :style="{ fontSize: '24px'}">Биография: {{ profileData.bio }}</p>
-        <a :href="`/editmyprofile`" class="btn_link">Редактировать профиль</a>
-      </div> -->
+          </div>
+          <div id="content-2">
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    
+                     <th>Получатель</th> 
+                    <th>Тема</th>
+                    <th>Текст</th>
+                  </tr>
+                </thead>
+                <tbody v-for = "message in messageData"  :key="message.id" :style="{ fontFamily: 'monospace' }">
+                  <tr v-if="message.sender == userId"  :key="message.id">
+                    <td data-label="Получатель"><a :href="`/profile/${ message.recipient }`">{{ findUsername(message.recipient) }} </a></td>
+                    <td data-label="Тема"><a :href="`/message/${ message.id }`">{{ message.subject }}</a></td>
+                    <td data-label="Текст"><a :href="`/message/${ message.id }`">{{ message.body }}</a></td>
+                  </tr>
+                  
+                </tbody>
+            </table>
+            </div>
+          </div>
+        </div>
     </div>
-    <DefaultFooter />
+    <div class="podval"><DefaultFooter /></div>
+  </div>
+  <div v-else>
+    <h1>Вы не авторизованы</h1>
+    <div class="podval" :style="{fontWeight: '900',  fontFamily: 'monospace' }">Екатерина Кузнецова, Ирина Комарова. 2023 . Использованы материалы Creative Tim.</div>
+  </div>
   </template> 
 
 
 
 <style scoped>
-/*.inbox{
-    text-align: center;
-    padding-top: 5%; 
-    margin-top: 5%;
-    margin-left: 18%;
-      width: 1200px;
-      height: 700px;
-      background: #616161; 
-      border-radius: 10px;
-      box-shadow: 5px 20px 50px #000;
-    justify-content:space-between;
-  }
-  .inboxtext{
-    text-decoration: none;
-    font-size: larger;
-    color: #282828;  
-    border-width: 5%;
-    border-color: #66FCF1;
-    border-style:solid;
-  }
-  .spantext1{
-    width: 30%;
+.tabs {
+  max-width: 100%;
+}
+
+.tabs>input[type="radio"] {
+  display: none;
+}
+
+.tabs>input[type="radio"]:checked+label {
+  background-color: #4EA852;
+  color: aliceblue;
+  font-family: monospace;
+  font-size: 20px;
+}
+
+.tabs>div {
+  /* скрыть контент по умолчанию */
+  display: none;
+  padding: 10px 15px;
+}
+
+/* отобразить контент, связанный с вабранной радиокнопкой (input type="radio") */
+#tab-btn-1:checked~#content-1,
+#tab-btn-2:checked~#content-2,
+#tab-btn-3:checked~#content-3 {
+  display: block;
+}
+
+.tabs>label {
+  display: inline-block;
+  text-align: center;
+  vertical-align: middle;
+  user-select: none;
+  background-color: #eee;
+  border: 1px solid transparent;
+  padding: 2px 8px;
+  font-size: 16px;
+  line-height: 1.5;
+  border-radius: 4px;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+  margin-left: 6px;
+  cursor: pointer;
+  margin-bottom: 10px;
+
+  color: #4EA852;
+  font-family: monospace;
+  font-size: 20px;
+}
+
+.tabs>label:first-of-type {
+  margin-left: 0;
+}
+#content-1,#content-2{
+  align-items: center;
+  text-align: center;
+  padding-left: 20%;
+}
+
+
+.podval {
+  position: absolute;
+	left: 0;
+	margin-top: 40%;
+	width: 100%;
+	height: 40px;
+}
+
+
+.table-wrap {
+  text-align: center;
+  display: inline-block;
+  padding: 0,5vw;
+  margin-left: -25%;
+  color: #4EA852;
+}
+
+table {
+  border: 1px solid #ccc;
+  width: 100%;
+  margin:0;
+  padding:0;
+  border-collapse: collapse;
+  border-spacing: 0;
   
-    display:inline-block;
-    text-decoration: none;
-    font-size: larger;
-    color:#999999;
-  }*/
-  .btn_link {
-    /* Adds some padding inside the button */
-    padding: 10px;
-    /* Changes the font size */
-    font-size: 16px;
-    /* Changes the background color of the button */
-    background-color: #4EA852;
-    /* Changes the color of the text inside the button */
-    color: rgb(255, 255, 255);
-    /* Makes the border corners rounded */
-    border-radius: 5px;
-    /* Removes the default button border */
-    border: none;
-    /* Changes the cursor to a hand pointer when hovering over the button */
-    cursor: pointer;
-    width: 70%;
-    text-align: center;
-  }
-  .spantext2{
-    width: 30%;
+}
+
+table tr {
+  border: 1px solid #ddd;
+  padding: 5px;
   
-    display:inline-block;
-    text-decoration: none;
-    font-size: larger;
-    color:#1b191957;
-  }
+}
+
+table th, table td {
+  padding: 15px 75px 15px 15px;
+  text-align: left;
+  border-right: 1px solid #ddd;
+  
+}
+
+table th {
+  color: #fff;
+  background-color: rgb(70, 104, 105);
+  text-transform: uppercase;
+  font-size: 14px;
+  letter-spacing: 1px;
+  font-family: PressStart2P, sans-serif;
+}
+
+
+@media screen and (max-width: 600px) {
+table {
+  border: 0;
+}
+table thead {
+  display: none;
+}
+table tr {
+  margin-bottom: 10px;
+  display: block;
+  border-bottom: 2px solid #ddd;
+}
+table td {
+  display: block;
+  text-align: right;
+  font-size: 13px;
+  border-bottom: 1px dotted #ccc;
+  border-right: 1px solid transparent;
+}
+table td:last-child {
+  border-bottom: 0;
+}
+table td:before {
+  content: attr(data-label);
+  float: left;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+}
+
   .one_inbox {
     border-radius: 5px;
     border:2px solid #272424;
@@ -189,11 +287,11 @@ onMounted(async() => {
     margin-left: 10%;
     margin-right: 10%;
     box-sizing: border-box;
-    width: 50%;
+    width: 60%;
   }
   
   .profile-container {
-  width: 80%;
+  width: 60%;
   height: auto;
   padding: 20px;
   box-shadow: 0px 0px 10px 0px rgba(6, 104, 14, 0.281);
@@ -203,28 +301,7 @@ onMounted(async() => {
   align-items: center;
   text-align: center;
 }
-.text-container {
-  width: 90%;
-  margin-left: 9%;
-  background-color: #ffffff57;
-  border-radius: 10px;
-  text-align: left;
-  margin-bottom: 30px;
-}
-.social-link {
-  margin-left: 5%;
-  width: 100%;
-  flex-direction: row;
-  display: flex;
-  flex-wrap: wrap;
-  text-align: center;
-  }
-.social-link a{
-margin: 3% 4%;
-border-radius: 5px;
-border: 2px solid #4ea852e0;
-padding: 7px;
-}
+
 @media screen and (max-width: 992px) {
   .profile-container {
     width: 90%;
@@ -239,10 +316,7 @@ padding: 7px;
   .profile-container {
     width: 90%;
   }
-  .text-container {
-    width: 70%;
-    margin: 5% 15%;
-  }
+
 }
 .profile-container img {
   width: 250px;
@@ -295,5 +369,4 @@ button:hover{
   margin-top: 20px;
   text-align: center;
 }
-
 </style>
