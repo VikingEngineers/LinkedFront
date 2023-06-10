@@ -3,29 +3,41 @@ import axios from 'axios';
 import { onMounted, ref, computed } from "vue";
 import NavbarDefault from "../../../examples/navbars/NavbarDefault.vue";
 import DefaultFooter from "../../../examples/footers/FooterDefault.vue";
+import { useRoute } from 'vue-router';
+import { useRouter } from 'vue-router';
+
+const isAuthenticated = computed(() => !!localStorage.getItem('token'));
 
 const token = computed(() => localStorage.getItem('token'));
 
 const messageData = ref([]);
+const replyData = ref([]);
 const debugText = ref('');
+
 const searchResultUsers = ref([]);
+const route = useRoute();
+const router = useRouter();
 
-const isAuthenticated = computed(() => !!localStorage.getItem('access_token'));
+const userId = computed(() => localStorage.getItem('user_id'));
+const messageId = ref('');
+const senderName = '';
 
-const getMessages = async () => {
-    try { 
-      const tokenValue = token.value;
+
+
+const getOneMessage = async () => {
+  try { 
+    const tokenValue = token.value; 
     const headers = { 
       'Authorization': `Bearer ${tokenValue}`,
     };
+    const messageResponse = await axios.get(`http://somebodyhire.me/api/messages/${messageId.value}/`, { headers });
+    messageData.value = messageResponse.data;
+    debugText.value = JSON.stringify(messageResponse.data);
+  } catch (error) {
+    console.error('There was an error fetching the messages', error);
+  }
+};
 
-      const messagesResponse = await axios.get(`http://somebodyhire.me/api/messages/`, { headers });
-      messageData.value = messagesResponse.data;
-      // debugText.value = JSON.stringify(messagesResponse.data);
-    } catch (error) {
-      console.error('There was an error fetching the messages', error);
-    }
-  };
 
   const search = async () => {
     try {
@@ -38,14 +50,47 @@ const getMessages = async () => {
   };
 
   const findUsername = (id) => {
-    const user = searchResultUsers.value.find((user) => user.id === id);
-    return user.name;
+  const user = searchResultUsers.value.find((user) => user.id === id);
+  return user ? user.name : "Кого-то";
+};
+
+
+  const sendMessage = async () => {
+    try {
+        const headers = { 'Authorization': `Bearer ${token.value}` };
+        const data = {
+            sender: userId.value,
+            recipient: messageData.value.sender,
+            name: messageData.value.name,
+            email: messageData.value.email,
+            subject: replyData.value.subject,
+            body: replyData.value.body,
+            /* owner: userId.value */
+        };
+        const response = await axios.post('http://somebodyhire.me/api/messages/create/', data, { headers });
+        router.push('/messages#content-2');
+    } catch (error) {
+        debugText.value = `Error: ${JSON.stringify(error, null, 2)}`;
+        console.error(error);
+    }
+};
+
+
+
+
+  const cancelCreate = () => {
+    router.push('/messages#content-1');
   };
 
-
 onMounted(async() => {
+    messageId.value = route.params.id;
+    await getOneMessage();
     await search();
-    await getMessages();
+    replyData.value.subject = "Re: " + messageData.value.subject;
+
+
+    
+     
 
 });
 
@@ -55,27 +100,24 @@ onMounted(async() => {
 
 <template>
   <NavbarDefault />
-  <div v-if="isAuthenticated">
-  <div class="profile-container" :style="{ fontWeight: '900',  fontFamily: 'monospace' }">
-    <h3 :style="{ fontWeight: '800',  fontFamily: 'PressStart2P, sans-serif' }">Сообщение </h3>
+  <div v-if="isAuthenticated" class="profile-container" :style="{ fontWeight: '900',  fontFamily: 'monospace' }">
+    <h3 v-if = "messageData" :style="{ fontWeight: '800',  fontFamily: 'PressStart2P, sans-serif' }">Сообщение от {{ findUsername(messageData.sender) }}</h3>
+    <!-- <p>{{ debugText }}</p> -->
       <input v-model="messageData.subject" readonly placeholder="Тема сообщения">
       <textarea v-model="messageData.body" readonly placeholder="Текст сообщения"></textarea>
 
 
     <h3 :style="{ fontWeight: '800',  fontFamily: 'PressStart2P, sans-serif' }">Ответить</h3>
-      <input v-model="messageData.subject" placeholder="Введите тему сообщения">
-      <textarea v-model="messageData.body" placeholder="Напишите текст сообщения"></textarea>
+      <input v-model="replyData.subject" placeholder="Введите тему сообщения">
+      <textarea v-model="replyData.body" placeholder="Напишите текст сообщения"></textarea>
       <div class="btn-container">
       <button @click="sendMessage" class="btn-submit">ОТПРАВИТЬ</button>
       <button @click="cancelCreate" class="btn-cancel">ОТМЕНИТЬ</button>
     </div>
   </div>
-</div>
-<div v-else>
-<div :style="{ marginBottom:'25vw', textAlign:'center'}">
-  <h1 :style="{ fontWeight: '900',  fontFamily: 'PressStart2P, sans-serif', paddingTop:'10vw'}">Вы не авторизованы!</h1>
-</div>
-</div>
+  <div v-else class="profile-container" :style="{ fontWeight: '900',  fontFamily: 'monospace' }">
+    <h3>Вы должны войти в систему для просмотра и ответа на сообщения</h3>
+    </div>
   <DefaultFooter />
 </template> 
 
@@ -134,7 +176,7 @@ p{
   font-family: 'SpaceMono' monospace;
   font-weight: 500;
 }
-/*button{
+button{
   background-color: #3d9132;
   border-radius: 10px;
   text-align: center;
@@ -146,7 +188,7 @@ p{
 button:hover{
   background-color: #6ac55e;
   color: rgb(61, 61, 61);
-}*/
+}
 .profile-container input, .profile-container textarea {
   width: 70%; /* Make inputs and textareas take up the full width of the container */
   padding: 10px; /* Add some padding */
@@ -156,22 +198,8 @@ button:hover{
   border-radius: 5px; /* Add rounded corners */
 }
 .btn-submit {
-  background-color: #4CAF50;
-}
-.btn-submit:hover {
-  background-color: #4caf4f6b;
-  color: #535151;
-}
-.btn-cancel {
-  background-color: #f44336;
-}
-.btn-cancel:hover  {
-  background-color: #f4433659;
-  color: #535151;
-}
-.btn-submit,.btn-cancel{
   color: #fff;
-  width: 10%;
+  background-color: #4CAF50;
   border: none;
   padding: 15px 32px;
   text-align: center;
@@ -181,8 +209,21 @@ button:hover{
   margin: 4px 2px;
   cursor: pointer;
   border-radius: 5px;
-  font-family: monospace;
-  font-weight: 700;
 }
+
+.btn-cancel {
+  color: #fff;
+  background-color: #f44336;
+  border: none;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
 
 </style>
