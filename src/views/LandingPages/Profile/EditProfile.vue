@@ -227,7 +227,7 @@ onMounted(async() => {
 .podval1 {
   margin-left: -70%;
 	width: 150%;
-
+  margin-top: 10%;
 }
 .podval2 {
   margin-top: 80%;

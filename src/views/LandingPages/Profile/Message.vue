@@ -5,6 +5,7 @@ import NavbarDefault from "../../../examples/navbars/NavbarDefault.vue";
 import DefaultFooter from "../../../examples/footers/FooterDefault.vue";
 
 const token = computed(() => localStorage.getItem('token'));
+const isAuthenticated = computed(() => !!localStorage.getItem('access_token'));
 
 const messageData = ref([]);
 const debugText = ref('');
@@ -69,12 +70,19 @@ onMounted(async() => {
 
 <template>
     <NavbarDefault />
+    <div v-if="isAuthenticated">
     <p >{{ debugText }}</p>
     <div class="profile-container" :style="{fontWeight: '900',  fontFamily: 'monospace' }">
       <h2 :style="{ fontSize: '27px', fontWeight: '900',  fontFamily: 'PressStart2P, sans-serif', marginBottom:'5%' }">Мои сообщения</h2>
    
+       
         <div class="tabs">
-          <div id="content-1" > 
+          <input type="radio" name="tab-btn" id="tab-btn-1" value="" checked>
+          <label for="tab-btn-1">Входящие</label>
+          <input type="radio" name="tab-btn" id="tab-btn-2" value="">
+          <label for="tab-btn-2">Исходящие</label>
+      
+          <div id="content-1">
             <div class="table-wrap">
               <table>
                 <thead>
@@ -95,7 +103,7 @@ onMounted(async() => {
             </table>
             </div>
           </div>
-          <div id="content-2" > 
+          <div id="content-2">
             <div class="table-wrap">
               <table>
                 <thead>
@@ -117,22 +125,78 @@ onMounted(async() => {
             </table>
             </div>
           </div>
-          
-          <div class="tabs__links">
-            <a href="#content-1">Входящие</a>
-            <a href="#content-2">Исходящие</a>
-          </div>
-          
         </div>
-
-      
     </div>
     <div class="podval"><DefaultFooter /></div>
+  </div>
+  <div v-else>
+    <h1>Вы не авторизованы</h1>
+    <div class="podval" :style="{fontWeight: '900',  fontFamily: 'monospace' }">Екатерина Кузнецова, Ирина Комарова. 2023 . Использованы материалы Creative Tim.</div>
+  </div>
   </template> 
 
 
 
 <style scoped>
+.tabs {
+  max-width: 100%;
+}
+
+.tabs>input[type="radio"] {
+  display: none;
+}
+
+.tabs>input[type="radio"]:checked+label {
+  background-color: #4EA852;
+  color: aliceblue;
+  font-family: monospace;
+  font-size: 20px;
+}
+
+.tabs>div {
+  /* скрыть контент по умолчанию */
+  display: none;
+  padding: 10px 15px;
+}
+
+/* отобразить контент, связанный с вабранной радиокнопкой (input type="radio") */
+#tab-btn-1:checked~#content-1,
+#tab-btn-2:checked~#content-2,
+#tab-btn-3:checked~#content-3 {
+  display: block;
+}
+
+.tabs>label {
+  display: inline-block;
+  text-align: center;
+  vertical-align: middle;
+  user-select: none;
+  background-color: #eee;
+  border: 1px solid transparent;
+  padding: 2px 8px;
+  font-size: 16px;
+  line-height: 1.5;
+  border-radius: 4px;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+  margin-left: 6px;
+  cursor: pointer;
+  margin-bottom: 10px;
+
+  color: #4EA852;
+  font-family: monospace;
+  font-size: 20px;
+}
+
+.tabs>label:first-of-type {
+  margin-left: 0;
+}
+#content-1,#content-2{
+  align-items: center;
+  text-align: center;
+  padding-left: 20%;
+}
+
+
 .podval {
   position: absolute;
 	left: 0;
@@ -140,81 +204,7 @@ onMounted(async() => {
 	width: 100%;
 	height: 40px;
 }
-.tabs {
-  display: flex;
-  flex-direction: column;
-}
-.tabs__links {
-  display: flex;
-  flex-direction: row;
-  order: 0;
-  white-space: nowrap;
-  margin-bottom: 15px;
-  margin-left: 50px;
-  background-color: #fff;
-  border: 2px solid #e3f2fd;
-  border-radius: 10px;
-  box-shadow: 0 2px 4px 0 #e3f2fd;
-}
 
-.tabs__links>a {
-  display: inline-block;
-  text-decoration: none;
-  color: #4EA852;
-  padding: 6px 10px;
-  text-align: center;
-  border-radius: 5px;
-  font-family: PressStart2P, sans-serif;
-  font-size: 15px;
-  font-weight: 200;
-}
-
-.tabs__links>a:hover {
-  background-color: rgba(227, 242, 253, 0.3);
-}
-
-.tabs>#content-1:target~.tabs__links>a[href="#content-1"],
-.tabs>#content-2:target~.tabs__links>a[href="#content-2"],
-.tabs>#content-3:target~.tabs__links>a[href="#content-3"] {
-  background-color: #4ea85252;
-  cursor: default;
-}
-
-.tabs>div:not(.tabs__links) {
-  display: none;
-  order: 1;
-  flex-grow: 1;
-}
-
-@media (min-width: 576px) {
-  .tabs {
-    flex-direction: row;
-  }
-
-  .tabs__links {
-    flex-direction: column;
-    border: none;
-    box-shadow: none;
-  }
-
-  .tabs__links>a {
-    border: 1px solid #e3f2fd;
-    box-shadow: 0 2px 4px 0 #e3f2fd;
-    margin-bottom: 8px;
-  }
-
-  .tabs__links>a:last-child {
-    margin-bottom: 0;
-  }
-
-  .tabs>div:not(.tabs__links) {
-    padding-left: 15px;
-  }
-}
-
-.tabs>div:target {
-  display: block;
-}
 
 .table-wrap {
   text-align: center;
@@ -241,9 +231,10 @@ table tr {
 }
 
 table th, table td {
-  padding: 10px;
-  text-align: center;
+  padding: 15px 75px 15px 15px;
+  text-align: left;
   border-right: 1px solid #ddd;
+  
 }
 
 table th {
@@ -252,6 +243,7 @@ table th {
   text-transform: uppercase;
   font-size: 14px;
   letter-spacing: 1px;
+  font-family: PressStart2P, sans-serif;
 }
 
 
@@ -299,7 +291,7 @@ table td:before {
   }
   
   .profile-container {
-  width: 80%;
+  width: 60%;
   height: auto;
   padding: 20px;
   box-shadow: 0px 0px 10px 0px rgba(6, 104, 14, 0.281);

@@ -1,13 +1,15 @@
 <script setup>
 import { onMounted, onUnmounted } from "vue";
 import axios from 'axios';
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import NavbarDefault from "../../../examples/navbars/NavbarDefault.vue";
 import DefaultFooter from "../../../examples/footers/FooterDefault.vue";
 
 const searchQuery = ref('');
 const searchResultProjects = ref([]);
 const searchResultUsers = ref([]);
+
+const isAuthenticated = computed(() => !!localStorage.getItem('access_token'));
 
 const search = async () => {
   try {
@@ -31,7 +33,7 @@ onMounted(() => {
 
 <template>
 <NavbarDefault  />
-  <div>
+<div v-if="isAuthenticated">
     <!-- <h2 class="result-header">Найдено проектов: {{ searchResultProjects.length}} </h2> -->
     <div class="result-grid" :style="{ fontWeight: '900',  fontFamily: 'monospace' }">
       <div class="result-card" v-for="project in searchResultProjects" :key="project.id">
@@ -52,7 +54,11 @@ onMounted(() => {
     </div>
     
   </div>
-
+  <div v-else>
+    <div :style="{ marginBottom:'25vw', textAlign:'center'}">
+      <h1 :style="{ fontWeight: '900',  fontFamily: 'PressStart2P, sans-serif', paddingTop:'10vw'}">Вы не авторизованы!</h1>
+    </div>
+    </div>
   <DefaultFooter />
   </template>
 
