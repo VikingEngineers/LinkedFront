@@ -61,6 +61,7 @@ onMounted(async() => {
           <a :href="`${profileData.social_youtube}`" target="_blank" >YouTube</a>
           <a :href="`${profileData.social_website}`" target="_blank" >Мой сайт</a>
           <a href="/not-found" target="_blank" >404</a>
+          <a :href="`/editmyprofile`" >Редактировать профиль</a>
         </div>
       </div>
 
@@ -75,7 +76,7 @@ onMounted(async() => {
         <p v-for = "skill in skillsData" :key="skill.id" :style="{fontSize: '16px'}">{{ skill.name }} ({{ skill.description }})</p>
         <p :style="{fontSize: '20px'}">Проекты:</p>
       <p v-for = "project in projectsData" :key="project.id" :style="{fontSize: '16px'}">{{ project.title }} ({{ project.description }})</p>
-        <a :href="`/editmyprofile`" class="btn_link">Редактировать профиль</a>
+        
       </div>
         
       </div>
