@@ -102,7 +102,7 @@ onMounted(async() => {
   <NavbarDefault />
   <div v-if="isAuthenticated" class="profile-container" :style="{ fontWeight: '900',  fontFamily: 'monospace' }">
     <h3 v-if = "messageData" :style="{ fontWeight: '800',  fontFamily: 'PressStart2P, sans-serif' }">Сообщение от {{ findUsername(messageData.sender) }}</h3>
-    <p>{{ debugText }}</p>
+    <!-- <p>{{ debugText }}</p> -->
       <input v-model="messageData.subject" readonly placeholder="Тема сообщения">
       <textarea v-model="messageData.body" readonly placeholder="Текст сообщения"></textarea>
 
