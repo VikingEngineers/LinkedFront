@@ -9,6 +9,8 @@ const searchQuery = ref('');
 const searchResultProjects = ref([]);
 const searchResultUsers = ref([]);
 
+const isAuthenticated = computed(() => !!localStorage.getItem('access_token'));
+
 const search = async () => {
   try {
     const projectsResponse = await axios.get(`http://somebodyhire.me/api/search/projects/?search_query=${searchQuery.value}`);
