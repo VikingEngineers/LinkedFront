@@ -1,6 +1,6 @@
 <script setup>
 import axios from 'axios';
-import { onMounted, ref } from "vue";
+import { onMounted, ref , computed} from "vue";
 import { useRoute } from "vue-router";
 import NavbarDefault from '../../../examples/navbars/NavbarDefault.vue';
 import DefaultFooter from "../../../examples/footers/FooterDefault.vue";
@@ -10,8 +10,10 @@ const route = useRoute();
 const profileData = ref([]);
 const skillsData = ref([]);
 
-const projectsData = ref([]); 
 
+const searchQuery = ref('');
+const searchResultProjects = ref([]);
+const searchResultUsers = ref([]);
 
 const getProfile = async () => {
     const profileDataRecieved = await axios.get(`http://somebodyhire.me/api/profile/${profileId.value}/`);
@@ -24,10 +26,25 @@ const getSkills = async () => {
     skillsData.value = skillsDataRecieved.data;
 };
 
-const getProjects = async () => {
-    const projectsDataRecieved = await axios.get(`http://somebodyhire.me/api/profile/${profileId.value}`);
-    projectsData.value = projectsDataRecieved.data;
+const search = async () => {
+  try {
+    const projectsResponse = await axios.get(`http://somebodyhire.me/api/search/projects/?search_query=${searchQuery.value}`);
+    searchResultProjects.value = projectsResponse.data;
+
+    const usersResponse = await axios.get(`http://somebodyhire.me/api/search/profiles/?search_query=${searchQuery.value}`);
+    searchResultUsers.value = usersResponse.data;
+  } catch (error) {
+    console.error('There was an error fetching the search results', error);
+  }
 };
+
+const filteredProjects = computed(() => {
+  return searchResultProjects.value.filter(project => project.owner == profileId.value);
+});
+
+onMounted(() => {
+  search();
+});
 
 const processProfileData = (data) => {
     return {
@@ -91,34 +108,121 @@ onMounted(async() => {
       <p :style="{fontSize: '20px'}">Местоположение: {{ profileData.location }}</p>
       <p :style="{fontSize: '20px'}">Краткое описание: {{ profileData.short_intro }}</p>
       <p :style="{fontSize: '20px'}">Биография: {{ profileData.bio }}</p>
-      <p :style="{fontSize: '20px'}">Навыки:</p>
-      <p v-for = "skill in skillsData" :key="skill.id" :style="{fontSize: '16px'}">{{ skill.name }} ({{ skill.description }})</p>
-      <p :style="{fontSize: '20px'}">Проекты:</p>
-      <p v-for = "project in projectsData" :key="project.id" :style="{fontSize: '16px'}">{{ project.title }} ({{ project.description }})</p>
+      <p :style="{fontSize: '20px', fontFamily: 'PressStart2P, sans-serif'}">Навыки:</p>
+      <p v-for = "skill in skillsData" :key="skill.id" :style="{fontWeight: '900', fontSize: '16px'}">{{ skill.name }} ({{ skill.description }})</p>
+      <p :style="{fontSize: '20px', fontFamily: 'PressStart2P, sans-serif'}">Проекты:</p>
+      <!-- <p  v-for="project in filteredProjects" :key="project.id" :style="{fontSize: '16px'}">{{ project.title }} ({{ project.description }})</p> -->
       
+
+      <div class="result-grid" :style="{ fontWeight: '600',  fontFamily: 'monospace', flexWrap:'wrap' }" >
+        <div :style="{ height:'auto', width:'15vw', flexDirection:'column', alignItems:'center' }" class="result-card" v-for="project in filteredProjects" :key="project.id" >
+         <div class="project-title"> <h3 :style="{ fontWeight: '700',  fontSize:'18px', fontFamily: 'PressStart2P, sans-serif' }">{{ project.title }}</h3></div>
+         <img :style="{ height:'auto', width:'10vw' }" :src="project.featured_image" alt="Featured image">
+          <!-- <p>{{ project.description }}</p> -->
+          <!-- <div v-if="project.tags.length > 0 ">
+            <div class="tags-container">
+              <div class="tags-container" v-if="project.tags.length > 0 ">
+                <p>{{ project.tags }}</p>
+            </div>
+          </div>
+        </div> -->
+            <a :href="`project/${project.id}`" :style="{ cursor:'pointer', padding:'10px', marginBottom:'5%', backgroundColor:'#4EA852',fontFamily:'monospace', fontSize:'18px', color:'white', borderRadius:'5px'}">Посмотреть</a>
+          
+            <!-- <router-link :style="{ cursor:'pointer', padding:'10px', marginBottom:'5%', backgroundColor:'#4EA852',fontFamily:'monospace', fontSize:'18px', color:'white', borderRadius:'5px'}"
+                  :to="{ name: 'project', params: { id: route.params.id } }"
+                  >
+                  Посмотреть
+                  </router-link> -->
+
+        </div>
+      </div>
+
       </div>
   </div>
-  <div class="podval"><DefaultFooter /></div>
+  <div class="podval" :style="{fontWeight: '500',  fontFamily: 'monospace' }">Екатерина Кузнецова, Ирина Комарова. 2023 . Использованы материалы Creative Tim.</div>
   
 </template> 
 
 <style scoped>
+
+.result-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: left;
+  padding-left: 7%;
+}
+
+.result-card {
+  display: flex;
+  flex-direction: column;
+  /*background-color: #3d913248;*/
+  padding: 5px 10px 20px 5px;
+  margin: 10px 20px ;
+  border-radius: 5px;
+  border: 2px solid #4ea85280;
+  box-sizing: border-box;
+  box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+  /*align-items: center;
+  position:relative;
+  padding-bottom:10%;*/
+  text-align: center;
+}
+
+.project-title{
+  padding-bottom: 25px;
+  padding-top: 15px;
+}
+
+@media screen and (max-width: 992px) {
+  .result-grid {
+    padding-right:80px;
+  }
+  .result-card {
+    width: calc(100% / 2 - 20px);
+    padding-bottom:20%;
+    margin: 10px 10px;
+  }
+  .project-image {
+    width: 5vw;
+    height: auto;
+    margin-bottom: 20px;
+  }
+  
+}
+
+@media screen and (max-width: 600px) {
+  .result-grid {
+    padding-right:80px;
+  }
+  .result-card {
+    width: calc(100% / 2 - 20px);
+    padding-bottom:20%;
+    margin: 10px 10px;
+  }
+  .project-image {
+    width: 5vw;
+    height: auto;
+    margin-bottom: 20px;
+  }
+  
+}
 .profile-container {
 width: 90%;
 margin: 50px;
+display: flex;
 /*padding: 15px 25px;
 margin: 5% 25%;
 padding: 20px 50px;
 box-shadow: 0px 0px 10px 0px rgba(6, 104, 14, 0.281);
 background-color: #ffffff57;
 border-radius: 10px;*/
+margin-bottom: 5vw;
 }
 .podval {
-  position: absolute;
-	left: 0;
-	bottom: 0;
-	width: 100%;
-	height: 80px;
+  text-align: center;
+  bottom: 0;
+  width: 100%;
+  height: 10px;
 }
 
 .profile-container1 {

@@ -10,7 +10,7 @@ const searchQuery = ref('');
 const searchResultProjects = ref([]);
 const searchResultUsers = ref([]);
 
-const isAuthenticated = computed(() => !!localStorage.getItem('access_token'));
+
 
 const search = async () => {
   try {
@@ -34,7 +34,7 @@ onMounted(() => {
 
 <template>
 <NavbarDefault />
-<div v-if="isAuthenticated">
+<div >
     <!-- <h2 class="result-header">Найдено людей: {{ searchResultUsers.length}} </h2> -->
     <div class="result-grid" :style="{ fontWeight: '900',  fontFamily: 'monospace' }">
       <div class="result-card" v-for="user in searchResultUsers" :key="user.id">
@@ -43,17 +43,13 @@ onMounted(() => {
         <p>{{ user.email }}</p>
         <div class="btn_link-container">
         <a class="btn_link" :href="`/profile/${user.id}`">Открыть</a>
-        <a class="btn_link" :href="`/profile/${user.id}`">Написать</a>
+        <a class="btn_link" :href="`/message-to/${user.id}`">Написать</a>
       </div>
       </div>
     </div>
     <DefaultFooter />
   </div>
 
-  <div v-else>
-    <h1>Вы не авторизованы</h1>
-    <div class="podval" :style="{fontWeight: '900',  fontFamily: 'monospace' }">Екатерина Кузнецова, Ирина Комарова. 2023 . Использованы материалы Creative Tim.</div>
-  </div>
   </template>
 
 <style scoped>
