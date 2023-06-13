@@ -126,6 +126,14 @@ const addSkill = async () => {
             name: newSkillData.value.name,
             description: newSkillData.value.description
         };
+        if (skillData.name === '') {
+            alert('Введите название навыка');
+            return;
+        }
+        if (skillData.description === '') {
+            alert('Введите описание навыка');
+            return;
+        }
         await axios.post(`http://somebodyhire.me/api/skills/create/`, skillData, { headers });
         await getSkills();
         newSkillData.value.name = '';

@@ -200,7 +200,7 @@ export default {
                   <p class="mt-4 text-sm text-center">
                    
                    <a
-                     href="/forgot"
+                     href="http://somebodyhire.me/reset_password/"
                      class="text-success text-gradient font-weight-bold"
                      >Забыли пароль?</a
                    >

@@ -86,12 +86,6 @@ onMounted(async() => {
         <a :href="`${profileData.social_vk}`" target="_blank" >VK</a>
         <a :href="`${profileData.social_youtube}`" target="_blank" >YouTube</a>
         <a :href="`${profileData.social_website}`" target="_blank" >Мой сайт</a>
-        <!-- <RouterLink :style="{fontSize: '10px'}"
-                  :to="{ name: 'send-message' }"
-                  class="btn_link"
-                  >
-                  Отправить сообщение
-                </RouterLink> -->
         <router-link :style="{fontSize: '10px'}"
                   :to="{ name: 'message-to', params: { id: route.params.id } }"
                   class="btn_link"
@@ -118,22 +112,7 @@ onMounted(async() => {
         <div :style="{ height:'auto', width:'15vw', flexDirection:'column', alignItems:'center' }" class="result-card" v-for="project in filteredProjects" :key="project.id" >
          <div class="project-title"> <h3 :style="{ fontWeight: '700',  fontSize:'18px', fontFamily: 'PressStart2P, sans-serif' }">{{ project.title }}</h3></div>
          <img :style="{ height:'auto', width:'10vw' }" :src="project.featured_image" alt="Featured image">
-          <!-- <p>{{ project.description }}</p> -->
-          <!-- <div v-if="project.tags.length > 0 ">
-            <div class="tags-container">
-              <div class="tags-container" v-if="project.tags.length > 0 ">
-                <p>{{ project.tags }}</p>
-            </div>
-          </div>
-        </div> -->
-            <a :href="`project/${project.id}`" :style="{ cursor:'pointer', padding:'10px', marginBottom:'5%', backgroundColor:'#4EA852',fontFamily:'monospace', fontSize:'18px', color:'white', borderRadius:'5px'}">Посмотреть</a>
-          
-            <!-- <router-link :style="{ cursor:'pointer', padding:'10px', marginBottom:'5%', backgroundColor:'#4EA852',fontFamily:'monospace', fontSize:'18px', color:'white', borderRadius:'5px'}"
-                  :to="{ name: 'project', params: { id: route.params.id } }"
-                  >
-                  Посмотреть
-                  </router-link> -->
-
+            <a :href="`/project/${project.id}`" :style="{ cursor:'pointer', padding:'10px', marginBottom:'5%', backgroundColor:'#4EA852',fontFamily:'monospace', fontSize:'18px', color:'white', borderRadius:'5px'}">Посмотреть</a>
         </div>
       </div>
 
