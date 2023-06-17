@@ -77,10 +77,10 @@ onMounted(async() => {
         <p v-for = "skill in skillsData" :key="skill.id" :style="{fontSize: '16px'}">{{ skill.name }} ({{ skill.description }})</p>
         <!-- <p :style="{fontSize: '20px'}">Проекты:</p>
       <p v-for = "project in projectsData" :key="project.id" :style="{fontSize: '16px'}">{{ project.title }} ({{ project.description }})</p> -->
-        
+        <a :href="`/myprojects`" class="btn_myproject">Мои проекты</a>
       </div>
       
-      </div>
+      </div >
       <div class="podval" :style="{fontWeight: '900',  fontFamily: 'monospace' }">Екатерина Кузнецова, Ирина Комарова. 2023 . Использованы материалы Creative Tim.</div>
     </div>
       <div v-else :style="{ marginBottom:'25vw', textAlign:'center'}">
@@ -216,5 +216,26 @@ padding: 7px;
  
 }
 
+.btn_myproject {
+  /* Changes the background color of the button */
+  background-color: #4EA852;
+  /* Changes the color of the text inside the button */
+  color: rgb(255, 255, 255);
+  /* Changes the cursor to a hand pointer when hovering over the button */
+  cursor: pointer; 
+  text-align: center;
+  margin-bottom: 50%;
+  border-radius: 5px;
+  border: 2px solid #4ea852e0;
+  padding: 7px 20px;
+  font-size: larger;
+}
+.btn_myproject:hover {
+  /* Changes the background color of the button */
+  background-color: #4ea85286;
+  /* Changes the color of the text inside the button */
+  color: rgb(58, 57, 57);
+ 
+}
 
 </style>
