@@ -8,6 +8,7 @@ import DefaultFooter from "../../../examples/footers/FooterDefault.vue";
 const searchQuery = ref('');
 const searchResultProjects = ref([]);
 const searchResultUsers = ref([]);
+const allTags = ref([]);
 
 const userId = computed(() => localStorage.getItem('user_id'));
 const username = computed(() => localStorage.getItem('username'));
@@ -28,14 +29,31 @@ const search = async () => {
   }
 };
 
+const getTags = async () => {
+  try {
+    const tagsResponse = await axios.get(`http://somebodyhire.me/api/tags/`);
+    allTags.value = tagsResponse.data;
+  } catch (error) {
+    console.error('There was an error fetching the tags', error);
+  }
+};
+
+const findTag = (id) => {
+    const tag = allTags.value.find((tag) => tag.id === id);
+    return tag.name;
+  };
+
 const filteredProjects = computed(() => {
   return searchResultProjects.value.filter(project => project.owner == userId.value);
 });
 
-onMounted(() => {
-  search();
-});
+onMounted(async() => {
 
+    await search();
+    await getTags();
+    
+       
+});
 </script>
 
 
@@ -50,7 +68,7 @@ onMounted(() => {
         <div v-if="project.tags.length > 0 ">
           <div class="tags-container">
             <div class="tags-container" v-if="project.tags.length > 0 ">
-              <p>{{ project.tags }}</p>
+              <span class="tag" v-for="tag in project.tags" :key="tag.id">[{{ findTag(tag) }}] </span>
           </div>
         </div>
       </div>
