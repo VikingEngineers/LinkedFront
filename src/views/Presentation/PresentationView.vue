@@ -13,7 +13,14 @@ const searchQuery = ref('');
 const searchResultProjects = ref([]);
 const searchResultUsers = ref([]);
 const searchButtonIsPressed = ref(false);
+const allTags = ref([]);
 
+//Тут мы попробуем использовать local storage потому что оно должно работать между вкладками
+const isAuthenticatedLocal = computed(() => !!localStorage.getItem('access_token')); 
+const userIdLocal = computed(() => localStorage.getItem('user_id'));
+const loggedUserNameLocal = computed(() => localStorage.getItem('username'));
+const isStaffLocal = computed(() => localStorage.getItem('is_staff'));
+const tokenLocal = computed(() => localStorage.getItem('token'));
 
 const search = async () => {
   try {
@@ -28,18 +35,24 @@ const search = async () => {
   }
 };
 
+const getTags = async () => {
+  try {
+    const tagsResponse = await axios.get(`http://somebodyhire.me/api/tags/`);
+    allTags.value = tagsResponse.data;
+  } catch (error) {
+    console.error('There was an error fetching the tags', error);
+  }
+};
+
+const findTag = (id) => {
+    const tag = allTags.value.find((tag) => tag.id === id);
+    return tag.name;
+  };
 
 
-//Тут мы попробуем использовать local storage потому что оно должно работать между вкладками
-const isAuthenticatedLocal = computed(() => !!localStorage.getItem('access_token')); 
-const userIdLocal = computed(() => localStorage.getItem('user_id'));
-const loggedUserNameLocal = computed(() => localStorage.getItem('username'));
-const isStaffLocal = computed(() => localStorage.getItem('is_staff'));
-const tokenLocal = computed(() => localStorage.getItem('token'));
-
-//Отобразить на главной сразу же все проекты и пользователей
-onMounted(() => {
-  search();
+onMounted(async() => {
+    await search();
+    await getTags();      
 });
 
 </script>
@@ -134,7 +147,7 @@ export default {
         <!-- <p>{{ project.description }}</p>  -->
         <div class="tags-container" v-if="project.tags.length > 0 ">
         <!-- <div class="tags" v-for="project in searchResultProjects" :key="project.tags"> -->
-        <p>{{ project.tags }}</p>
+        <span class="tag" v-for="tag in project.tags" :key="tag.id">[{{ findTag(tag) }}] </span>
        </div>
       <!--  </div> -->
         <div class="btn_link-container">
