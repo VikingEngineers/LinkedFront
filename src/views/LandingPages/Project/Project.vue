@@ -11,6 +11,7 @@ const route = useRoute();
 const router = useRouter();
 const projectData = ref([]);
 const ProjectReviews = ref([]);
+const allTags = ref([]);
 const commentData = ref({
     body: "",
 });
@@ -33,7 +34,9 @@ onMounted(async() => {
     await getProject();
     await GetProjectReviews();
     await search();
+    await getTags();
     checkIfLiked();
+    
        
 });
 
@@ -72,6 +75,21 @@ const search = async () => {
     const user = searchResultUsers.value.find((user) => user.id === id);
     return user.name;
   };
+
+  const getTags = async () => {
+  try {
+    const tagsResponse = await axios.get(`http://somebodyhire.me/api/tags/`);
+    allTags.value = tagsResponse.data;
+  } catch (error) {
+    console.error('There was an error fetching the tags', error);
+  }
+};
+
+  const findTag = (id) => {
+    const tag = allTags.value.find((tag) => tag.id === id);
+    return tag.name;
+  };
+    
 
   const postComment = async () => {
     try {
@@ -117,11 +135,7 @@ const search = async () => {
   <div >
     <div class="project-container" :style="{fontWeight: '900',  fontFamily: 'monospace' }">
       <div class="project-container1" v-if="projectData" >
-        <p class="project-tags"> 
-          <span v-for="(tag, index) in projectData.tags" :key="index" class="project-tag">
-            {{ tag }}<span v-if="index < projectData.tags.length - 1">, </span>
-          </span>
-          </p>
+        
         <a v-if="projectData.demo_link" class="project-link" target="_blank" :href="projectData.demo_link">Demo Live</a>
         <a v-if="projectData.source_link" class="project-link" target="_blank" :href="projectData.source_link">Source Code</a>
 
@@ -132,6 +146,13 @@ const search = async () => {
       <div class="btn_link-container">
         <button v-if = "projectData.owner != userId && !isLiked" class="button_like" @click="postLike" > Нравится </button>
         <button v-if = "projectData.owner != userId && isLiked"  class="button_dislike" @click="postLike" > Не нравится </button>
+
+      <p> Тэги проекта:</p>
+      <div v-if="allTags != []" class="project-tags"> 
+          <span v-for="(tag, index) in projectData.tags" :key="index" class="project-tag">
+            {{ findTag(11) }}<span v-if="index < projectData.tags.length - 1">, </span>
+          </span>
+          </div>
 
 
       </div>
