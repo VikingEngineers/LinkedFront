@@ -78,7 +78,8 @@ const updateProject = async () => {
             updatedTags.value.forEach(tag => {
             formData.append('tags', tag);
         });
-        };
+        }
+
 
 
         
@@ -199,16 +200,14 @@ onMounted(async() => {
         <div v-if="projectData.tags.length > 0">
         <p>{{ allTags }}</p>
         <p>Добавленные теги:</p>
+        <div v-for="tag in updatedTags">
+            <p>{{ findTag(tag) }}</p>
+            <button @click="deleteTag(tag)">Удалить</button>
+        </div>
         {{ recievedTags }}
         {{ updatedTags }}
 
 
-        <div v-if="updatedTags.value && updatedTags.value.length > 0">
-        <p>Updated Tags:</p>
-            <div v-for="tag in updatedTags.value" :key="tag">
-            <p>{{ findTag(tag) }} <button @click="deleteTag(tag)">Delete</button></p>
-            </div>
-        </div>
         <p>Добавить новый тег: </p>
         <select v-model="newTag">
             <option v-for="tag in allTags" :value="tag.id">{{ tag.name }}</option>
