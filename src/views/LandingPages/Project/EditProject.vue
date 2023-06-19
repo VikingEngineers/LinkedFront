@@ -17,18 +17,22 @@ const debugText = ref('');
 const projectId = ref(null);
 const route = useRoute();
 const selectedImage = ref(null);
+const recievedTags = ref([]);
+const updatedTags = ref([]);
+const allTags = ref([]);
+const newTag = ref('');
 
 
 axios.interceptors.request.use((request) => {
-  debugText.value += '\n\nRequest:\n' + JSON.stringify(request, null, 2);
+//   debugText.value += '\n\nRequest:\n' + JSON.stringify(request, null, 2);
   return request;
 });
 
 axios.interceptors.response.use((response) => {
-  debugText.value += '\n\nResponse:\n' + JSON.stringify(response, null, 2);
+//   debugText.value += '\n\nResponse:\n' + JSON.stringify(response, null, 2);
   return response;
 }, (error) => {
-  debugText.value += '\n\nResponse Error:\n' + JSON.stringify(error.toJSON(), null, 2);
+//   debugText.value += '\n\nResponse Error:\n' + JSON.stringify(error.toJSON(), null, 2);
   return Promise.reject(error);
 });
 
@@ -36,21 +40,17 @@ const getProject = async () => {
     try {
         const projectDataRecieved = await axios.get(`http://somebodyhire.me/api/projects/${projectId.value}/`);
         projectData.value = projectDataRecieved.data;
+        recievedTags.value = projectData.value.tags;
+        updatedTags.value = projectData.value.tags; 
     } catch (error) {
         console.error('There was an error fetching the project data', error);
     }
 };
 
-// const onFileChange = (event) => {
-//     if (event.target.files.length > 0) {
-//         const file = event.target.files[0];
-//         projectData.value.featured_image = file;
-//     }
-// };
 
 const onFileChange = (event) => {
     selectedImage.value = event.target.files[0];
-    debugText.value = `Selected image: ${selectedImage.value.name}`;
+    // debugText.value = `Selected image: ${selectedImage.value.name}`;
 };
 
 const updateProject = async () => {
@@ -70,18 +70,21 @@ const updateProject = async () => {
         formData.append('source_link', projectData.value.source_link);
                 
 
-        // if (projectData.value.featured_image) {
-        //     formData.append('featured_image', projectData.value.featured_image);
-        // };
-
 
         if (selectedImage.value) {
                 formData.append('featured_image', selectedImage.value);
         };
+        if (updatedTags.value) {
+            updatedTags.value.forEach(tag => {
+            formData.append('tags', tag);
+        });
+        }
 
-        // formData.append('tags', projectData.value.tags);
 
+
+        
         const response = await axios.patch(`http://somebodyhire.me/api/projects/${projectId.value}/`, formData, { headers });
+        debugText.value = `Form data: ${JSON.stringify(formData, null, 2)}`;
         router.push(`/project/${response.data.id}`);
 
 
@@ -89,7 +92,7 @@ const updateProject = async () => {
 
     
     catch (error) {
-        debugText.value = `Error: ${JSON.stringify(error, null, 2)}`;
+        // debugText.value = `Error: ${JSON.stringify(error, null, 2)}`;
         console.error(error);
     }
 };
@@ -121,38 +124,102 @@ const cancelUpdate = () => {
     router.push('/myprojects');
 };
 
+const cancelDelete = () => {
+    location.reload();
+};
+
+const getTags = async () => {
+  try {
+    const tagsResponse = await axios.get(`http://somebodyhire.me/api/tags/`);
+    allTags.value = tagsResponse.data;
+  } catch (error) {
+    console.error('There was an error fetching the tags', error);
+  }
+};
+
+  const findTag = (id) => {
+    const tag = allTags.value.find((tag) => tag.id === id);
+    return tag.name;
+  };
+
+  const addTag = () => {
+  if (newTag.value) {
+    if (!updatedTags.value.includes(newTag.value)) {
+      updatedTags.value.push(newTag.value);
+    } else {
+      console.warn("This tag is already in the list");
+    }
+  }
+};
+
+const deleteTag = (id) => {
+  updatedTags.value = updatedTags.value.filter(tagId => tagId !== id);
+};
+    
+
 onMounted(async() => {
     projectId.value = route.params.id;
     await getProject();
+    await getTags();
 });
+
+
 </script>
 
 <template>
     <NavbarDefault />
-    <div class="profile-container">
+    <div>
 
         <div v-if="!isAuthenticated">
             <h1>Вы не авторизованы</h1>
         </div>
-        <div v-else>
+        <div v-else class="profile-container">
             <div v-if = "userId == projectData.owner">
         <h2>Редактирование проекта</h2>
 
-        <!-- Окно с результатами обмена для отладки 
-        <textarea readonly v-model="debugText"></textarea>
-        -->
+       
 
-
+        
         <img class="project-image" :src="projectData.featured_image" alt="Featured image">
+        <p>Выберите новое изображение проекта:</p>
         <input type="file" accept="image/*" @change="onFileChange">
 
-
+        <p>Название проекта:</p>
         <input type="text" v-model="projectData.title" placeholder="Title">
+        <p>Описание проекта:</p>
         <input type="text" v-model="projectData.description" placeholder="Description">
+        <p>Ссылка на демонстрацию проекта</p>
         <textarea v-model="projectData.demo_link" placeholder="Demo link"></textarea>
+        <p>Ссылка на исходный код проекта</p>    
         <textarea v-model="projectData.source_link" placeholder="Source code link"></textarea>
-        <!-- <input type="number" v-model="projectData.likes" placeholder="Likes"> -->
-        <textarea v-model="projectData.tags" placeholder="Tags"></textarea>
+
+         Окно с результатами обмена для отладки 
+        <textarea readonly v-model="debugText"></textarea>
+       
+
+        <div v-if="projectData.tags.length > 0">
+        <p>{{ allTags }}</p>
+        <p>Добавленные теги:</p>
+        <div v-for="tag in updatedTags">
+            <p>{{ findTag(tag) }}</p>
+            <button @click="deleteTag(tag)">Удалить</button>
+        </div>
+        {{ recievedTags }}
+        {{ updatedTags }}
+
+
+        <p>Добавить новый тег: </p>
+        <select v-model="newTag">
+            <option v-for="tag in allTags" :value="tag.id">{{ tag.name }}</option>
+        </select>
+        <button @click="addTag">Добавить</button>
+
+
+
+        
+        </div>
+        
+
 
         <div>
         <button @click="updateProject" class="btn-submit">Сохранить</button>
@@ -164,7 +231,7 @@ onMounted(async() => {
         <div id="okno">
             Вы действительно хотите удалить проект?
         <button @click="deleteProject" class="btn-cancel">Удалить</button>
-        <button @click="cancelUpdate" class="btn-submit">Отмена</button>
+        <button @click="cancelDelete" class="btn-submit">Отмена</button>
           </div>
     </div>
 
