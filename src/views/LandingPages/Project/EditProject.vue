@@ -193,21 +193,16 @@ onMounted(async() => {
         <p>Ссылка на исходный код проекта</p>    
         <textarea v-model="projectData.source_link" placeholder="Source code link"></textarea>
 
-         Окно с результатами обмена для отладки 
-        <textarea readonly v-model="debugText"></textarea>
+         <!-- Окно с результатами обмена для отладки 
+        <textarea readonly v-model="debugText"></textarea> -->
        
 
-        <div v-if="projectData.tags.length > 0">
-        <p>{{ allTags }}</p>
+        <div>
         <p>Добавленные теги:</p>
         <div v-for="tag in updatedTags">
             <p>{{ findTag(tag) }}</p>
             <button @click="deleteTag(tag)">Удалить</button>
         </div>
-        {{ recievedTags }}
-        {{ updatedTags }}
-
-
         <p>Добавить новый тег: </p>
         <select v-model="newTag">
             <option v-for="tag in allTags" :value="tag.id">{{ tag.name }}</option>
