@@ -173,7 +173,7 @@ const checkProjectOwnerName = async () => {
       <p v-if="allTags != []" > Тэги проекта:</p>
       <div v-if="allTags != []" class="project-tags"> 
           <span v-for="(tag, index) in projectData.tags" :key="index" class="project-tag">
-            {{ findTag(11) }}<span v-if="index < projectData.tags.length - 1">, </span>
+            {{ findTag(tag) }}<span v-if="index < projectData.tags.length - 1"> </span>
           </span>
           </div>
 
