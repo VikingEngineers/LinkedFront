@@ -175,22 +175,22 @@ onMounted(async() => {
         </div>
         <div v-else class="profile-container">
             <div v-if = "userId == projectData.owner">
-        <h2>Редактирование проекта</h2>
+        <h2 :style="{ fontSize: '26px', fontWeight: '500',  fontFamily: 'PressStart2P, sans-serif', marginBottom:'40px', marginTop:'40px' }">Редактирование проекта</h2>
 
        
 
         
         <img class="project-image" :src="projectData.featured_image" alt="Featured image">
-        <p>Выберите новое изображение проекта:</p>
+        <p :style="{fontWeight: '700',  fontSize:'18px', fontFamily: 'monospace' }">Выберите новое изображение проекта:</p>
         <input type="file" accept="image/*" @change="onFileChange">
 
-        <p>Название проекта:</p>
+        <p :style="{fontWeight: '700',  fontSize:'18px', fontFamily: 'monospace' }">Название проекта:</p>
         <input type="text" v-model="projectData.title" placeholder="Title">
-        <p>Описание проекта:</p>
+        <p :style="{fontWeight: '700',  fontSize:'18px', fontFamily: 'monospace' }">Описание проекта:</p>
         <input type="text" v-model="projectData.description" placeholder="Description">
-        <p>Ссылка на демонстрацию проекта</p>
+        <p :style="{fontWeight: '700',  fontSize:'18px', fontFamily: 'monospace' }">Ссылка на демонстрацию проекта</p>
         <textarea v-model="projectData.demo_link" placeholder="Demo link"></textarea>
-        <p>Ссылка на исходный код проекта</p>    
+        <p :style="{fontWeight: '700',  fontSize:'18px', fontFamily: 'monospace' }">Ссылка на исходный код проекта</p>    
         <textarea v-model="projectData.source_link" placeholder="Source code link"></textarea>
 
          <!-- Окно с результатами обмена для отладки 
@@ -198,19 +198,16 @@ onMounted(async() => {
        
 
         <div>
-        <p>Добавленные теги:</p>
+        <p :style="{fontWeight: '700',  fontSize:'18px', fontFamily: 'monospace' }">Добавленные теги:</p>
         <div v-for="tag in updatedTags">
-            <p>{{ findTag(tag) }}</p>
-            <button @click="deleteTag(tag)">Удалить</button>
+            <p :style="{fontWeight: '500',  fontSize:'16px', fontFamily: 'PressStart2P, sans-serif' }">{{ findTag(tag) }}</p>
+            <button @click="deleteTag(tag)" class="btn-delete">Удалить</button>
         </div>
-        <p>Добавить новый тег: </p>
+        <p :style="{fontWeight: '700',  fontSize:'18px', fontFamily: 'monospace'}">Добавить новый тег: </p>
         <select v-model="newTag">
             <option v-for="tag in allTags" :value="tag.id">{{ tag.name }}</option>
         </select>
-        <button @click="addTag">Добавить</button>
-
-
-
+        <button @click="addTag" class="btn-add">Добавить</button>
         
         </div>
         
@@ -281,6 +278,15 @@ onMounted(async() => {
   box-sizing: border-box; /* Ensure padding doesn't affect final dimensions */
   border: 1px solid #ccc; /* Add a border */
   border-radius: 5px; /* Add rounded corners */
+
+}
+.profile-container select {
+  width: 50%; /* Make inputs and textareas take up the full width of the container */
+  padding: 10px; /* Add some padding */
+  margin-bottom: 15px; /* Add some margin */
+  box-sizing: border-box; /* Ensure padding doesn't affect final dimensions */
+  border: 1px solid #ccc; /* Add a border */
+  border-radius: 5px; /* Add rounded corners */
 }
 
 /* Style for smaller screens */
@@ -289,7 +295,10 @@ onMounted(async() => {
     width: 95%;
   }
 }
-
+.profile-container option{
+font-size: 16px;
+font-family: monospace;
+}
 
 .btn-submit {
     color: #fff;
@@ -317,5 +326,33 @@ onMounted(async() => {
     margin: 4px 2px;
     cursor: pointer;
     border-radius: 5px;
+}
+.btn-add {
+  color: #fff;
+  background-color: #4CAF50;
+  border: none;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-left: 10px;
+  margin-bottom: 50px;
+}
+
+.btn-delete {
+  color: #fff;
+  background-color: #f44336;
+  border: none;
+  padding: 10px 12px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-bottom: 20px;
 }
 </style>
