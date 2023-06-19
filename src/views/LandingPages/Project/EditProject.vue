@@ -175,7 +175,7 @@ onMounted(async() => {
         </div>
         <div v-else class="profile-container">
             <div v-if = "userId == projectData.owner">
-        <h2>Редактирование проекта</h2>
+        <h2 :style="{ fontSize: '26px', fontWeight: '500',  fontFamily: 'PressStart2P, sans-serif' }">Редактирование проекта</h2>
 
        
 
