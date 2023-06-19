@@ -156,13 +156,13 @@ const checkProjectOwnerName = async () => {
         <a v-if="projectData.demo_link" class="project-link" target="_blank" :href="projectData.demo_link">Demo Live</a>
         <a v-if="projectData.source_link" class="project-link" target="_blank" :href="projectData.source_link">Source Code</a>
 
-        <p v-if="projectData && projectData.likes" class="project-votes">Количество лайков: {{ projectData.likes.length }}</p>
+        <p v-if="projectData && projectData.likes" class="project-votes" :style="{fontWeight: '900',  fontFamily: 'monospace' }">Количество лайков: {{ projectData.likes.length }}</p>
         <div v-if = "projectData.owner == userId" class="project-owner-note">
           <a class="btn_link" :href="`/editproject/${projectData.id}`">Редактирование проекта</a>
         </div>
 
       <div v-if="projectData.owner != userId" class="project-owner-note">
-        <p>Автор проекта:</p>
+        <p :style="{fontWeight: '900',  fontFamily: 'monospace', fontSize:'18px' }">Автор проекта:</p>
         <a :href="`/profile/${projectData.owner}`">{{ projectOwnerName }}</a>
       </div>
         
@@ -170,9 +170,9 @@ const checkProjectOwnerName = async () => {
         <button v-if = "projectData.owner != userId && !isLiked" class="button_like" @click="postLike" > Нравится </button>
         <button v-if = "projectData.owner != userId && isLiked"  class="button_dislike" @click="postLike" > Не нравится </button>
 
-      <p v-if="allTags != []" > Тэги проекта:</p>
+      <p v-if="allTags != []" :style="{fontWeight: '900',  fontFamily: 'monospace', fontSize:'18px' }"> Тэги проекта:</p>
       <div v-if="allTags != []" class="project-tags"> 
-          <span v-for="(tag, index) in projectData.tags" :key="index" class="project-tag">
+          <span :style="{fontWeight: '700',  fontSize:'16px', fontFamily: 'monospace',backgroundColor:'#4ea85262', padding:'5px', margin:'5px'}" v-for="(tag, index) in projectData.tags" :key="index" class="project-tag">
             {{ findTag(tag) }}<span v-if="index < projectData.tags.length - 1"> </span>
           </span>
           </div>
