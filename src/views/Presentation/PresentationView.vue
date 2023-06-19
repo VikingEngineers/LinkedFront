@@ -145,10 +145,10 @@ export default {
         <h3 :style="{ fontWeight: '700',  fontFamily: 'monospace', fontSize:'24px', marginBottom:'15px', marginTop:'25px' }">{{ project.title }}</h3>
         <img class="project-image" :src="project.featured_image" alt="Featured image">
         <div class="tags-container" v-if="project.tags.length > 0 ">
-        <!-- <div class="tags" v-for="project in searchResultProjects" :key="project.tags"> -->
+
         <span :style="{ padding:'15px 5px'}" class="tag" v-for="tag in project.tags" :key="tag.id">[{{ findTag(tag) }}] </span>
        </div>
-      <!--  </div> -->
+
         <div class="btn_link-container">
         <a :href="`project/${project.id}`" class="btn_link">Посмотреть</a>
       </div>
@@ -159,7 +159,11 @@ export default {
       <div class="result-card-profile" v-for="user in searchResultUsers" :key="user.id">
         <h3 :style="{ fontWeight: '900',  fontFamily: 'monospace', fontSize:'24px', marginBottom:'15px', marginTop:'25px'}">{{ user.username }}</h3>
         <img class="profile-image" :src="user.profile_image" alt="Featured image">
-        <p :style="{ padding:'5px'}">{{ user.short_intro }}</p> <!-- краткое описание -->
+        <p :style="{ padding:'5px'}">{{ user.short_intro }}</p> 
+        
+        
+        
+        <!-- краткое описание -->
 
         <!--<div v-if="user.skill.length > 0 ">
           <div class="tags-container">
