@@ -201,7 +201,7 @@ const checkProjectOwnerName = async () => {
               </div>
             </div>
           </div>
-            <h3 :style="{ fontWeight: '500',  fontFamily: 'PressStart2P, sans-serif' }">Отзывы:</h3>
+            <h3 :style="{ fontWeight: '500',  fontFamily: 'PressStart2P, sans-serif' }">Комментарии:</h3>
                 <p v-for = "(review, index) in ProjectReviews" :key="index" >
                   <p class="project-review">{{ findUsername(review.owner) }}  :  {{ review.body }}</p>
                 </p>
