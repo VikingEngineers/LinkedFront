@@ -194,7 +194,7 @@ export default {
                     <a
                       href="/register"
                       class="text-success text-gradient font-weight-bold"
-                      >Зарегистироваться</a
+                      >Зарегистрироваться</a
                     >
                   </p>
                   <p class="mt-4 text-sm text-center">
