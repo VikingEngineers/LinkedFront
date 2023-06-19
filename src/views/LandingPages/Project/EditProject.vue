@@ -124,6 +124,10 @@ const cancelUpdate = () => {
     router.push('/myprojects');
 };
 
+const cancelDelete = () => {
+    location.reload();
+};
+
 const getTags = async () => {
   try {
     const tagsResponse = await axios.get(`http://somebodyhire.me/api/tags/`);
@@ -194,7 +198,7 @@ onMounted(async() => {
         <div id="okno">
             Вы действительно хотите удалить проект?
         <button @click="deleteProject" class="btn-cancel">Удалить</button>
-        <button @click="cancelUpdate" class="btn-submit">Отмена</button>
+        <button @click="cancelDelete" class="btn-submit">Отмена</button>
           </div>
     </div>
 
