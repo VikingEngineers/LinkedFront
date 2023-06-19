@@ -161,7 +161,7 @@ const checkProjectOwnerName = async () => {
         <a :href="`/profile/${projectData.owner}`">{{ projectOwnerName }}</a>
       </div>
         
-      <div class="btn_link-container">
+      <div  v-if="isAuthenticated" class="btn_link-container">
         <button v-if = "projectData.owner != userId && !isLiked" class="button_like" @click="postLike" > Нравится </button>
         <button v-if = "projectData.owner != userId && isLiked"  class="button_dislike" @click="postLike" > Не нравится </button>
 
