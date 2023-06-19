@@ -19,18 +19,20 @@ const route = useRoute();
 const selectedImage = ref(null);
 const recievedTags = ref([]);
 const updatedTags = ref([]);
+const allTags = ref([]);
+const newTag = ref('');
 
 
 axios.interceptors.request.use((request) => {
-  debugText.value += '\n\nRequest:\n' + JSON.stringify(request, null, 2);
+//   debugText.value += '\n\nRequest:\n' + JSON.stringify(request, null, 2);
   return request;
 });
 
 axios.interceptors.response.use((response) => {
-  debugText.value += '\n\nResponse:\n' + JSON.stringify(response, null, 2);
+//   debugText.value += '\n\nResponse:\n' + JSON.stringify(response, null, 2);
   return response;
 }, (error) => {
-  debugText.value += '\n\nResponse Error:\n' + JSON.stringify(error.toJSON(), null, 2);
+//   debugText.value += '\n\nResponse Error:\n' + JSON.stringify(error.toJSON(), null, 2);
   return Promise.reject(error);
 });
 
@@ -39,21 +41,16 @@ const getProject = async () => {
         const projectDataRecieved = await axios.get(`http://somebodyhire.me/api/projects/${projectId.value}/`);
         projectData.value = projectDataRecieved.data;
         recievedTags.value = projectData.value.tags;
+        updatedTags.value = projectData.value.tags; 
     } catch (error) {
         console.error('There was an error fetching the project data', error);
     }
 };
 
-// const onFileChange = (event) => {
-//     if (event.target.files.length > 0) {
-//         const file = event.target.files[0];
-//         projectData.value.featured_image = file;
-//     }
-// };
 
 const onFileChange = (event) => {
     selectedImage.value = event.target.files[0];
-    debugText.value = `Selected image: ${selectedImage.value.name}`;
+    // debugText.value = `Selected image: ${selectedImage.value.name}`;
 };
 
 const updateProject = async () => {
@@ -73,18 +70,20 @@ const updateProject = async () => {
         formData.append('source_link', projectData.value.source_link);
                 
 
-        // if (projectData.value.featured_image) {
-        //     formData.append('featured_image', projectData.value.featured_image);
-        // };
-
 
         if (selectedImage.value) {
                 formData.append('featured_image', selectedImage.value);
         };
+        if (updatedTags.value) {
+            updatedTags.value.forEach(tag => {
+            formData.append('tags', tag);
+        });
+        };
 
-        // formData.append('tags', projectData.value.tags);
 
+        
         const response = await axios.patch(`http://somebodyhire.me/api/projects/${projectId.value}/`, formData, { headers });
+        debugText.value = `Form data: ${JSON.stringify(formData, null, 2)}`;
         router.push(`/project/${response.data.id}`);
 
 
@@ -92,7 +91,7 @@ const updateProject = async () => {
 
     
     catch (error) {
-        debugText.value = `Error: ${JSON.stringify(error, null, 2)}`;
+        // debugText.value = `Error: ${JSON.stringify(error, null, 2)}`;
         console.error(error);
     }
 };
@@ -141,6 +140,20 @@ const getTags = async () => {
     const tag = allTags.value.find((tag) => tag.id === id);
     return tag.name;
   };
+
+  const addTag = () => {
+  if (newTag.value) {
+    if (!updatedTags.value.includes(newTag.value)) {
+      updatedTags.value.push(newTag.value);
+    } else {
+      console.warn("This tag is already in the list");
+    }
+  }
+};
+
+const deleteTag = (id) => {
+  updatedTags.value = updatedTags.value.filter(tagId => tagId !== id);
+};
     
 
 onMounted(async() => {
@@ -163,9 +176,7 @@ onMounted(async() => {
             <div v-if = "userId == projectData.owner">
         <h2>Редактирование проекта</h2>
 
-        <!-- Окно с результатами обмена для отладки 
-        <textarea readonly v-model="debugText"></textarea>
-        -->
+       
 
         
         <img class="project-image" :src="projectData.featured_image" alt="Featured image">
@@ -181,8 +192,31 @@ onMounted(async() => {
         <p>Ссылка на исходный код проекта</p>    
         <textarea v-model="projectData.source_link" placeholder="Source code link"></textarea>
 
+         Окно с результатами обмена для отладки 
+        <textarea readonly v-model="debugText"></textarea>
+       
+
         <div v-if="projectData.tags.length > 0">
+        <p>{{ allTags }}</p>
         <p>Добавленные теги:</p>
+        {{ recievedTags }}
+        {{ updatedTags }}
+
+
+        <div v-if="updatedTags.value && updatedTags.value.length > 0">
+        <p>Updated Tags:</p>
+            <div v-for="tag in updatedTags.value" :key="tag">
+            <p>{{ findTag(tag) }} <button @click="deleteTag(tag)">Delete</button></p>
+            </div>
+        </div>
+        <p>Добавить новый тег: </p>
+        <select v-model="newTag">
+            <option v-for="tag in allTags" :value="tag.id">{{ tag.name }}</option>
+        </select>
+        <button @click="addTag">Добавить</button>
+
+
+
         
         </div>
         
