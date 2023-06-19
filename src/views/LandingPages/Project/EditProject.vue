@@ -17,6 +17,8 @@ const debugText = ref('');
 const projectId = ref(null);
 const route = useRoute();
 const selectedImage = ref(null);
+const recievedTags = ref([]);
+const updatedTags = ref([]);
 
 
 axios.interceptors.request.use((request) => {
@@ -36,6 +38,7 @@ const getProject = async () => {
     try {
         const projectDataRecieved = await axios.get(`http://somebodyhire.me/api/projects/${projectId.value}/`);
         projectData.value = projectDataRecieved.data;
+        recievedTags.value = projectData.value.tags;
     } catch (error) {
         console.error('There was an error fetching the project data', error);
     }
@@ -121,20 +124,38 @@ const cancelUpdate = () => {
     router.push('/myprojects');
 };
 
+const getTags = async () => {
+  try {
+    const tagsResponse = await axios.get(`http://somebodyhire.me/api/tags/`);
+    allTags.value = tagsResponse.data;
+  } catch (error) {
+    console.error('There was an error fetching the tags', error);
+  }
+};
+
+  const findTag = (id) => {
+    const tag = allTags.value.find((tag) => tag.id === id);
+    return tag.name;
+  };
+    
+
 onMounted(async() => {
     projectId.value = route.params.id;
     await getProject();
+    await getTags();
 });
+
+
 </script>
 
 <template>
     <NavbarDefault />
-    <div class="profile-container">
+    <div>
 
         <div v-if="!isAuthenticated">
             <h1>Вы не авторизованы</h1>
         </div>
-        <div v-else>
+        <div v-else class="profile-container">
             <div v-if = "userId == projectData.owner">
         <h2>Редактирование проекта</h2>
 
@@ -142,17 +163,26 @@ onMounted(async() => {
         <textarea readonly v-model="debugText"></textarea>
         -->
 
-
+        
         <img class="project-image" :src="projectData.featured_image" alt="Featured image">
+        <p>Выберите новое изображение проекта:</p>
         <input type="file" accept="image/*" @change="onFileChange">
 
-
+        <p>Название проекта:</p>
         <input type="text" v-model="projectData.title" placeholder="Title">
+        <p>Описание проекта:</p>
         <input type="text" v-model="projectData.description" placeholder="Description">
+        <p>Ссылка на демонстрацию проекта</p>
         <textarea v-model="projectData.demo_link" placeholder="Demo link"></textarea>
+        <p>Ссылка на исходный код проекта</p>    
         <textarea v-model="projectData.source_link" placeholder="Source code link"></textarea>
-        <!-- <input type="number" v-model="projectData.likes" placeholder="Likes"> -->
-        <textarea v-model="projectData.tags" placeholder="Tags"></textarea>
+
+        <div v-if="projectData.tags.length > 0">
+        <p>Добавленные теги:</p>
+        
+        </div>
+        
+
 
         <div>
         <button @click="updateProject" class="btn-submit">Сохранить</button>
