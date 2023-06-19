@@ -38,7 +38,7 @@ onMounted(() => {
     <!-- <h2 class="result-header">Найдено людей: {{ searchResultUsers.length}} </h2> -->
     <div class="result-grid" :style="{ fontWeight: '900',  fontFamily: 'monospace' }">
       <div class="result-card" v-for="user in searchResultUsers" :key="user.id">
-        <h3 :style="{ fontWeight: '900',  fontFamily: 'monospace' }" class="profile-name" >{{ user.username }}</h3>
+        <h3 :style="{ fontWeight: '900',  fontFamily: 'monospace', fontSize:'24px', marginBottom:'15px', marginTop:'25px'}" class="profile-name" >{{ user.username }}</h3>
         <img class="profile-image" :src="user.profile_image" alt="Featured image">
         <p>{{ user.email }}</p>
         <div class="btn_link-container">

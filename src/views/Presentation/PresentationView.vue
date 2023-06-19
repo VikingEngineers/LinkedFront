@@ -129,7 +129,7 @@ export default {
 
             <div class="searchBar">
                 <input :style="{ fontWeight: '900',  fontFamily: 'monospace' }" class="searchInput" type="text" v-model="searchQuery" @keyup.enter="search" placeholder="Поиск по проектам и людям" />
-                <button :style="{ fontWeight: '900',  fontFamily: 'monospace' }" class="searchButton" type="submit" @click="search">GO!</button>
+                <button :style="{ fontWeight: '900',  fontFamily: 'monospace', fontSize:'20px' }" class="searchButton" type="submit" @click="search">GO!</button>
              </div>
 
   </div>
@@ -139,15 +139,14 @@ export default {
 </Header>
 <PresentationCounter />
 <div v-if="searchResultProjects.length > 0 || searchResultUsers.length > 0">
-    <h2 class="result-header" :style="{ fontWeight: '900',  fontFamily: 'monospace' }">Найдено проектов: {{ searchResultProjects.length}} </h2>
+    <h2 class="result-header" :style="{ fontWeight: '500',  fontFamily: 'PressStart2P, sans-serif', fontSize:'24px' }">Найдено проектов: {{ searchResultProjects.length}} </h2>
     <div class="result-grid" :style="{ fontWeight: '900',  fontFamily: 'monospace' }">
       <div class="result-card-project" v-for="project in searchResultProjects" :key="project.id">
-        <h3 :style="{ fontWeight: '900',  fontFamily: 'monospace' }">{{ project.title }}</h3>
+        <h3 :style="{ fontWeight: '700',  fontFamily: 'monospace', fontSize:'24px', marginBottom:'15px', marginTop:'25px' }">{{ project.title }}</h3>
         <img class="project-image" :src="project.featured_image" alt="Featured image">
-        <!-- <p>{{ project.description }}</p>  -->
         <div class="tags-container" v-if="project.tags.length > 0 ">
         <!-- <div class="tags" v-for="project in searchResultProjects" :key="project.tags"> -->
-        <span class="tag" v-for="tag in project.tags" :key="tag.id">[{{ findTag(tag) }}] </span>
+        <span :style="{ padding:'15px 5px'}" class="tag" v-for="tag in project.tags" :key="tag.id">[{{ findTag(tag) }}] </span>
        </div>
       <!--  </div> -->
         <div class="btn_link-container">
@@ -155,12 +154,12 @@ export default {
       </div>
       </div>
     </div>
-<h2 class="result-header" :style="{ fontWeight: '900',  fontFamily: 'monospace' }">Найдено профилей: {{ searchResultUsers.length}} </h2>
+<h2 class="result-header" :style="{ fontWeight: '500',  fontFamily: 'PressStart2P, sans-serif', fontSize:'24px' }">Найдено профилей: {{ searchResultUsers.length}} </h2>
     <div class="result-grid" :style="{ fontWeight: '900',  fontFamily: 'monospace' }">
       <div class="result-card-profile" v-for="user in searchResultUsers" :key="user.id">
-        <h3 :style="{ fontWeight: '900',  fontFamily: 'monospace' }">{{ user.username }}</h3>
+        <h3 :style="{ fontWeight: '900',  fontFamily: 'monospace', fontSize:'24px', marginBottom:'15px', marginTop:'25px'}">{{ user.username }}</h3>
         <img class="profile-image" :src="user.profile_image" alt="Featured image">
-        <p>{{ user.short_intro }}</p> <!-- краткое описание -->
+        <p :style="{ padding:'5px'}">{{ user.short_intro }}</p> <!-- краткое описание -->
 
         <!--<div v-if="user.skill.length > 0 ">
           <div class="tags-container">
@@ -241,7 +240,7 @@ export default {
 
 .searchButton {
   /* Adds some padding inside the button */
-  padding: 12px 20px;
+  padding: 10px 20px;
   /* Changes the font size */
   font-size: 16px;
   /* Changes the background color of the button */
@@ -268,9 +267,10 @@ export default {
 .result-header {
   color: #002B24;
   /*background-color:#002B24;*/
-  padding: 10px;
+  padding: 20px;
   text-align:center;
   margin-top: 25px;
+  margin-bottom: 25px;
   margin-left: 10%;
   width: 80%;
   border-radius: 15px;

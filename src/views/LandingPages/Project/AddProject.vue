@@ -122,6 +122,7 @@ const onFileChange = (event) => {
   box-sizing: border-box; /* Ensure padding doesn't affect final dimensions */
   border: 1px solid #ccc; /* Add a border */
   border-radius: 5px; /* Add rounded corners */
+  font-size: 18px;
 }
 
 /* Style for smaller screens */
