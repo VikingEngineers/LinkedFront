@@ -15,6 +15,7 @@ const allTags = ref([]);
 const commentData = ref({
     body: "",
 });
+const projectOwnerName = ref('');
 
 const searchQuery = ref('');
 const searchResultUsers = ref([]);
@@ -35,7 +36,9 @@ onMounted(async() => {
     await GetProjectReviews();
     await search();
     await getTags();
+    await checkProjectOwnerName();
     checkIfLiked();
+
     
        
 });
@@ -74,6 +77,11 @@ const search = async () => {
   const findUsername = (id) => {
     const user = searchResultUsers.value.find((user) => user.id === id);
     return user.name;
+  };
+
+  const findUserNickName = (id) => {
+    const user = searchResultUsers.value.find((user) => user.id === id);
+    return user.username;
   };
 
   const getTags = async () => {
@@ -125,6 +133,15 @@ const search = async () => {
         }
     }
 };
+
+const checkProjectOwnerName = async () => {
+    try {
+      projectOwnerName.value = findUserNickName(projectData.value.owner);
+    } catch (error) {
+        console.error('There was an error fetching the project data', error);
+    }
+};
+        
   
  
 </script>
@@ -143,14 +160,20 @@ const search = async () => {
         <div v-if = "projectData.owner == userId" class="project-owner-note">
           <a class="btn_link" :href="`/editproject/${projectData.id}`">Редактирование проекта</a>
         </div>
-      <div class="btn_link-container">
+
+      <div v-if="projectData.owner != userId" class="project-owner-note">
+        <p>Автор проекта:</p>
+        <a :href="`/profile/${projectData.owner}`">{{ projectOwnerName }}</a>
+      </div>
+        
+      <div  v-if="isAuthenticated" class="btn_link-container">
         <button v-if = "projectData.owner != userId && !isLiked" class="button_like" @click="postLike" > Нравится </button>
         <button v-if = "projectData.owner != userId && isLiked"  class="button_dislike" @click="postLike" > Не нравится </button>
 
-      <p> Тэги проекта:</p>
+      <p v-if="allTags != []" > Тэги проекта:</p>
       <div v-if="allTags != []" class="project-tags"> 
           <span v-for="(tag, index) in projectData.tags" :key="index" class="project-tag">
-            {{ findTag(11) }}<span v-if="index < projectData.tags.length - 1">, </span>
+            {{ findTag(tag) }}<span v-if="index < projectData.tags.length - 1"> </span>
           </span>
           </div>
 
@@ -161,7 +184,7 @@ const search = async () => {
         <div class="project-container2" v-if="projectData" >
           <h1 class="subtitle" :style="{ fontWeight: '500',  fontFamily: 'PressStart2P, sans-serif',fontSize:'26px' }">{{ projectData.title }}</h1>
           <img class="project-image" :src="projectData.featured_image" alt="Featured image">
-          <p class="project-created">Created On: {{ new Date(projectData.created).toLocaleDateString() }}</p>
+          <p class="project-created">Дата добавления: {{ new Date(projectData.created).toLocaleDateString() }}</p>
           
             <p class="project-description">{{ projectData.description }}</p>
             <div v-if="isAuthenticated">
@@ -178,7 +201,7 @@ const search = async () => {
               </div>
             </div>
           </div>
-            <h3 :style="{ fontWeight: '500',  fontFamily: 'PressStart2P, sans-serif' }">Feedback</h3>
+            <h3 :style="{ fontWeight: '500',  fontFamily: 'PressStart2P, sans-serif' }">Отзывы:</h3>
                 <p v-for = "(review, index) in ProjectReviews" :key="index" >
                   <p class="project-review">{{ findUsername(review.owner) }}  :  {{ review.body }}</p>
                 </p>
