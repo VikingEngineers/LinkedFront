@@ -79,6 +79,11 @@ const search = async () => {
     return user.name;
   };
 
+  const findUserNickName = (id) => {
+    const user = searchResultUsers.value.find((user) => user.id === id);
+    return user.username;
+  };
+
   const getTags = async () => {
   try {
     const tagsResponse = await axios.get(`http://somebodyhire.me/api/tags/`);
@@ -131,7 +136,7 @@ const search = async () => {
 
 const checkProjectOwnerName = async () => {
     try {
-      projectOwnerName.value = findUsername(projectData.value.owner);
+      projectOwnerName.value = findUserNickName(projectData.value.owner);
     } catch (error) {
         console.error('There was an error fetching the project data', error);
     }
