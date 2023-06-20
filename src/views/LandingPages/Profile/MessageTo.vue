@@ -57,7 +57,7 @@ const sendMessage = async () => {
             body: messageData.value.body,
             /* owner: userId.value */
         };
-        const response = await axios.post('http://somebodyhire.me/api/messages/create/', data, { headers });
+        const response = await axios.post('https://somebodyhire.me/api/messages/create/', data, { headers });
         router.push('/messages');
     } catch (error) {
         debugText.value = `Error: ${JSON.stringify(error, null, 2)}`;
@@ -67,7 +67,7 @@ const sendMessage = async () => {
 
 const search = async () => {
     try {
-        const usersResponse = await axios.get(`http://somebodyhire.me/api/profiles/`);
+        const usersResponse = await axios.get(`https://somebodyhire.me/api/profiles/`);
         searchResultUsers.value = usersResponse.data;
         // debugText.value = JSON.stringify(searchResultUsers.value); 
     } catch (error) {

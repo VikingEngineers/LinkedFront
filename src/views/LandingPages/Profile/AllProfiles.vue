@@ -14,10 +14,10 @@ const searchResultUsers = ref([]);
 
 const search = async () => {
   try {
-    const projectsResponse = await axios.get(`http://somebodyhire.me/api/search/projects/?search_query=${searchQuery.value}`);
+    const projectsResponse = await axios.get(`https://somebodyhire.me/api/search/projects/?search_query=${searchQuery.value}`);
     searchResultProjects.value = projectsResponse.data;
 
-    const usersResponse = await axios.get(`http://somebodyhire.me/api/search/profiles/?search_query=${searchQuery.value}`);
+    const usersResponse = await axios.get(`https://somebodyhire.me/api/search/profiles/?search_query=${searchQuery.value}`);
     searchResultUsers.value = usersResponse.data;
   } catch (error) {
     console.error('There was an error fetching the search results', error);

@@ -13,12 +13,12 @@ const skillsData = ref([]);
 
 
 const getProfile = async () => {
-    const profileDataRecieved = await axios.get(`http://somebodyhire.me/api/profile/${userId.value}/`);
+    const profileDataRecieved = await axios.get(`https://somebodyhire.me/api/profile/${userId.value}/`);
     profileData.value = processProfileData(profileDataRecieved.data);
 };
 
 const getSkills = async () => {
-    const skillsDataRecieved = await axios.get(`http://somebodyhire.me/api/profile/${userId.value}/skills/`);
+    const skillsDataRecieved = await axios.get(`https://somebodyhire.me/api/profile/${userId.value}/skills/`);
     skillsData.value = skillsDataRecieved.data;
 };
 

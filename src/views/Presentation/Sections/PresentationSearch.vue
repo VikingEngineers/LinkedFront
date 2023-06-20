@@ -10,10 +10,10 @@ const searchResultUsers = ref([]);
 const searchButtonIsPressed = ref(false);
 const search = async () => {
   try {
-    const projectsResponse = await axios.get(`http://somebodyhire.me/api/search/projects/?search_query=${searchQuery.value}`);
+    const projectsResponse = await axios.get(`https://somebodyhire.me/api/search/projects/?search_query=${searchQuery.value}`);
     searchResultProjects.value = projectsResponse.data;
 
-    const usersResponse = await axios.get(`http://somebodyhire.me/api/search/profiles/?search_query=${searchQuery.value}`);
+    const usersResponse = await axios.get(`https://somebodyhire.me/api/search/profiles/?search_query=${searchQuery.value}`);
     searchResultUsers.value = usersResponse.data;
     searchButtonIsPressed.value = true;
   } catch (error) {
@@ -42,7 +42,7 @@ const search = async () => {
       <div class="result-card" v-for="project in searchResultProjects" :key="project.id">
         <h3>{{ project.title }} with ID {{ project.id }}</h3>
         <p>{{ project.description }}</p>
-        <a :href="`http://somebodyhire.me/project/${project.id}`">Страница проекта</a>
+        <a :href="`https://somebodyhire.me/project/${project.id}`">Страница проекта</a>
       </div>
     </div>
     <!--<h2 class="result-header">Найдено людей: {{ searchResultUsers.length}} </h2>-->
@@ -50,7 +50,7 @@ const search = async () => {
       <div class="result-card" v-for="user in searchResultUsers" :key="user.id">
         <h3>{{ user.username }} with id {{ user.id }}</h3>
         <p>{{ user.email }}</p>
-        <a :href="`http://somebodyhire.me/profile/${user.id}`">Страница пользователя</a>
+        <a :href="`https://somebodyhire.me/profile/${user.id}`">Страница пользователя</a>
       </div>
     </div>
   </div>

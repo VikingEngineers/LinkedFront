@@ -36,7 +36,7 @@ const getMessages = async () => {
       'Authorization': `Bearer ${tokenValue}`,
     };
 
-      const messagesResponse = await axios.get(`http://somebodyhire.me/api/messages/`, { headers });
+      const messagesResponse = await axios.get(`https://somebodyhire.me/api/messages/`, { headers });
       messageData.value = messagesResponse.data;
       //debugText.value = JSON.stringify(messagesResponse.data);
     } catch (error) {
@@ -46,7 +46,7 @@ const getMessages = async () => {
 
   const search = async () => {
     try {
-        const usersResponse = await axios.get(`http://somebodyhire.me/api/profiles/`);
+        const usersResponse = await axios.get(`https://somebodyhire.me/api/profiles/`);
         searchResultUsers.value = usersResponse.data;
         //debugText.value = JSON.stringify(searchResultUsers.value); 
     } catch (error) {

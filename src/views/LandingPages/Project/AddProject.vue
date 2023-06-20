@@ -51,7 +51,7 @@ const createProject = async () => {
         if (selectedImage.value) {
             data.append('featured_image', selectedImage.value);
         }
-        const response = await axios.post('http://somebodyhire.me/api/projects/create/', data, { headers });
+        const response = await axios.post('https://somebodyhire.me/api/projects/create/', data, { headers });
         router.push(`/project/${response.data.id}`);
     } catch (error) {
         debugText.value = `Error: ${JSON.stringify(error, null, 2)}`;

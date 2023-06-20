@@ -38,7 +38,7 @@ axios.interceptors.response.use((response) => {
 
 const getProject = async () => {
     try {
-        const projectDataRecieved = await axios.get(`http://somebodyhire.me/api/projects/${projectId.value}/`);
+        const projectDataRecieved = await axios.get(`https://somebodyhire.me/api/projects/${projectId.value}/`);
         projectData.value = projectDataRecieved.data;
         recievedTags.value = projectData.value.tags;
         updatedTags.value = projectData.value.tags; 
@@ -83,7 +83,7 @@ const updateProject = async () => {
 
 
         
-        const response = await axios.patch(`http://somebodyhire.me/api/projects/${projectId.value}/`, formData, { headers });
+        const response = await axios.patch(`https://somebodyhire.me/api/projects/${projectId.value}/`, formData, { headers });
         debugText.value = `Form data: ${JSON.stringify(formData, null, 2)}`;
         router.push(`/project/${response.data.id}`);
 
@@ -107,7 +107,7 @@ const deleteProject = async () => {
         };
 
 
-        const response = await axios.delete(`http://somebodyhire.me/api/projects/${projectId.value}/`, { headers });
+        const response = await axios.delete(`https://somebodyhire.me/api/projects/${projectId.value}/`, { headers });
         router.push('/myprojects');
 
 
@@ -130,7 +130,7 @@ const cancelDelete = () => {
 
 const getTags = async () => {
   try {
-    const tagsResponse = await axios.get(`http://somebodyhire.me/api/tags/`);
+    const tagsResponse = await axios.get(`https://somebodyhire.me/api/tags/`);
     allTags.value = tagsResponse.data;
   } catch (error) {
     console.error('There was an error fetching the tags', error);
