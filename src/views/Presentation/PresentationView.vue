@@ -408,6 +408,7 @@ export default {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  padding: 0 10%;
 }
 .tags{
   border: 2px solid #4EA852;
