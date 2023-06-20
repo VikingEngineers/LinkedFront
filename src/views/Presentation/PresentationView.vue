@@ -24,10 +24,10 @@ const tokenLocal = computed(() => localStorage.getItem('token'));
 
 const search = async () => {
   try {
-    const projectsResponse = await axios.get(`http://somebodyhire.me/api/search/projects/?search_query=${searchQuery.value}`);
+    const projectsResponse = await axios.get(`https://somebodyhire.me/api/search/projects/?search_query=${searchQuery.value}`);
     searchResultProjects.value = projectsResponse.data;
 
-    const usersResponse = await axios.get(`http://somebodyhire.me/api/search/profiles/?search_query=${searchQuery.value}`);
+    const usersResponse = await axios.get(`https://somebodyhire.me/api/search/profiles/?search_query=${searchQuery.value}`);
     searchResultUsers.value = usersResponse.data;
     searchButtonIsPressed.value = true;
   } catch (error) {
@@ -37,7 +37,7 @@ const search = async () => {
 
 const getTags = async () => {
   try {
-    const tagsResponse = await axios.get(`http://somebodyhire.me/api/tags/`);
+    const tagsResponse = await axios.get(`https://somebodyhire.me/api/tags/`);
     allTags.value = tagsResponse.data;
   } catch (error) {
     console.error('There was an error fetching the tags', error);
@@ -68,7 +68,7 @@ export default {
     },
     async created() {
         try {
-            const response = await axios.get("http://somebodyhire.me/api/projects/");
+            const response = await axios.get("https://somebodyhire.me/api/projects/");
             this.projects = response.data;
         }
         catch (error) {

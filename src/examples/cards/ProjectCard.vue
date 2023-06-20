@@ -21,7 +21,7 @@
         id: 1,
         title: "kateschka's project updated",
         description: "КРУТОЙ ВЕБ-САЙТ",
-        featured_image: "http://somebodyhire.me/default.jpg",
+        featured_image: "https://somebodyhire.me/default.jpg",
         demo_link: null,
         source_link: null,
         vote_total: 0,

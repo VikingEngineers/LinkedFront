@@ -15,12 +15,12 @@ export default {
   async created() {
     try {
       // Fetch the projects data from the server
-      const projectsResponse = await axios.get('http://somebodyhire.me/api/projects/');
+      const projectsResponse = await axios.get('https://somebodyhire.me/api/projects/');
       // Set the projectsCount to the number of projects received from the server
       this.projectsCount = projectsResponse.data.length;
 
       // Fetch the users data from the server
-      const usersResponse = await axios.get('http://somebodyhire.me/api/profiles/');
+      const usersResponse = await axios.get('https://somebodyhire.me/api/profiles/');
       // Set the usersCount to the number of users received from the server
       this.usersCount = usersResponse.data.length;
 

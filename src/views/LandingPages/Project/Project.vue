@@ -46,7 +46,7 @@ onMounted(async() => {
 
 const getProject = async () => {
     try {
-        const projectDataRecieved = await axios.get(`http://somebodyhire.me/api/projects/${projectId.value}/`);
+        const projectDataRecieved = await axios.get(`https://somebodyhire.me/api/projects/${projectId.value}/`);
         projectData.value = projectDataRecieved.data;
     } catch (error) {
         console.error('There was an error fetching the project data', error);
@@ -56,7 +56,7 @@ const getProject = async () => {
 const GetProjectReviews = async () => {
 
     try {
-        const ProjectReviewsRecieved = await axios.get(`http://somebodyhire.me/api/projects/${projectId.value}/reviews/`);
+        const ProjectReviewsRecieved = await axios.get(`https://somebodyhire.me/api/projects/${projectId.value}/reviews/`);
         ProjectReviews.value = ProjectReviewsRecieved.data;
     } catch (error) {
         console.error('There was an error fetching the project reviews', error);
@@ -66,7 +66,7 @@ const GetProjectReviews = async () => {
 
 const search = async () => {
     try {
-        const usersResponse = await axios.get(`http://somebodyhire.me/api/search/profiles/?search_query=${searchQuery.value}`);
+        const usersResponse = await axios.get(`https://somebodyhire.me/api/search/profiles/?search_query=${searchQuery.value}`);
         searchResultUsers.value = usersResponse.data;
         // debugText.value = JSON.stringify(usersResponse.data);
     } catch (error) {
@@ -86,7 +86,7 @@ const search = async () => {
 
   const getTags = async () => {
   try {
-    const tagsResponse = await axios.get(`http://somebodyhire.me/api/tags/`);
+    const tagsResponse = await axios.get(`https://somebodyhire.me/api/tags/`);
     allTags.value = tagsResponse.data;
   } catch (error) {
     console.error('There was an error fetching the tags', error);
@@ -106,7 +106,7 @@ const search = async () => {
           body: commentData.value.body,
         }
         debugText.value = JSON.stringify(data);
-        const response = await axios.post(`http://somebodyhire.me/api/projects/${projectId.value}/reviews/create/`, data, { headers });
+        const response = await axios.post(`https://somebodyhire.me/api/projects/${projectId.value}/reviews/create/`, data, { headers });
         ProjectReviews.value.push(response.data);
         debugText.value = JSON.stringify(response.data);
 
@@ -119,7 +119,7 @@ const search = async () => {
   const postLike = async () => {
     try {
         const headers = { 'Authorization': `Bearer ${token.value}` };
-        const response = await axios.patch (`http://somebodyhire.me/api/projects/${projectId.value}/like/`, {}, { headers });
+        const response = await axios.patch (`https://somebodyhire.me/api/projects/${projectId.value}/like/`, {}, { headers });
         location.reload();
     } catch (error) {
         console.error('There was an error posting the like', error);
