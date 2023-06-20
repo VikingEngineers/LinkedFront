@@ -16,22 +16,22 @@ const searchResultProjects = ref([]);
 const searchResultUsers = ref([]);
 
 const getProfile = async () => {
-    const profileDataRecieved = await axios.get(`http://somebodyhire.me/api/profile/${profileId.value}/`);
+    const profileDataRecieved = await axios.get(`https://somebodyhire.me/api/profile/${profileId.value}/`);
     profileData.value = processProfileData(profileDataRecieved.data);
 
 };
 
 const getSkills = async () => {
-    const skillsDataRecieved = await axios.get(`http://somebodyhire.me/api/profile/${profileId.value}/skills/`);
+    const skillsDataRecieved = await axios.get(`https://somebodyhire.me/api/profile/${profileId.value}/skills/`);
     skillsData.value = skillsDataRecieved.data;
 };
 
 const search = async () => {
   try {
-    const projectsResponse = await axios.get(`http://somebodyhire.me/api/search/projects/?search_query=${searchQuery.value}`);
+    const projectsResponse = await axios.get(`https://somebodyhire.me/api/search/projects/?search_query=${searchQuery.value}`);
     searchResultProjects.value = projectsResponse.data;
 
-    const usersResponse = await axios.get(`http://somebodyhire.me/api/search/profiles/?search_query=${searchQuery.value}`);
+    const usersResponse = await axios.get(`https://somebodyhire.me/api/search/profiles/?search_query=${searchQuery.value}`);
     searchResultUsers.value = usersResponse.data;
   } catch (error) {
     console.error('There was an error fetching the search results', error);

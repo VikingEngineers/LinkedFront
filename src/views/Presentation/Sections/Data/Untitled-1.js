@@ -2,7 +2,7 @@ const axios = require('axios');
 
 async function testAPI() {
     try {
-        const response = await axios.get('http://somebodyhire.me/api/projects/');
+        const response = await axios.get('https://somebodyhire.me/api/projects/');
         
         const items = response.data.map((project) => ({
             image: project.featured_image,

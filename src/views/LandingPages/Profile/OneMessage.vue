@@ -30,7 +30,7 @@ const getOneMessage = async () => {
     const headers = { 
       'Authorization': `Bearer ${tokenValue}`,
     };
-    const messageResponse = await axios.get(`http://somebodyhire.me/api/messages/${messageId.value}/`, { headers });
+    const messageResponse = await axios.get(`https://somebodyhire.me/api/messages/${messageId.value}/`, { headers });
     messageData.value = messageResponse.data;
     debugText.value = JSON.stringify(messageResponse.data);
   } catch (error) {
@@ -41,7 +41,7 @@ const getOneMessage = async () => {
 
   const search = async () => {
     try {
-        const usersResponse = await axios.get(`http://somebodyhire.me/api/profiles/`);
+        const usersResponse = await axios.get(`https://somebodyhire.me/api/profiles/`);
         searchResultUsers.value = usersResponse.data;
         // debugText.value = JSON.stringify(searchResultUsers.value); 
     } catch (error) {
@@ -67,7 +67,7 @@ const getOneMessage = async () => {
             body: replyData.value.body,
             /* owner: userId.value */
         };
-        const response = await axios.post('http://somebodyhire.me/api/messages/create/', data, { headers });
+        const response = await axios.post('https://somebodyhire.me/api/messages/create/', data, { headers });
         router.push('/messages#content-2');
     } catch (error) {
         debugText.value = `Error: ${JSON.stringify(error, null, 2)}`;

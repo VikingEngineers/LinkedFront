@@ -58,7 +58,7 @@ const register = async () => {
   if (!username.value || !password.value || !email.value) {
     errorMessage.value = "Пожалуйста, заполните все поля.";
   } else {
-    const url = 'http://somebodyhire.me/api/register/';
+    const url = 'https://somebodyhire.me/api/register/';
     const headers = {
       'Content-Type': 'application/json',
     };

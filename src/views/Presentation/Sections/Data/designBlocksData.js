@@ -33,7 +33,7 @@ import axios from "axios";
 
 // async function getProjects() {
 //   try {
-//       const response = await axios.get('http://somebodyhire.me/api/projects/');
+//       const response = await axios.get('https://somebodyhire.me/api/projects/');
 
 //       // Map the response to your desired structure
 //       const items = response.data.map((project) => ({

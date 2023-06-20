@@ -24,12 +24,12 @@ const newSkillData = ref({
 
 
 const getProfile = async () => {
-    const profileDataRecieved = await axios.get(`http://somebodyhire.me/api/profile/${userId.value}/`);
+    const profileDataRecieved = await axios.get(`https://somebodyhire.me/api/profile/${userId.value}/`);
     profileData.value = processProfileData(profileDataRecieved.data);
 };
 
 const getSkills = async () => {
-    const skillsDataRecieved = await axios.get(`http://somebodyhire.me/api/profile/${userId.value}/skills/`);
+    const skillsDataRecieved = await axios.get(`https://somebodyhire.me/api/profile/${userId.value}/skills/`);
     skillsData.value = skillsDataRecieved.data;
 };
 
@@ -107,7 +107,7 @@ const updateProfile = async () => {
       formData.append('profile_image', selectedImage.value);
     };
 
-    await axios.patch(`http://somebodyhire.me/api/profile/${userId.value}/`, formData, { headers });
+    await axios.patch(`https://somebodyhire.me/api/profile/${userId.value}/`, formData, { headers });
     router.push('/ViewMyProfile');
   } catch (error) {
     debugText.value = `Error: ${JSON.stringify(error, null, 2)}`;
@@ -134,7 +134,7 @@ const addSkill = async () => {
             alert('Введите описание навыка');
             return;
         }
-        await axios.post(`http://somebodyhire.me/api/skills/create/`, skillData, { headers });
+        await axios.post(`https://somebodyhire.me/api/skills/create/`, skillData, { headers });
         await getSkills();
         newSkillData.value.name = '';
         newSkillData.value.description = '';
