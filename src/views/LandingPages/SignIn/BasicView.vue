@@ -26,7 +26,7 @@ const errorMessage = ref('');
 const isAuthenticatedLocal = computed(() => !!localStorage.getItem('access_token')); 
 const userIdLocal = computed(() => localStorage.getItem('user_id'));
 const loggedUserNameLocal = computed(() => localStorage.getItem('username'));
-const isStaffLocal = computed(() => localStorage.getItem('is_staff'));
+const isStaff = computed(() => localStorage.getItem('is_staff'));
 const tokenLocal = computed(() => localStorage.getItem('token'));
 
 const login = async () => {
@@ -157,7 +157,7 @@ export default {
                           <a href="/ViewMyProfile">Перейти в профиль.</a>
                         </p>
                         <!-- Это должно быть видно только админам -->
-                        <div v-if="isStaffLocal">
+                        <div v-if="isStaff == true">
                             <p>
                             <a href="/admin/">Перейти в панель администратора.</a>
                             </p>

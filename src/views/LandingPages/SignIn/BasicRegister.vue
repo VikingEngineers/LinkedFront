@@ -70,11 +70,11 @@ const register = async () => {
     };
 
     try {
-      const response = await axios.post(url, body, { headers });
-      errorMessage.value = `Регистрация прошла успешно! Добро пожаловать, ${response.data.username}!`; 
-      localStorage.setItem('token', response.data.token); 
-      router.push({ name: 'Presentation' }); // Redirect to the home page
-    } 
+    const response = await axios.post(url, body, { headers });
+    errorMessage.value = `Регистрация прошла успешно! Добро пожаловать, ${response.data.username}! Пожалуйста, войдите в систему`;
+    alert(`Регистрация прошла успешно! Добро пожаловать, ${response.data.username}! Пожалуйста, войдите в систему`);
+    location.href = '/pages/landing-pages/basic';
+  } 
     catch (error) {
     errorMessage.value = getErrorMessage(error);
   }
@@ -169,16 +169,9 @@ export default {
 
 
                     <div class="text-center">
-                      <button
-  type="button"
-  
-  @click="register"
->
-  Зарегистрироваться
-</button>
+                      <button type="button" @click="register">Зарегистрироваться</button>
 
                     </div>
-                      
                     </div>
 
 
