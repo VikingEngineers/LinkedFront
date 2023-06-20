@@ -54,7 +54,7 @@ onMounted(async() => {
     <!-- <h2 class="result-header">Найдено проектов: {{ searchResultProjects.length}} </h2> -->
     <div class="result-grid" :style="{ fontWeight: '900',  fontFamily: 'monospace' }">
       <div class="result-card" v-for="project in searchResultProjects" :key="project.id">
-       <div class="project-title"> <h3 :style="{ fontWeight: '900',  fontFamily: 'monospace' }">{{ project.title }}</h3></div>
+       <div class="project-title"> <h3 :style="{ fontWeight: '700',  fontFamily: 'monospace', fontSize:'24px', marginBottom:'15px', marginTop:'25px' }">{{ project.title }}</h3></div>
        <img class="project-image" :src="project.featured_image" alt="Featured image">
         <!-- <p>{{ project.description }}</p> -->
         <div v-if="project.tags.length > 0 ">
