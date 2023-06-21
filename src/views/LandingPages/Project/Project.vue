@@ -205,6 +205,9 @@ const checkProjectOwnerName = async () => {
                 <p v-for = "(review, index) in ProjectReviews" :key="index" >
                   <p class="project-review">{{ findUsername(review.owner) }}  :  {{ review.body }}</p>
                 </p>
+                <div v-if="ProjectReviews.length == 0">
+                  <p class="project-review">Комментариев пока нет</p>
+                </div>  
           </div>
         
 
