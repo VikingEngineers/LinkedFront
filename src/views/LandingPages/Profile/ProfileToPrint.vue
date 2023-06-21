@@ -74,59 +74,79 @@ onMounted(async() => {
 
 
 <template>
-    <div class="profile-container" :style="{fontWeight: '900',  fontFamily: 'monospace' }">
-      <div class="profile-section">
-        <img class="grayscale" :src="profileData.profile_image" alt="Profile Image">
-        <h1 :style="{fontSize: '24px', fontWeight: '700',  fontFamily: 'monospace' }">{{ profileData.name }}</h1>
-        <p :style="{fontSize: '18px', marginLeft:'5%'}">{{ profileData.email }}</p>
-        <div class="social-link" :style="{ fontSize: '12px', fontWeight: '500',  fontFamily: 'PressStart2P, sans-serif' }">
-          <!-- social links -->
-           
-          <p v-if="profileData.social_github !== '👨‍💻 No Github Provided'">
-            {{ profileData.social_github }}
-        </p>
-        </div>
+    <div class="profile-container" :style="{ marginBottom:'5vw', fontFamily:'Geneva', fontSize:'24px'}">
+      <div class="top-div-1">
+        <img class="grayscale" :style="{ height:'200px', width:'auto'}" :src="profileData.profile_image" alt="Profile Image">
       </div>
-  
-      <div class="profile-section">
+      <div class="top-div-2">
+        <h1 :style="{ marginBottom:'1vw', fontFamily:'Geneva', fontSize:'30px'}">{{ profileData.name }}</h1>
+        <p :style="{ marginBottom:'1vw', fontFamily:'Geneva', fontSize:'20px'}">Email: {{ profileData.email }}</p>       
+        <p :style="{ marginBottom:'1vw', fontFamily:'Geneva', fontSize:'20px'}" v-if="profileData.social_github !== 'No Github Provided'">{{ profileData.social_github }}</p>
+        <p :style="{ marginBottom:'1vw', fontFamily:'Geneva', fontSize:'20px'}" >Местоположение: {{ profileData.location }}</p>
+        
+      </div>
+      <div class="bottom-div">
+        <p :style="{ marginBottom:'1vw', fontFamily:'Geneva', fontSize:'20px'}">О себе: {{ profileData.short_intro }}</p>
+        <p :style="{ marginBottom:'1vw', fontFamily:'Geneva', fontSize:'20px'}">Биография: {{ profileData.bio }}</p>
         Навыки:
-        <p v-for = "skill in skillsData" :style="{fontSize: '12px', fontWeight: '400',  fontFamily: 'monospace' }">{{ skill.name }}: {{ skill.description }}</p>
+        <p :style="{ marginBottom:'1vw', fontFamily:'Geneva', fontSize:'20px'}"  v-for = "skill in skillsData" >{{ skill.name }}: {{ skill.description }}</p>
         <!-- user profile details -->
         
-        <p :style="{fontSize: '12px', fontWeight: '400',  fontFamily: 'monospace' }">Мнстоположение: {{ profileData.location }}</p>
-        <p :style="{fontSize: '12px', fontWeight: '400',  fontFamily: 'monospace' }">О себе: {{ profileData.short_intro }}</p>
-        <p :style="{fontSize: '12px', fontWeight: '400',  fontFamily: 'monospace' }">Биография: {{ profileData.bio }}</p>
+        
 
         Проекты: 
 
-        <p v-for = "project in filteredProjects" :style="{fontSize: '12px', fontWeight: '400',  fontFamily: 'monospace' }">{{ project.title }}: {{ project.description }}</p>
-        
-
-
+        <p :style="{ marginBottom:'1vw', fontFamily:'Geneva', fontSize:'20px'}" v-for = "project in filteredProjects" >{{ project.title }}: {{ project.description }}</p>
       </div>
-    </div>
-    <div class="footer" :style="{fontWeight: '500',  fontFamily: 'monospace' }">Портфолио с сайта somebodyhire.me</div>
+       
+      </div>
+      
+
+    <div class="footer" >Портфолио с сайта somebodyhire.me</div>
   </template> 
   
   <style scoped>
   @media print {
     /* layout */
-    .profile-container {
+   /* .profile-container {
       width: 100%;
       margin: 0;
       display: flex;
       flex-direction: column;
-      justify-content: center;
-      align-items: center;
+    }*/
+    .top-div-1 {
+      margin-top: 5%;
+      margin-bottom: 5%;
+      width: 50%;
+      height: 200px;
+      float: left; /* выравнивание элемента влево */
     }
-    .profile-section {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin-bottom: 30px;
+    .top-div-2 {
+      margin-top: 5%;
+      margin-bottom: 5%;
+      width: 50%;
+      height: 200px;
+      float: right; /* выравнивание элемента вправо */
     }
     
+    .bottom-div {
+      width: 100%;
+      height: 500px;
+      clear: both; /* отмена выравнивания для поднятия элемента на следующую строку */
+    }
+   /* .profile-section1 {
+      width: 50%;
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 10px;
+    }
+    .profile-section2 {
+      width: 50%;
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 10px;
+      float: right;
+    }*/
     /* colors */
     body, p, h1, h2, h3, a, div {
       color: #000;
@@ -142,8 +162,8 @@ onMounted(async() => {
     
     /* fonts */
     h1 {
-      font-size: 24px;
-      font-weight: 700;
+      font-size: 20px;
+      font-weight: 500;
     }
     p {
       font-size: 12px;
@@ -153,9 +173,9 @@ onMounted(async() => {
     /* footer */
     .footer {
       text-align: center;
-      bottom: 0;
       width: 100%;
       height: 10px;
+      font-family: Verdana, Geneva, Tahoma, sans-serif;
     }
   }
   </style>
