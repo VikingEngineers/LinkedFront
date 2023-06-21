@@ -240,6 +240,12 @@ const checkProjectOwnerName = async () => {
     margin-top: 110%;
    
   }
+  .project-tags {
+
+    width: 50%;
+  }
+  
+
 }
 
 @media screen and (max-width: 800px) {
@@ -330,12 +336,14 @@ input, textarea{
 .project-tags {
   font-size: 14px;
   color: #333;
+  margin-right: 10%;
+  width: 100%;
 }
 
 .project-tag {
   background-color: #f0f0f0;
   border-radius: 5px;
-  padding: 2px 5px;
+  padding: 20px 10px;
   margin: 2px;
 }
 

@@ -181,22 +181,32 @@ h1,h2{
   flex-direction: row;
   width: 100%;
 }
-button{
+.btn-submit {
+  color: #fff;
   background-color: #4CAF50;
-  border-radius: 5px;
-  border: #4CAF50;
+  border: none;
+  padding: 15px 32px;
   text-align: center;
-  color: rgb(255, 255, 255);
-  font-weight: 500;
-  width: 15%;
-  margin-bottom: 10px;
-  margin-right: 10px;
-  padding: 1%;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 5px;
 }
-button:hover{
-  background-color: #4caf4f5d;
-  border: #4CAF50;
-  color: rgb(27, 27, 27);
+
+.btn-cancel {
+  color: #fff;
+  background-color: #f44336;
+  border: none;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 5px;
 }
 
 </style>
