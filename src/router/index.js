@@ -19,6 +19,7 @@ import MessageTo from "../views/LandingPages/Profile/MessageTo.vue";
 import OpenMessage from "../views/LandingPages/Profile/OpenMessage.vue";
 import OneMessage from "../views/LandingPages/Profile/OneMessage.vue";
 import NotFoundPage from "../views/Presentation/NotFoundPage.vue";
+import ProfileToPrint from "../views/LandingPages/Profile/ProfileToPrint.vue";
 
 
 const router = createRouter({
@@ -70,6 +71,13 @@ const router = createRouter({
       path: '/profile/:id',
       name: 'profile',
       component: Profile
+    },
+
+    {
+      path: '/ProfileToPrint/:id',
+      name: 'profiletoprint',
+      component: ProfileToPrint
+
     },
 
     {
