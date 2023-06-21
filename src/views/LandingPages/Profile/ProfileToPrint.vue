@@ -96,6 +96,10 @@ onMounted(async() => {
         <p :style="{fontSize: '12px', fontWeight: '400',  fontFamily: 'monospace' }">Мнстоположение: {{ profileData.location }}</p>
         <p :style="{fontSize: '12px', fontWeight: '400',  fontFamily: 'monospace' }">О себе: {{ profileData.short_intro }}</p>
         <p :style="{fontSize: '12px', fontWeight: '400',  fontFamily: 'monospace' }">Биография: {{ profileData.bio }}</p>
+
+        Проекты: 
+
+        <p v-for = "project in filteredProjects" :style="{fontSize: '12px', fontWeight: '400',  fontFamily: 'monospace' }">{{ project.title }}: {{ project.description }}</p>
         
 
 
